@@ -5,3 +5,24 @@
   align-items: center;
   height: 100%;
 }
+
+.alinear{
+  justify-content: center;
+  align-items: center;
+}
+.titulo{
+  margin-bottom: 70px;
+}
+.formulario{
+  width: 350px;
+}
+.bontonAcentuado{
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+.example-full-width{
+  width: 100%;
+
+}
+
