@@ -12,8 +12,57 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$pivec-primary: mat.define-palette(mat.$indigo-palette);
-$pivec-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$custom-primary-palette: (
+    50: #f8e3ea,
+    100: #efb8cb,
+    200: #e58ca9,
+    300: #db6089,
+    400: #d34271,
+    500: #cd275a,
+    600: #bc2557,
+    700: #a72251,
+    800: #921f4c,
+    900: #6d1a42,
+    contrast: (
+      50: #000,
+    100: #000,
+    200: #000,
+    300: #000,
+    400: #fff,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    )
+  );
+
+  $custom-acent-palette: (
+    50: #fff9e4,
+    100: #ffeeba,
+    200: #ffe48f,
+    300: #ffda65,
+    400: #ffd04a,
+    500: #ffc83f,
+    600: #ffbb3a,
+    700: #ffa936,
+    800: #ff9933,
+    900: #f27d2f,
+    contrast: (
+      50: #000,
+    100: #000,
+    200: #000,
+    300: #000,
+    400: #000,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    )
+  );
+$pivec-primary: mat.define-palette($custom-primary-palette, 900);
+$pivec-accent: mat.define-palette($custom-acent-palette, 900, 700, 300);
 
 // The warn palette is optional (defaults to red).
 $pivec-warn: mat.define-palette(mat.$red-palette);

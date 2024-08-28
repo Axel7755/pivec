@@ -1,10 +1,4 @@
-.botonSecundario{
-  background-color: #FF9933;
-}
-mat-success {
-  background-color: green;
-  color: #fff;
-  }
+
 .centrar{
   display: flex;
   justify-content: center;
