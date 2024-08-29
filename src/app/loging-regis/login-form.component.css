@@ -1,26 +1,37 @@
 .centrar{
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.flex{
+  display: flex;
 }
 
 .alinear{
   justify-content: center;
   align-items: center;
 }
+
 .titulo{
   margin-bottom: 70px;
 }
+
 .formulario{
-  width: 350px;
+  width: 400px;
 }
-.bontonAcentuado{
+
+.bonton{
   width: 100%;
+  height: 45px;
   margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 17px;
 }
+
 .example-full-width{
   width: 100%;
+  margin-bottom: 20px;
+}
 
+.sub-texto{
+  font-size: 12px;
 }
