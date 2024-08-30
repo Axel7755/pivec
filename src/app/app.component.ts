@@ -20,7 +20,7 @@ import { RegistroPageComponent } from "./loging-regis/registro-page.component";
     //LoginFormComponent
     , RegistroPageComponent],
   template: `
-  <app-registro-page></app-registro-page>
+  <app-login></app-login>
   <!--<mat-sidenav-container>
     <mat-sidenav opened mode="side">
       <lateral-login>
