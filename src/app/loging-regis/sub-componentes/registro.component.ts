@@ -12,5 +12,4 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './registro.component.css'
 })
 export class RegistroComponent {
-
 }
