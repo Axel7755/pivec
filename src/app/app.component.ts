@@ -14,10 +14,6 @@ import { RegistroPageComponent } from "./loging-regis/registro-page.component";
   imports: [CommonModule,
     RouterOutlet,
     LoginComponent
-    //MatToolbarModule,
-    //MatSidenavModule,
-    //LateralLogin,
-    //LoginFormComponent
     , RegistroPageComponent],
   template: `
   <app-login></app-login>
