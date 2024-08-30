@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './loging-regis/login.component';
+import { RegistroPageComponent } from "./loging-regis/registro-page.component";
 //import { LateralLogin } from './loging-regis/sub-componentes/lateral.component';
 //import { LoginFormComponent } from './loging-regis/sub-componentes/login-form.component';
 //import { MatToolbarModule } from '@angular/material/toolbar'
@@ -17,9 +18,9 @@ import { LoginComponent } from './loging-regis/login.component';
     //MatSidenavModule,
     //LateralLogin,
     //LoginFormComponent
-    ],
+    , RegistroPageComponent],
   template: `
-  <app-login></app-login>
+  <app-registro-page></app-registro-page>
   <!--<mat-sidenav-container>
     <mat-sidenav opened mode="side">
       <lateral-login>
