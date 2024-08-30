@@ -1,22 +1,26 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LateralLogin } from './loging-regis/lateral.component';
-import { LoginFormComponent } from './loging-regis/login-form.component';
+import { LoginComponent } from './loging-regis/login.component';
+//import { LateralLogin } from './loging-regis/sub-componentes/lateral.component';
+//import { LoginFormComponent } from './loging-regis/sub-componentes/login-form.component';
 //import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatSidenavModule } from '@angular/material/sidenav'
+//import { MatSidenavModule } from '@angular/material/sidenav'
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
+    LoginComponent
     //MatToolbarModule,
-    MatSidenavModule,
-    LateralLogin,
-    LoginFormComponent],
+    //MatSidenavModule,
+    //LateralLogin,
+    //LoginFormComponent
+    ],
   template: `
-  <mat-sidenav-container>
+  <app-login></app-login>
+  <!--<mat-sidenav-container>
     <mat-sidenav opened mode="side">
       <lateral-login>
 
@@ -28,7 +32,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 
   </mat-sidenav-container>
   
-  <!--<main class="main"> 
+  <main class="main"> 
   <div class="content">
   
   <div class="divider" role="separator" aria-label="Divider"></div>
