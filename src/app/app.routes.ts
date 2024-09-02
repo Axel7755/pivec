@@ -20,6 +20,7 @@ export const routes: Routes = [
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4d05ec1 (errores)
 =======
     {path: 'verificar-datos', component:VerificarDatosComponent},
@@ -32,6 +33,9 @@ export const routes: Routes = [
 =======
     {path: 'menu-principal', component: MenuPrincipalComponent},
 >>>>>>> fb6d11c (rutas aun co errores)
+=======
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+>>>>>>> 49c763e (rutas aun co errores)
     {path: '', redirectTo: '/login-component', pathMatch: 'full'},
 <<<<<<< HEAD
     {path: 'menu-principal', component: MenuPrincipalComponent},

@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 import { LoginComponent } from './loging-regis/login.component';
 =======
@@ -11,12 +12,16 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 =======
 >>>>>>> fb6d11c (rutas aun co errores)
 import { LoginComponent } from './loging-regis/login.component';
+=======
+import { LoginComponent } from './loging-regis/login.component';
+>>>>>>> 49c763e (rutas aun co errores)
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule,
+<<<<<<< HEAD
 <<<<<<< HEAD
     RouterOutlet, MenuPrincipalComponent, LoginComponent],
   template: `
@@ -59,6 +64,11 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 =======
   <router-outlet></router-outlet>
 >>>>>>> f3f771e (cambios)
+=======
+    RouterOutlet, LoginComponent, MenuPrincipalComponent],
+  template: `  
+  <app-login></app-login>
+>>>>>>> 49c763e (rutas aun co errores)
   `,
   styleUrl: './app.component.css'
 })
