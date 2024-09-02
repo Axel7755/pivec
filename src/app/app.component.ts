@@ -9,10 +9,14 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
-    LoginComponent
-    ],
+    LoginComponent, MenuPrincipalComponent],
   template: `
+<<<<<<< HEAD
   <router-outlet></router-outlet>
+=======
+  <app-login></app-login>
+  <app-menu-principal></app-menu-principal>
+>>>>>>> e1201ee (errores)
   `,
   styleUrl: './app.component.css'
 })
