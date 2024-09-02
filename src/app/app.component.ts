@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './loging-regis/login.component';
-import { RegistroPageComponent } from "./loging-regis/registro-page.component";
-import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 
 @Component({
@@ -13,10 +11,8 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
     RouterOutlet,
     LoginComponent
     ],
-    LoginComponent,
-    RegistroPageComponent, LateralLogin, MenuPrincipalComponent],
   template: `
-  <app-login></app-login>
+  <router-outlet></router-outlet>
   `,
   styleUrl: './app.component.css'
 })

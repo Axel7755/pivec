@@ -8,6 +8,5 @@ export const routes: Routes = [
     {path: 'login-component', component: LoginFormComponent},
     {path: 'registro-component', component: RegistroComponent},
     {path: 'menu-principal', component: MenuPrincipalComponent},
-    {path: 'verificar-datos', component:VerificarDatosComponent},
     {path: '', redirectTo: '/login-component', pathMatch: 'full'}
 ];
