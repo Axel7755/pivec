@@ -11,8 +11,11 @@ export const routes: Routes = [
     {path: 'registro-component', component: RegistroComponent},
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     {path: 'menu-principal', component: MenuPrincipalComponent},
 =======
+=======
+>>>>>>> 4d05ec1 (errores)
     {path: 'verificar-datos', component:VerificarDatosComponent},
 >>>>>>> 4d05ec1 (errores)
 =======
