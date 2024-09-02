@@ -10,6 +10,7 @@ import { TareasComponent } from './tareas/tareas.component';
 export const routes: Routes = [
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     {path: 'login-component', component: LoginFormComponent},
     {path: 'login',component: LoginComponent},
     {path: 'registro-component', component: RegistroComponent},
@@ -56,6 +57,8 @@ export const routes: Routes = [
 =======
 =======
 >>>>>>> 498e3e9 (cam)
+=======
+>>>>>>> 7d44697 (errores)
     
     {path: 'login',component: LoginComponent, 
         children: [
@@ -75,9 +78,17 @@ export const routes: Routes = [
 >>>>>>> 608f0da (redireccionamientos arreglados)
 =======
 =======
+=======
+
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+>>>>>>> f7bc1d1 (errores)
     {path: 'login-component', component: LoginFormComponent},
     {path: 'registro-component', component: RegistroComponent},
+<<<<<<< HEAD
     {path: 'menu-principal', component: MenuPrincipalComponent},
+=======
+    {path: 'verificar-datos', component:VerificarDatosComponent},
+>>>>>>> 4d05ec1 (errores)
     {path: '', redirectTo: '/login-component', pathMatch: 'full'}
 >>>>>>> 5135880 (cam)
 >>>>>>> 498e3e9 (cam)

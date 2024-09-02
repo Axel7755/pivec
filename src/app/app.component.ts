@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
+=======
+>>>>>>> 7d44697 (errores)
 import { LoginComponent } from './loging-regis/login.component';
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -42,13 +45,20 @@ import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 =======
 =======
 >>>>>>> 17a0d46 (cam)
+<<<<<<< HEAD
 >>>>>>> e0de856 (cam)
+=======
+=======
+>>>>>>> f7bc1d1 (errores)
+>>>>>>> 7d44697 (errores)
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
+import { LoginComponent } from './loging-regis/login.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -99,6 +109,8 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   <app-login></app-login>
 >>>>>>> 49c763e (rutas aun co errores)
 =======
+=======
+>>>>>>> 7d44697 (errores)
     RouterOutlet,
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -124,7 +136,11 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 =======
     LoginComponent, MenuPrincipalComponent],
 >>>>>>> ddf09fb (errores)
+=======
+    RouterOutlet, MenuPrincipalComponent, LoginComponent],
+>>>>>>> f7bc1d1 (errores)
   template: `
+<<<<<<< HEAD
 <<<<<<< HEAD
   <router-outlet></router-outlet>
 <<<<<<< HEAD
@@ -143,7 +159,14 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   <app-login></app-login>
   <app-menu-principal></app-menu-principal>
 >>>>>>> e1201ee (errores)
+<<<<<<< HEAD
 >>>>>>> 5838ec7 (errores)
+=======
+=======
+  <app-menu-principal></app-menu-principal>
+  <app-login></app-login>
+>>>>>>> 4d05ec1 (errores)
+>>>>>>> 7d44697 (errores)
   `,
   styleUrl: './app.component.css'
 })
