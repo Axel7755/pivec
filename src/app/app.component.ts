@@ -12,7 +12,7 @@ import { RegistroPageComponent } from "./loging-regis/registro-page.component";
     LoginComponent
     , RegistroPageComponent],
   template: `
-  <router-outlet></router-outlet>
+  <app-login></app-login>
   `,
   styleUrl: './app.component.css'
 })
