@@ -20,6 +20,7 @@ import { LoginComponent } from './loging-regis/login.component';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <router-outlet></router-outlet>
 =======
   <app-login></app-login>
@@ -41,6 +42,9 @@ import { LoginComponent } from './loging-regis/login.component';
   <app-menu-principal></app-menu-principal>
   <app-login></app-login>
 >>>>>>> 4d05ec1 (errores)
+=======
+  <router-outlet></router-outlet>
+>>>>>>> 93f3553 (cambios)
   `,
   styleUrl: './app.component.css'
 })

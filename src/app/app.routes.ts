@@ -5,8 +5,6 @@ import { LoginFormComponent } from './loging-regis/sub-componentes/login-form.co
 import { RegistroComponent } from './loging-regis/sub-componentes/registro.component';
 
 export const routes: Routes = [
-
-    {path: 'menu-principal', component: MenuPrincipalComponent},
     {path: 'login-component', component: LoginFormComponent},
     {path: 'registro-component', component: RegistroComponent},
 <<<<<<< HEAD
@@ -17,6 +15,7 @@ export const routes: Routes = [
 =======
 >>>>>>> 4d05ec1 (errores)
     {path: 'verificar-datos', component:VerificarDatosComponent},
+<<<<<<< HEAD
 >>>>>>> 4d05ec1 (errores)
 =======
     {path: 'verificar-datos', component:VerificarDatosComponent},
@@ -25,4 +24,8 @@ export const routes: Routes = [
 >>>>>>> 5135880 (cam)
 >>>>>>> fbce96b (cam)
     {path: '', redirectTo: '/login-component', pathMatch: 'full'}
+=======
+    {path: '', redirectTo: '/login-component', pathMatch: 'full'},
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+>>>>>>> 93f3553 (cambios)
 ];
