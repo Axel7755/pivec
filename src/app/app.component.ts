@@ -53,8 +53,6 @@ import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 >>>>>>> 7d44697 (errores)
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 import { LoginComponent } from './loging-regis/login.component';
-import { RegistroPageComponent } from "./loging-regis/registro-page.component";
-import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 
 @Component({
@@ -147,10 +145,16 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 >>>>>>> f7bc1d1 (errores)
 =======
     RouterOutlet,
+<<<<<<< HEAD
     LoginComponent,
     RegistroPageComponent, LateralLogin, MenuPrincipalComponent],
 >>>>>>> 3db7d71 (cambios redireciones)
+=======
+    LoginComponent
+    ],
+>>>>>>> 7ef81ac (cam)
   template: `
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   <router-outlet></router-outlet>
@@ -177,7 +181,13 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   <app-menu-principal></app-menu-principal>
   <app-login></app-login>
 >>>>>>> 4d05ec1 (errores)
+<<<<<<< HEAD
 >>>>>>> 7d44697 (errores)
+=======
+=======
+  <router-outlet></router-outlet>
+>>>>>>> fbce96b (cam)
+>>>>>>> 7074a11 (cam)
   `,
   styleUrl: './app.component.css'
 })
