@@ -40,6 +40,9 @@ export const routes: Routes = [
 >>>>>>> 4bb85a1 (rutas sin cambios)
 =======
     {path: '', redirectTo: '/login-component', pathMatch: 'full'},
+<<<<<<< HEAD
     {path: 'menu-principal', component: MenuPrincipalComponent},
 >>>>>>> f3f771e (cambios)
+=======
+>>>>>>> 01996b9 (rutas sin cambios)
 ];
