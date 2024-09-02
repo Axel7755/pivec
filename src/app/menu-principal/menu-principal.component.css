@@ -1,0 +1,21 @@
+.content{
+    padding: 24px;
+  }
+  mat-sidenav-container{
+    height: 100vh;
+  }
+  mat-sidenav{
+    width: 300px;
+    padding: 18px;
+    padding-top: 65px;
+    background: rgb(109,26,66);
+
+    background: linear-gradient( #d34271 0, rgba(167,34,81,1) 32%, rgba(109,26,66,1) 100%);
+  }
+  mat-sidenav-content{
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    height: 93%;
+    background-color: #FFFFFF;
+  }
+  

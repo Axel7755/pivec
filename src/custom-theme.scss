@@ -61,6 +61,30 @@ $custom-primary-palette: (
     900: #fff,
     )
   );
+  $custom-warn-palette: (
+    50: #fff9e4,
+    100: #ffeeba,
+    200: #ffe48f,
+    300: #ffda65,
+    400: #ffd04a,
+    500: #ffc83f,
+    600: #ffbb3a,
+    700: #ffa936,
+    800: #ff9933,
+    900: #f27d2f,
+    contrast: (
+      50: #000,
+    100: #000,
+    200: #000,
+    300: #000,
+    400: #000,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    )
+  );
 $pivec-primary: mat.define-palette($custom-primary-palette, 900);
 $pivec-accent: mat.define-palette($custom-acent-palette, 900, 700, 300);
 
