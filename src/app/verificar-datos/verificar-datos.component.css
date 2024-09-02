@@ -1,0 +1,56 @@
+.content {
+  padding: 24px;
+}
+
+mat-sidenav-container {
+  height: 100vh;
+  background-color: #6D1A42;
+}
+
+mat-sidenav {
+  width: 300px;
+  padding: 18px;
+  padding-top: 65px;
+  background-color: #6D1A42;
+}
+
+mat-sidenav-content {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  height: 93%;
+  background-color: #FFFFFF;
+}
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+h1 {
+  padding: 20px;
+}
+
+.bonton {
+  width: 35%;
+  height: 45px;
+  margin-bottom: 10px;
+  border-radius: 17px;
+  padding: 10px 20px;
+
+}
+
+#boton {
+  margin-top: 35px;
+  display: flex;
+  justify-content: center;
+  /* Centrar el botón horizontalmente */
+}
