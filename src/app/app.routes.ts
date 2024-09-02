@@ -26,6 +26,9 @@ export const routes: Routes = [
     {path: '', redirectTo: '/login-component', pathMatch: 'full'}
 =======
     {path: '', redirectTo: '/login-component', pathMatch: 'full'},
+<<<<<<< HEAD
     {path: 'menu-principal', component: MenuPrincipalComponent},
 >>>>>>> 93f3553 (cambios)
+=======
+>>>>>>> 4bb85a1 (rutas sin cambios)
 ];
