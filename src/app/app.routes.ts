@@ -3,9 +3,11 @@ import { MenuPrincipalComponent } from './menu-principal/menu-principal.componen
 import { VerificarDatosComponent } from './verificar-datos/verificar-datos.component';
 import { LoginFormComponent } from './loging-regis/sub-componentes/login-form.component';
 import { RegistroComponent } from './loging-regis/sub-componentes/registro.component';
+import { LoginComponent } from './loging-regis/login.component';
 
 export const routes: Routes = [
     {path: 'login-component', component: LoginFormComponent},
+    {path: 'login',component: LoginComponent},
     {path: 'registro-component', component: RegistroComponent},
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -16,6 +18,7 @@ export const routes: Routes = [
 >>>>>>> 4d05ec1 (errores)
     {path: 'verificar-datos', component:VerificarDatosComponent},
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4d05ec1 (errores)
 =======
     {path: 'verificar-datos', component:VerificarDatosComponent},
@@ -25,6 +28,9 @@ export const routes: Routes = [
 >>>>>>> fbce96b (cam)
     {path: '', redirectTo: '/login-component', pathMatch: 'full'}
 =======
+=======
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+>>>>>>> fb6d11c (rutas aun co errores)
     {path: '', redirectTo: '/login-component', pathMatch: 'full'},
 <<<<<<< HEAD
     {path: 'menu-principal', component: MenuPrincipalComponent},
