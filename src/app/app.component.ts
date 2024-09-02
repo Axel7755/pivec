@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 import { LoginComponent } from './loging-regis/login.component';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 4d05ec1 (errores)
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
@@ -22,7 +23,12 @@ import { LoginComponent } from './loging-regis/login.component';
 import { RegistroPageComponent } from "./loging-regis/registro-page.component";
 import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 >>>>>>> 132bd3f (cambios redireciones)
+<<<<<<< HEAD
 >>>>>>> eb6bac0 (cambios redireciones)
+=======
+=======
+>>>>>>> 5135880 (cam)
+>>>>>>> 498e3e9 (cam)
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 
 @Component({
@@ -83,10 +89,13 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 <<<<<<< HEAD
     LoginComponent
     ],
+<<<<<<< HEAD
 =======
     LoginComponent,
     RegistroPageComponent, LateralLogin, MenuPrincipalComponent],
 >>>>>>> 132bd3f (cambios redireciones)
+=======
+>>>>>>> 5135880 (cam)
   template: `
   <router-outlet></router-outlet>
 <<<<<<< HEAD

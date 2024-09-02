@@ -9,6 +9,7 @@ import { TareasComponent } from './tareas/tareas.component';
 
 export const routes: Routes = [
 <<<<<<< HEAD
+<<<<<<< HEAD
     {path: 'login-component', component: LoginFormComponent},
     {path: 'login',component: LoginComponent},
     {path: 'registro-component', component: RegistroComponent},
@@ -53,6 +54,8 @@ export const routes: Routes = [
 =======
 >>>>>>> 01996b9 (rutas sin cambios)
 =======
+=======
+>>>>>>> 498e3e9 (cam)
     
     {path: 'login',component: LoginComponent, 
         children: [
@@ -68,5 +71,14 @@ export const routes: Routes = [
         ]
     },
     {path: '', redirectTo: '/login/login-component', pathMatch: 'full'},
+<<<<<<< HEAD
 >>>>>>> 608f0da (redireccionamientos arreglados)
+=======
+=======
+    {path: 'login-component', component: LoginFormComponent},
+    {path: 'registro-component', component: RegistroComponent},
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+    {path: '', redirectTo: '/login-component', pathMatch: 'full'}
+>>>>>>> 5135880 (cam)
+>>>>>>> 498e3e9 (cam)
 ];
