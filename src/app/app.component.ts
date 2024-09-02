@@ -103,6 +103,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     LoginComponent
     ],
 <<<<<<< HEAD
@@ -120,8 +121,13 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
     LoginComponent
     ],
 >>>>>>> 17a0d46 (cam)
+=======
+    LoginComponent, MenuPrincipalComponent],
+>>>>>>> ddf09fb (errores)
   template: `
+<<<<<<< HEAD
   <router-outlet></router-outlet>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 608f0da (redireccionamientos arreglados)
@@ -132,6 +138,12 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 >>>>>>> 2d227f3 (Se completo las modificaciones de horario)
 =======
 >>>>>>> c2af39e (arreglo)
+=======
+=======
+  <app-login></app-login>
+  <app-menu-principal></app-menu-principal>
+>>>>>>> e1201ee (errores)
+>>>>>>> 5838ec7 (errores)
   `,
   styleUrl: './app.component.css'
 })
