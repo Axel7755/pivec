@@ -10,7 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
   standalone: true,
   imports: [MatSidenavModule,
     LateralLogin,
-    LoginFormComponent,RouterOutlet],
+    RouterOutlet],
     template: `
     <mat-sidenav-container>
       <mat-sidenav opened mode="side">
@@ -19,6 +19,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
         </lateral-login>
       </mat-sidenav>
       <mat-sidenav-content class="content">
+        
         <router-outlet></router-outlet>
       </mat-sidenav-content>
   
