@@ -3,8 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 import { LoginComponent } from './loging-regis/login.component';
-import { RegistroPageComponent } from "./loging-regis/registro-page.component";
-import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 
 @Component({
@@ -12,8 +10,8 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
-    LoginComponent,
-    RegistroPageComponent, LateralLogin, MenuPrincipalComponent],
+    LoginComponent
+    ],
   template: `
 <<<<<<< HEAD
 <<<<<<< HEAD
