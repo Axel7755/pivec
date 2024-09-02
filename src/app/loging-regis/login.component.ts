@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { LateralLogin } from './sub-componentes/lateral.component';
 import { LoginFormComponent } from './sub-componentes/login-form.component';
 //import { MatToolbarModule } from '@angular/material/toolbar'
@@ -9,7 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
   standalone: true,
   imports: [MatSidenavModule,
     LateralLogin,
-    LoginFormComponent],
+    LoginFormComponent,RouterOutlet],
     template: `
     <mat-sidenav-container>
       <mat-sidenav opened mode="side">
@@ -18,7 +19,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
         </lateral-login>
       </mat-sidenav>
       <mat-sidenav-content class="content">
-        <app-login-form></app-login-form>
+        <router-outlet></router-outlet>
       </mat-sidenav-content>
   
     </mat-sidenav-container>`,

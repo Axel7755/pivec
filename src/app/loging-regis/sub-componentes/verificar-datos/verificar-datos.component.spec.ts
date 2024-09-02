@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistroPageComponent } from './registro-page.component';
+import { VerificarDatosComponent } from './verificar-datos.component';
 
-describe('RegistroPageComponent', () => {
-  let component: RegistroPageComponent;
-  let fixture: ComponentFixture<RegistroPageComponent>;
+describe('VerificarDatosComponent', () => {
+  let component: VerificarDatosComponent;
+  let fixture: ComponentFixture<VerificarDatosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegistroPageComponent]
+      imports: [VerificarDatosComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(RegistroPageComponent);
+    fixture = TestBed.createComponent(VerificarDatosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

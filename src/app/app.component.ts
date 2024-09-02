@@ -11,10 +11,12 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
+    LoginComponent
+    ],
     LoginComponent,
     RegistroPageComponent, LateralLogin, MenuPrincipalComponent],
   template: `
-  <router-outlet></router-outlet>
+  <app-login></app-login>
   `,
   styleUrl: './app.component.css'
 })
