@@ -10,8 +10,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   standalone: true,
   imports: [CommonModule,
     RouterOutlet,
-    LoginComponent
-    ],
+    LoginComponent, MenuPrincipalComponent],
   template: `
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -20,6 +19,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 =======
   <app-login></app-login>
   <app-menu-principal></app-menu-principal>
+<<<<<<< HEAD
 >>>>>>> e1201ee (errores)
 =======
   <app-menu-principal></app-menu-principal>
@@ -28,6 +28,8 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 =======
   <router-outlet></router-outlet>
 >>>>>>> fbce96b (cam)
+=======
+>>>>>>> e1201ee (errores)
   `,
   styleUrl: './app.component.css'
 })
