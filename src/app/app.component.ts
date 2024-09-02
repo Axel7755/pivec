@@ -53,6 +53,8 @@ import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 >>>>>>> 7d44697 (errores)
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 import { LoginComponent } from './loging-regis/login.component';
+import { RegistroPageComponent } from "./loging-regis/registro-page.component";
+import { LateralLogin } from "./loging-regis/sub-componentes/lateral.component";
 import { MenuPrincipalComponent } from "./menu-principal/menu-principal.component";
 
 @Component({
@@ -120,6 +122,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     LoginComponent
     ],
 <<<<<<< HEAD
@@ -153,6 +156,10 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
     LoginComponent
     ],
 >>>>>>> 7ef81ac (cam)
+=======
+    LoginComponent,
+    RegistroPageComponent, LateralLogin, MenuPrincipalComponent],
+>>>>>>> 3d66822 (cambios redireciones)
   template: `
 <<<<<<< HEAD
 <<<<<<< HEAD
