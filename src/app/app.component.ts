@@ -26,6 +26,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <router-outlet></router-outlet>
 =======
   <app-login></app-login>
@@ -55,6 +56,9 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   template: `  
   <app-login></app-login>
 >>>>>>> fb6d11c (rutas aun co errores)
+=======
+  <router-outlet></router-outlet>
+>>>>>>> f3f771e (cambios)
   `,
   styleUrl: './app.component.css'
 })

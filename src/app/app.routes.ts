@@ -19,6 +19,7 @@ export const routes: Routes = [
     {path: 'verificar-datos', component:VerificarDatosComponent},
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4d05ec1 (errores)
 =======
     {path: 'verificar-datos', component:VerificarDatosComponent},
@@ -37,4 +38,8 @@ export const routes: Routes = [
 >>>>>>> 93f3553 (cambios)
 =======
 >>>>>>> 4bb85a1 (rutas sin cambios)
+=======
+    {path: '', redirectTo: '/login-component', pathMatch: 'full'},
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+>>>>>>> f3f771e (cambios)
 ];
