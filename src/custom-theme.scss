@@ -85,11 +85,39 @@ $custom-primary-palette: (
     900: #fff,
     )
   );
+  $custom-blanco-palette: (
+    50: #F9F9FE,
+    100: #F3F3F9,
+    200: #F3F3F9,
+    300: #F3F3F9,
+    400: #F3F3F9,
+    500: #F3F3F9,
+    600: #F3F3F9,
+    700: #F3F3F9,
+    800: #F3F3F9,
+    900: #F3F3F9,
+    contrast: (
+      50: #F3F3F9,
+    100: #F3F3F9,
+    200: #F3F3F9,
+    300: #F3F3F9,
+    400: #F3F3F9,
+    500: #F3F3F9,
+    600: #F3F3F9,
+    700: #F3F3F9,
+    800: #F3F3F9,
+    900: #F3F3F9,
+    )
+  );
 $pivec-primary: mat.define-palette($custom-primary-palette, 900);
 $pivec-accent: mat.define-palette($custom-acent-palette, 900, 700, 300);
 
 // The warn palette is optional (defaults to red).
-$pivec-warn: mat.define-palette(mat.$red-palette);
+
+//$pivec-warn: mat.define-palette(mat.$red-palette);
+//$pivec-warn: mat.define-palette($custom-warn-palette);
+$pivec-warn: mat.define-palette($custom-blanco-palette);
+//$pivec-blanco: mat.define-palette($custom-blanco-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
