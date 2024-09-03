@@ -19,6 +19,7 @@ import { LoginComponent } from './loging-regis/login.component';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <router-outlet></router-outlet>
 =======
   <app-login></app-login>
@@ -27,6 +28,8 @@ import { LoginComponent } from './loging-regis/login.component';
 >>>>>>> e1201ee (errores)
 =======
   <app-menu-principal></app-menu-principal>
+=======
+>>>>>>> 39e6f1d (Se completo las modificaciones de horario)
   <app-login></app-login>
 >>>>>>> 4d05ec1 (errores)
 =======
