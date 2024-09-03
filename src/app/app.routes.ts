@@ -6,6 +6,7 @@ import { RegistroComponent } from './loging-regis/sub-componentes/registro.compo
 import { LoginComponent } from './loging-regis/login.component';
 
 export const routes: Routes = [
+<<<<<<< HEAD
     {path: 'login-component', component: LoginFormComponent},
     {path: 'login',component: LoginComponent},
     {path: 'registro-component', component: RegistroComponent},
@@ -49,4 +50,24 @@ export const routes: Routes = [
 >>>>>>> f3f771e (cambios)
 =======
 >>>>>>> 01996b9 (rutas sin cambios)
+=======
+    
+    {path: 'login',component: LoginComponent, 
+        children: [
+            {
+              path: 'login-component', // child route path
+              component: LoginFormComponent, // child route component that the router renders
+            },
+            {
+              path: 'registro-component',
+              component: RegistroComponent, // another child route component that the router renders
+            },
+          ],
+    },
+    //{path: 'login-component', component: LoginFormComponent},
+    //{path: 'registro-component', component: RegistroComponent},
+    {path: 'verificar-datos', component:VerificarDatosComponent},
+    {path: 'menu-principal', component: MenuPrincipalComponent},
+    {path: '', redirectTo: '/login/login-component', pathMatch: 'full'},
+>>>>>>> 608f0da (redireccionamientos arreglados)
 ];

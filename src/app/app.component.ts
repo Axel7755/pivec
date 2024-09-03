@@ -23,6 +23,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   imports: [CommonModule,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     RouterOutlet, MenuPrincipalComponent, LoginComponent],
   template: `
 <<<<<<< HEAD
@@ -69,6 +70,13 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   template: `  
   <app-login></app-login>
 >>>>>>> 49c763e (rutas aun co errores)
+=======
+    RouterOutlet,
+    LoginComponent
+    ],
+  template: `
+  <router-outlet></router-outlet>
+>>>>>>> 608f0da (redireccionamientos arreglados)
   `,
   styleUrl: './app.component.css'
 })
