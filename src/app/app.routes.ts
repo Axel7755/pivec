@@ -9,14 +9,9 @@ export const routes: Routes = [
     
     {path: 'login',component: LoginComponent, 
         children: [
-            {
-              path: 'login-component', // child route path
-              component: LoginFormComponent, // child route component that the router renders
-            },
-            {
-              path: 'registro-component',
-              component: RegistroComponent, // another child route component that the router renders
-            },
+            {path: 'login-component', component: LoginFormComponent,},
+            {path: 'registro-component',component: RegistroComponent,},
+            {path: 'verificar-datos',component: VerificarDatosComponent,},
           ],
     },
     {path: 'menu-principal', component: MenuPrincipalComponent},
