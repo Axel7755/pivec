@@ -8,9 +8,11 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule,
-    RouterOutlet, LoginComponent, MenuPrincipalComponent],
-  template: `  
-  <app-login></app-login>
+    RouterOutlet,
+    LoginComponent
+    ],
+  template: `
+  <router-outlet></router-outlet>
   `,
   styleUrl: './app.component.css'
 })
