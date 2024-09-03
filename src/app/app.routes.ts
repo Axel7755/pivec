@@ -19,9 +19,6 @@ export const routes: Routes = [
             },
           ],
     },
-    //{path: 'login-component', component: LoginFormComponent},
-    //{path: 'registro-component', component: RegistroComponent},
-    {path: 'verificar-datos', component:VerificarDatosComponent},
     {path: 'menu-principal', component: MenuPrincipalComponent},
     {path: '', redirectTo: '/login/login-component', pathMatch: 'full'},
 ];
