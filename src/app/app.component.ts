@@ -10,7 +10,6 @@ import { LoginComponent } from './loging-regis/login.component';
   imports: [CommonModule,
     RouterOutlet, MenuPrincipalComponent, LoginComponent],
   template: `
-  <app-menu-principal></app-menu-principal>
   <app-login></app-login>
   `,
   styleUrl: './app.component.css'
