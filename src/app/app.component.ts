@@ -12,11 +12,7 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
     LoginComponent
     ],
   template: `
-<<<<<<< HEAD
   <router-outlet></router-outlet>
-=======
-  <app-login></app-login>
->>>>>>> 39e6f1d (Se completo las modificaciones de horario)
   `,
   styleUrl: './app.component.css'
 })
