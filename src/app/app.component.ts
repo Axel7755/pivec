@@ -75,8 +75,8 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
     LoginComponent
     ],
   template: `
-<<<<<<< HEAD
   <router-outlet></router-outlet>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 608f0da (redireccionamientos arreglados)
 =======
@@ -84,6 +84,8 @@ import { MenuPrincipalComponent } from "./menu-principal/menu-principal.componen
   <app-login></app-login>
 >>>>>>> 39e6f1d (Se completo las modificaciones de horario)
 >>>>>>> 2d227f3 (Se completo las modificaciones de horario)
+=======
+>>>>>>> c2af39e (arreglo)
   `,
   styleUrl: './app.component.css'
 })
