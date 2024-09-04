@@ -4,6 +4,8 @@ import { VerificarDatosComponent } from './verificar-datos/verificar-datos.compo
 import { LoginFormComponent } from './loging-regis/sub-componentes/login-form.component';
 import { RegistroComponent } from './loging-regis/sub-componentes/registro.component';
 import { LoginComponent } from './loging-regis/login.component';
+import { MateriasComponent } from './materias/materias.component';
+import { TareasComponent } from './tareas/tareas.component';
 
 export const routes: Routes = [
     
@@ -14,6 +16,11 @@ export const routes: Routes = [
             {path: 'verificar-datos',component: VerificarDatosComponent,},
           ],
     },
-    {path: 'menu-principal', component: MenuPrincipalComponent},
+    {path: 'menu-principal', component: MenuPrincipalComponent,
+        children: [
+            {path: 'materias', component: MateriasComponent},
+            {path: 'tareas', component: TareasComponent},
+        ]
+    },
     {path: '', redirectTo: '/login/login-component', pathMatch: 'full'},
 ];
