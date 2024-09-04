@@ -4,10 +4,13 @@
   mat-sidenav{
     width: 300px;
     padding: 15px;
+
+    transition: 400ms;
     background: rgb(109,26,66);
     background: linear-gradient( #b54568 0, rgb(161, 46, 86) 32%, rgba(109,26,66,1) 100%);
   }
   mat-sidenav-content{
+    padding: 24px;
     height: 93%;
   }
   
