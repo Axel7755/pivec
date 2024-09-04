@@ -26,7 +26,11 @@ export interface Section {
           <h2 class="tit2">EC</h2>
         }
           <button mat-icon-button (click)="collapse()" color="warn" class="desplegable">
+          @if (!collapsed) {
             <mat-icon>keyboard_arrow_left</mat-icon>
+          }@else{
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          }
           </button>
         </div>
         <mat-nav-list>
