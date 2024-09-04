@@ -49,7 +49,7 @@ export interface Section {
         }
         </mat-nav-list>
       </mat-sidenav>
-      <mat-sidenav-content class="content" [ngClass]="collapsed ? 'sidenav-collapsed-content':''">
+      <mat-sidenav-content [ngClass]="collapsed ? 'sidenav-collapsed-content':''">
         <router-outlet></router-outlet>
       </mat-sidenav-content>
   
