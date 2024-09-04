@@ -39,4 +39,11 @@
   .textoblanco{
     color: white;
   }
+
+  .tamanio-auto{
+    width: auto;
+  }
+  .active{
+    border-bottom: solid 2px #FFFFFF;
+  }
   
