@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatListModule } from '@angular/material/list'
+import { NgClass } from '@angular/common';
 
 export interface Section {
   icon: string;
@@ -15,14 +16,16 @@ export interface Section {
   selector: 'app-menu-principal',
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule, MatIconModule,
-     RouterOutlet, MatListModule, RouterLink, RouterLinkActive],
+     RouterOutlet, MatListModule, RouterLink, RouterLinkActive, NgClass],
   template: `
     <mat-sidenav-container>
-      <mat-sidenav opened mode="side">
-        <div class="sidenav-header">
+      <mat-sidenav  opened mode="side" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+        <div class="sidenav-header" [ngClass]="collapsed ? 'sidenav-header-collapsed': ''">
+        @if (!collapsed) {
           <h2 class="tit1">PIV</h2>
           <h2 class="tit2">EC</h2>
-          <button mat-icon-button color="warn" class="desplegable">
+        }
+          <button mat-icon-button (click)="collapse()" color="warn" class="desplegable">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>
@@ -32,14 +35,17 @@ export interface Section {
             <mat-icon matListItemIcon  class="blanco">
             {{seccion.icon}}
             </mat-icon>
-            <span matListItemTitle  class="textoblanco">
-              {{seccion.name}}
-            </span>
+            @if (!collapsed) {
+              <span matListItemTitle class="textoblanco">
+                {{seccion.name}}
+              </span>
+            }
+            
           </a>
         }
         </mat-nav-list>
       </mat-sidenav>
-      <mat-sidenav-content class="content">
+      <mat-sidenav-content class="content" [ngClass]="collapsed ? 'sidenav-collapsed-content':''">
         <router-outlet></router-outlet>
       </mat-sidenav-content>
   
@@ -47,7 +53,10 @@ export interface Section {
   styleUrl: './menu-principal.component.css'
 })
 export class MenuPrincipalComponent {
-  
+  collapsed = false;
+  collapse(): void{
+    this.collapsed=!this.collapsed;
+  }
   secciones: Section[] = [
     {
       icon:'business_center',
