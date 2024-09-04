@@ -62,7 +62,7 @@ mat-card::before {
 
 mat-card:hover::before {
     height: 100%;
-    background: #e051a9;
+    background: #9c3465;
 }
 
 mat-card-content:hover h3 {
