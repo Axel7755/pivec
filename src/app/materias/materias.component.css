@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se envíen a la siguiente fila */
+    gap: 16px 24px; /* Espacio entre las tarjetas */
+    margin-top: 45px;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+}
+
+.example-card {
+    flex: 1 0 calc(33.333% - 16px); /* Tres tarjetas por fila, ajustando el tamaño según el espacio */
+    max-width: calc(33.333% - 16px); /* Ajusta el ancho máximo */
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(210, 212, 213, 0.724);
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2); /* Agrega una sombra ligera */
+    margin-bottom: 24px; /* Espacio entre las filas */
+}
+
+.example-card:hover {
+    box-shadow: 4px 4px 10px rgba(5px, 5px, 5px, 0.4); /* Agrega una sombra ligera */
+    transform: translateY(-3%);
+}
+
+img[mat-card-image] {
+    width: 100%;
+    height: 200px; /* Ajusta según tus necesidades */
+    object-fit: contain; /* Mantiene la relación de aspecto de la imagen */
+}
+
+mat-card-content {
+    text-align: center; /* Centra el texto horizontalmente */
+}
+
+mat-card-content h3 {
+    margin-top: 10px;
+    padding: 5px 0;
+    font-family: "Girassol", cursive;
+    color: #1854fa;
+}
+
+mat-card-content h4 {
+    padding: 5px 5px;
+    font-family: "Girassol";
+    color: #000;
+    opacity: 0.8;
+}
+
+mat-card::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: none;
+    top: 0;
+    left: 0;
+    transition: all .7s ease;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+mat-card:hover::before {
+    height: 100%;
+    background: #e051a9;
+}
+
+mat-card-content:hover h3 {
+    color: #fff;
+    font-weight: bold;
+}
+
+mat-card-content:hover h4 {
+    color: #fff;
+    font-weight: bold;
+}
