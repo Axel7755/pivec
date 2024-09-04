@@ -32,8 +32,8 @@ export interface Section {
             <mat-icon matListItemIcon  class="blanco">
             {{seccion.icon}}
             </mat-icon>
-            <span matListItemTitle  class="blanco">
-            {{seccion.name}}
+            <span matListItemTitle  class="textoblanco">
+              {{seccion.name}}
             </span>
           </a>
         }
