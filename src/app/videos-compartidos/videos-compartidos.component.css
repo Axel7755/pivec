@@ -1,0 +1,96 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que las tarjetas se envíen a la siguiente fila */
+    gap: 16px;
+    /* Espacio entre las tarjetas */
+    margin-top: 35px;
+    justify-content: center;
+    /* Centra las tarjetas horizontalmente */
+}
+
+.example-card {
+    flex: 1 0 30%;
+    /* Define que las tarjetas ocupen el 30% del ancho disponible */
+    max-width: 30%;
+    /* Asegura que el ancho máximo de cada tarjeta sea del 30% */
+    min-width: 280px;
+    /* Establece un ancho mínimo para las tarjetas en pantallas más pequeñas */
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(210, 212, 213, 0.724);
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+    /* Agrega una sombra ligera */
+    margin-bottom: 24px;
+    /* Espacio entre las filas */
+}
+
+.example-card:hover {
+    box-shadow: 4px 4px 10px rgba(5px, 5px, 5px, 0.4);
+    /* Agrega una sombra ligera */
+    transform: translateY(-3%);
+}
+
+img[mat-card-image] {
+    width: 100%;
+    height: 250px;
+    /* Ajusta según tus necesidades */
+    object-fit: contain;
+    /* Mantiene la relación de aspecto de la imagen */
+}
+
+.example-header-image {
+    background-image: url('../../assets/images/mat1.png');
+    background-size: contain;
+    /* Asegura que todo el ícono se vea */
+    background-repeat: no-repeat;
+    /* Evita que el ícono se repita */
+    background-position: left center;
+    /* Alinea el ícono a la izquierda */
+    width: 80px;
+    /* Ajusta el ancho según el tamaño del ícono */
+    height: 80px;
+    /* Ajusta la altura según el tamaño del ícono */
+    margin-left: 0;
+    /* Asegura que esté alineado a la izquierda */
+}
+
+mat-card-content {
+    text-align: center;
+    /* Centra el texto horizontalmente */
+}
+
+mat-card-header {
+    padding-left: 30px;
+    padding-right: 40px;
+}
+
+mat-card-header mat-card-title {
+    margin-top: 5px;
+    padding: 5px 0;
+    font-family: "Girassol", cursive;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1854fa;
+}
+
+mat-card-header mat-card-subtitle {
+    padding: 5px 0;
+    font-family: "Girassol";
+    font-size: 15px;
+    font-weight: bold;
+    color: #1889fa;
+}
+
+mat-card-content p {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    /* Número de líneas que quieres mostrar, ajusta si es necesario */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 7em;
+    /* Ajusta según la altura de las líneas */
+    line-height: 1.4em;
+    /* Altura de cada línea */
+}
