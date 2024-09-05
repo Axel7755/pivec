@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
+
+.contenedor-tarea {
+    width: 90%;
+    max-width: 2040px;
+    margin: 20px auto;
+    /* Combina los márgenes superior e inferior */
+    padding: 15px;
+    border-radius: 15px;
+    background-color: rgba(226, 226, 226, 0.8);
+    /* Color de fondo simplificado */
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+    /* La propiedad border ya es transparente */
+}
+
+.img-materia {
+    flex: 0 0 25%;
+    /* Reduce el espacio asignado a la imagen */
+    max-width: 25%;
+    /* Limita el tamaño máximo */
+}
+
+img[mat-card-image] {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin: 0;
+}
+
+.informacion-materia {
+    flex: 2;
+    padding-left: 10px;
+    padding-right: 30px;
+}
+
+.informacion-materia h1 {
+    margin-top: 10px;
+    padding: 5px 0;
+    font-family: "Girassol", cursive;
+    color: #1854fa;
+}
+
+.informacion-materia p {
+    text-align: justify;
+    /* Justifica el texto en el párrafo */
+}
+
+/* Estilo para la línea hr */
+hr {
+    border: 0;
+    height: 2px;
+    /* Grosor de la línea */
+    background-color: deeppink;
+    /* Color de la línea */
+}
+
+.vence {
+    color: red;
+    font-family: "Girassol";
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+/* Estilos para los enlaces */
+.links {
+    padding-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    /* Espacio entre los enlaces */
+    margin-bottom: 10px;
+}
+
+.links a {
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.pendientes {
+    color: blue;
+    font-size: medium;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.vencidas {
+    color: red;
+    font-size: medium;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
