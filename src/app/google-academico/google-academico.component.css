@@ -1,0 +1,70 @@
+/* Estilos básicos para el componente */
+h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center; /* Centra el título */
+    margin-bottom: 20px; /* Añade espacio debajo del título */
+}
+
+input {
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 16px;
+    width: 300px; /* Ajusta el tamaño del input */
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049; /* Efecto hover para el botón */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 600px; /* Limita el ancho de la lista */
+    margin: 0 auto; /* Centra la lista */
+}
+
+li {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+h2 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+    color: #2c3e50;
+}
+
+p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Mejoras para pantallas pequeñas */
+@media (max-width: 600px) {
+    input {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

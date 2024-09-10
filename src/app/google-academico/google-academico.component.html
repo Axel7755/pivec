@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Google Académico</title>
+    <link rel="stylesheet" href="google-academico.component.css">
+</head>
+
+<body>
+    <div>
+        <h1>Resultados de Google Académico</h1>
+        <input type="text" [(ngModel)]="query" placeholder="Buscar...">
+        <button (click)="searchScholar()">Buscar</button>
+
+        <div *ngIf="isLoading">Cargando...</div>
+        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+        <ul>
+            <li *ngFor="let result of results">
+                {{ result | json }}
+            </li>
+        </ul>
+
+    </div>
+
+    <hr>
+
+    <pre>{{ results | json }}</pre>
+
+</body>
+
+</html>

@@ -7,22 +7,27 @@ import { LoginComponent } from './loging-regis/login.component';
 import { MateriasComponent } from './materias/materias.component';
 import { TareasComponent } from './tareas/tareas.component';
 import { VideosCompartidosComponent } from './videos-compartidos/videos-compartidos.component';
+import { GoogleAcademico2Component } from './google-academico2/google-academico2.component';
+import { GoogleAcademicoComponent } from './google-academico/google-academico.component';
 
 export const routes: Routes = [
-    
-    {path: 'login',component: LoginComponent, 
+
+    {
+        path: 'login', component: LoginComponent,
         children: [
-            {path: 'login-component', component: LoginFormComponent,},
-            {path: 'registro-component',component: RegistroComponent,},
-            {path: 'verificar-datos',component: VerificarDatosComponent,},
-          ],
+            { path: 'login-component', component: LoginFormComponent, },
+            { path: 'registro-component', component: RegistroComponent, },
+            { path: 'verificar-datos', component: VerificarDatosComponent, },
+        ],
     },
-    {path: 'menu-principal', component: MenuPrincipalComponent,
+    {
+        path: 'menu-principal', component: MenuPrincipalComponent,
         children: [
-            {path: 'materias', component: MateriasComponent},
-            {path: 'tareas', component: TareasComponent},
-            {path: 'videos-compartidos', component: VideosCompartidosComponent},
+            { path: 'materias', component: MateriasComponent },
+            { path: 'tareas', component: TareasComponent },
+            { path: 'videos-compartidos', component: VideosCompartidosComponent },
+            { path: 'google-academico', component: GoogleAcademicoComponent },
         ]
     },
-    {path: '', redirectTo: '/login/login-component', pathMatch: 'full'},
+    { path: '', redirectTo: '/login/login-component', pathMatch: 'full' },
 ];
