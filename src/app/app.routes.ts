@@ -7,7 +7,6 @@ import { LoginComponent } from './loging-regis/login.component';
 import { MateriasComponent } from './materias/materias.component';
 import { TareasComponent } from './tareas/tareas.component';
 import { VideosCompartidosComponent } from './videos-compartidos/videos-compartidos.component';
-import { GoogleAcademico2Component } from './google-academico2/google-academico2.component';
 import { GoogleAcademicoComponent } from './google-academico/google-academico.component';
 
 export const routes: Routes = [
