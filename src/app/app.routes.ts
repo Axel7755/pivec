@@ -6,6 +6,7 @@ import { RegistroComponent } from './loging-regis/sub-componentes/registro.compo
 import { LoginComponent } from './loging-regis/login.component';
 import { MateriasComponent } from './materias/materias.component';
 import { TareasComponent } from './tareas/tareas.component';
+import { ScholarSearchComponent } from './scholar-search/scholar-search.component';
 
 export const routes: Routes = [
     
@@ -20,6 +21,7 @@ export const routes: Routes = [
         children: [
             {path: 'materias', component: MateriasComponent},
             {path: 'tareas', component: TareasComponent},
+            {path: 'google-academico', component: ScholarSearchComponent},
         ]
     },
     {path: '', redirectTo: '/login/login-component', pathMatch: 'full'},
