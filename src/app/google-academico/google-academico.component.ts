@@ -13,10 +13,10 @@ import { CommonModule } from '@angular/common';  // Asegúrate de importar Commo
   host: { 'ngSkipHydration': '' }  // Esto saltea el proceso de hydration
 })
 export class GoogleAcademicoComponent implements OnInit {
-  query: string = ''; // Para almacenar la consulta de búsqueda
-  isLoading: boolean = false; // Para mostrar un indicador de carga
-  errorMessage: string | null = null; // Para almacenar mensajes de error
-  results: any[] = []; // Para almacenar los resultados de la búsqueda
+  query: string = '';
+  isLoading: boolean = false;
+  errorMessage: string | null = null;
+  results: any[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -25,20 +25,22 @@ export class GoogleAcademicoComponent implements OnInit {
   }
 
   searchScholar() {
-    fetch('/api/search.json?engine=google_scholar&q=html&api_key=285f0000d24c1d580fa2ac8c40d920ecb2e3e4eaa2846de0594a04885a0de593')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log(data);
-        // Aquí procesas los datos que te devuelve la API
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.results = [];
 
+    const apiUrl = `https://serpapi.com/search.json?engine=google_scholar&q=${this.query}&api_key=285f0000d24c1d580fa2ac8c40d920ecb2e3e4eaa2846de0594a04885a0de593`;
+
+    this.http.get(apiUrl).subscribe({
+      next: (data: any) => {
+        this.isLoading = false;
+        this.results = data.results || [];
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Se produjo un error al buscar.';
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
 }
