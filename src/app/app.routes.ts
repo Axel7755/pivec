@@ -8,6 +8,7 @@ import { MateriasComponent } from './materias/materias.component';
 import { TareasComponent } from './tareas/tareas.component';
 import { VideosCompartidosComponent } from './videos-compartidos/videos-compartidos.component';
 import { GoogleAcademicoComponent } from './google-academico/google-academico.component';
+import { MenuMateriaComponent } from './menu-materia/menu-materia.component';
 
 export const routes: Routes = [
 
@@ -28,5 +29,9 @@ export const routes: Routes = [
             { path: 'google-academico', component: GoogleAcademicoComponent },
         ]
     },
+    {
+        path: 'menu-materia', component: MenuMateriaComponent,        
+    },
+    { path: 'menu-principal', redirectTo: '/menu-principal/materias', pathMatch: 'full' },
     { path: '', redirectTo: '/login/login-component', pathMatch: 'full' },
 ];

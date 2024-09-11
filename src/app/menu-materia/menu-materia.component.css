@@ -1,0 +1,58 @@
+mat-sidenav-container{
+    height: 100vh;
+  }
+  mat-sidenav{
+    width: 300px;
+    padding: 15px;
+
+    transition: 400ms;
+    background: rgb(109,26,66);
+    background: linear-gradient( #b54568 0, rgb(161, 46, 86) 32%, rgba(109,26,66,1) 100%);
+  }
+  mat-sidenav-content{
+    padding: 24px;
+    height: 93%;
+  }
+  
+  .sidenav-header{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+
+  .tit1{
+    color: #1858b9;
+  }
+
+  .tit2{
+    color: #062c64;
+    margin-right: 120px;
+  }
+
+  .texto{
+    color: #FFFFFF;
+  }
+  .mdc-list-item--with-leading-icon .mdc-list-item__start.blanco { color: white; }
+
+  .textoblanco{
+    color: white;
+  }
+
+  .tamanio-auto{
+    width: auto;
+  }
+  .active{
+    border-bottom: solid 2px #FFFFFF;
+  }
+  .sidenav-collapsed{
+    width: 99px;
+  }
+  .sidenav-collapsed-content{
+    margin-left: 100px;
+  }
+  .sidenav-header-collapsed{
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+  }
+  
