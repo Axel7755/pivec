@@ -75,12 +75,12 @@ export class MenuPrincipalComponent {
     {
       icon:'movie',
       name: ' Videos Compartidos',
-      route: ''
+      route: '/menu-principal/videos-compartidos'
     },
     {
       icon:'school',
       name: 'Google Académico',
-      route: ''
+      route: '/menu-principal/google-academico'
     },
     {
       icon:'edit',
