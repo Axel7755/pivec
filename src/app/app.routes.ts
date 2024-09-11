@@ -9,6 +9,8 @@ import { TareasComponent } from './tareas/tareas.component';
 import { VideosCompartidosComponent } from './videos-compartidos/videos-compartidos.component';
 import { GoogleAcademicoComponent } from './google-academico/google-academico.component';
 import { MenuMateriaComponent } from './menu-materia/menu-materia.component';
+import { GeneralAComponent } from './general-a/general-a.component';
+import { TareasAComponent } from './tareas-a/tareas-a.component';
 
 export const routes: Routes = [
 
@@ -30,7 +32,11 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'menu-materia', component: MenuMateriaComponent,        
+        path: 'menu-materia', component: MenuMateriaComponent, 
+        children:[
+            { path: 'general-a', component: GeneralAComponent },
+            { path: 'tareas-a', component: TareasAComponent },
+        ]       
     },
     { path: 'menu-principal', redirectTo: '/menu-principal/materias', pathMatch: 'full' },
     { path: '', redirectTo: '/login/login-component', pathMatch: 'full' },
