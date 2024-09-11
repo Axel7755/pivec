@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleAcademicoService } from './google-academico.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';  // Asegúrate de importar CommonModule
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-google-academico',
-  standalone: true, // Componente independiente
-  imports: [HttpClientModule, FormsModule, CommonModule], // Incluye FormsModule y CommonModule
+  standalone: true,
+  imports: [HttpClientModule, FormsModule, CommonModule],
   templateUrl: './google-academico.component.html',
   styleUrls: ['./google-academico.component.css'],
-  host: { 'ngSkipHydration': '' }  // Esto saltea el proceso de hydration
+  host: { 'ngSkipHydration': '' }
 })
 export class GoogleAcademicoComponent implements OnInit {
   query: string = '';
@@ -24,23 +23,21 @@ export class GoogleAcademicoComponent implements OnInit {
     // Puedes inicializar datos aquí si es necesario
   }
 
-  searchScholar() {
+  async searchScholar() {
     this.isLoading = true;
     this.errorMessage = null;
     this.results = [];
 
     const apiUrl = `https://serpapi.com/search.json?engine=google_scholar&q=${this.query}&api_key=285f0000d24c1d580fa2ac8c40d920ecb2e3e4eaa2846de0594a04885a0de593`;
 
-    this.http.get(apiUrl).subscribe({
-      next: (data: any) => {
-        this.isLoading = false;
-        this.results = data.results || [];
-      },
-      error: (error) => {
-        this.isLoading = false;
-        this.errorMessage = 'Se produjo un error al buscar.';
-        console.error('Error fetching data:', error);
-      }
-    });
+    try {
+      const data: any = await this.http.get(apiUrl).toPromise();
+      this.isLoading = false;
+      this.results = data.results || [];
+    } catch (error) {
+      this.isLoading = false;
+      this.errorMessage = 'Se produjo un error al buscar.';
+      console.error('Error fetching data:', error);
+    }
   }
 }

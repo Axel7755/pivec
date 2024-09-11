@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
 import { GoogleAcademicoComponent } from './google-academico.component';
 
 describe('GoogleAcademicoComponent', () => {
@@ -8,7 +8,8 @@ describe('GoogleAcademicoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoogleAcademicoComponent]
+      declarations: [GoogleAcademicoComponent],
+      imports: [FormsModule]
     })
     .compileComponents();
     
