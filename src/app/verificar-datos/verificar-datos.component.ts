@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { LateralLogin } from '../loging-regis/sub-componentes/lateral.component';
 import { LoginFormComponent } from '../loging-regis/sub-componentes/login-form.component';
@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RegistroDataService, RegistroData } from '../registro-data.service';
 
 
 export interface Horario {
@@ -111,7 +112,24 @@ const ELEMENT_DATA: Horario[] = [
   templateUrl: './verificar-datos.component.html',
   styleUrl: './verificar-datos.component.css'
 })
-export class VerificarDatosComponent {
+export class VerificarDatosComponent implements OnInit {
+  data: RegistroData = { 
+    nombre: '', 
+    boleta: '', 
+    materia: [], 
+    profesor: [], 
+    lunes: [], 
+    martes: [], 
+    miercoles: [], 
+    jueves: [], 
+    viernes: [] 
+  };
+
+  constructor(private dataService: RegistroDataService) {}
+
+  ngOnInit() {
+    this.dataService.currentData.subscribe(data => this.data = data);
+  }
   boleta: string = '2021670048';  // Valor predefinido para la boleta
   nombre: string = 'Luis Francisco Lopez Lopez';  // Valor predefinido para el nombre
   
