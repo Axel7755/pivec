@@ -115,7 +115,8 @@ const ELEMENT_DATA: Horario[] = [
 export class VerificarDatosComponent implements OnInit {
   data: RegistroData = { 
     nombre: '', 
-    boleta: '', 
+    boleta: '',
+    conthash: '', 
     materia: [], 
     profesor: [], 
     lunes: [], 
@@ -132,6 +133,7 @@ export class VerificarDatosComponent implements OnInit {
   }
   boleta: string = '2021670048';  // Valor predefinido para la boleta
   nombre: string = 'Luis Francisco Lopez Lopez';  // Valor predefinido para el nombre
+  conthash: string = 'Luis Francisco Lopez Lopez';
   
   displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   dataSource = ELEMENT_DATA;

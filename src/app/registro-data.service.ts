@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 export interface RegistroData {
   nombre: string;
   boleta: string;
+  conthash: string;
   materia: string[];
   profesor: string[];
   lunes: string[];
@@ -22,6 +23,7 @@ export class RegistroDataService {
   ({ 
     nombre: '',
     boleta: '',
+    conthash: '',
     materia: [],
     profesor: [],
     lunes: [],
