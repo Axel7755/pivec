@@ -11,6 +11,7 @@ import { GoogleAcademicoComponent } from './google-academico/google-academico.co
 import { MenuMateriaComponent } from './menu-materia/menu-materia.component';
 import { GeneralAComponent } from './general-a/general-a.component';
 import { TareasAComponent } from './tareas-a/tareas-a.component';
+import { SubirTareaComponent } from './subir-tarea/subir-tarea.component';
 
 export const routes: Routes = [
 
@@ -36,6 +37,8 @@ export const routes: Routes = [
         children:[
             { path: 'general-a', component: GeneralAComponent },
             { path: 'tareas-a', component: TareasAComponent },
+            { path: 'subir-tarea', component: SubirTareaComponent },
+
         ]       
     },
     { path: 'menu-principal', redirectTo: '/menu-principal/materias', pathMatch: 'full' },

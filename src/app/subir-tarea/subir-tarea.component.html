@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Tarea</title>
+</head>
+
+<body>
+    <div class="contenedor-tarea">
+
+        <div class="contenido-principal">
+            <div class="informacion-materia">
+                <h1>Uriel Alejandro</h1>
+                <p class="vence">Vence: 12/08/2024</p>
+            </div>
+
+            <div class="img-materia">
+                <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+            </div>
+
+            <div class="acciones">
+                <button class="entregar-button" mat-raised-button color="primary"> Entregar</button>
+            </div>
+        </div>
+
+        <div class="info-tarea">
+            <div class="nombre-tarea">
+                <strong>Nombre de tarea:</strong> Tarea 1
+            </div>
+
+            <div class="desc-tarea">
+                <strong>Descripción de la tarea:</strong> Realizar un FODA de uno mismo
+                <div class="buton-download">
+                    <a href="./assets/download/materia1.pdf" download class="download-icon">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="subir-documentos">
+            <button for="documento" class="subir-button" mat-raised-button color="accent">Subir Documentos</button>
+            <input type="file" id="documento" name="documento" multiple style="display: none;">
+        </div>
+
+        <div class="comentarios">
+            <h2>Comentarios</h2>
+            <textarea placeholder="Comentarios del alumno..."></textarea>
+
+            <div class="nuevo-comentario">
+                <input type="text" placeholder="Escribe un comentario..." class="input-comentario">
+                <button class="btn-comentar" mat-raised-button color="primary">Comentar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.subir-button').addEventListener('click', function () {
+            document.getElementById('documento').click();
+        });
+    </script>
+
+</body>
+
+</html>
