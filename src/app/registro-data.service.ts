@@ -5,6 +5,7 @@ export interface RegistroData {
   nombre: string;
   boleta: string;
   conthash: string;
+  correo: string;
   materia: string[];
   profesor: string[];
   lunes: string[];
@@ -24,6 +25,7 @@ export class RegistroDataService {
     nombre: '',
     boleta: '',
     conthash: '',
+    correo: '',
     materia: [],
     profesor: [],
     lunes: [],

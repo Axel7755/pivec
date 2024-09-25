@@ -116,7 +116,8 @@ export class VerificarDatosComponent implements OnInit {
   data: RegistroData = { 
     nombre: '', 
     boleta: '',
-    conthash: '', 
+    conthash: '',
+    correo: '', 
     materia: [], 
     profesor: [], 
     lunes: [], 
