@@ -12,6 +12,7 @@ import { MenuMateriaComponent } from './menu-materia/menu-materia.component';
 import { GeneralAComponent } from './general-a/general-a.component';
 import { TareasAComponent } from './tareas-a/tareas-a.component';
 import { SubirTareaComponent } from './subir-tarea/subir-tarea.component';
+import { VideoPlayerComponent } from './video-player/video-player.component';
 
 export const routes: Routes = [
 
@@ -38,6 +39,7 @@ export const routes: Routes = [
             { path: 'general-a', component: GeneralAComponent },
             { path: 'tareas-a', component: TareasAComponent },
             { path: 'subir-tarea', component: SubirTareaComponent },
+            { path: 'video-player', component: VideoPlayerComponent },
 
         ]       
     },

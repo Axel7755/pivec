@@ -31,13 +31,32 @@
     transform: translateY(-3%);
 }
 
+/* video player */
+.video-container {
+    position: relative;
+    width: 100%; /* Usa todo el ancho de la tarjeta */
+    height: 0; /* Inicialmente, la altura es 0 */
+    padding-bottom: 56.25%; /* Mantener relación de aspecto 16:9 */
+}
+
+.video-player {
+    position: absolute; /* Posicionar el video dentro del contenedor */
+    top: 0;
+    left: 0;
+    width: 100%; /* Asegura que el video ocupe todo el ancho */
+    height: 100%; /* Asegura que el video ocupe toda la altura del contenedor */
+    object-fit: cover; /* Mantiene la relación de aspecto y cubre todo el contenedor */
+}
+
+/* Otros estilos */
+
 img[mat-card-image] {
     width: 100%;
-    height: 250px;
-    /* Ajusta según tus necesidades */
-    object-fit: contain;
-    /* Mantiene la relación de aspecto de la imagen */
+    height: 250px; /* Puedes ajustar esta altura si es necesario */
+    object-fit: contain; /* Mantiene la relación de aspecto de la imagen */
 }
+
+/* fin video player */
 
 .example-header-image {
     background-image: url('../../assets/images/mat1.png');
