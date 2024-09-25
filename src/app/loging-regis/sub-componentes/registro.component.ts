@@ -22,7 +22,6 @@ export class RegistroComponent {
     nombreC: new FormControl(''),
     boleta: new FormControl(''),
   })
-
   nombre = "Axel Tomas Baltierra Hernandez";
   boleta = "3456213454356";
   conthash = "3456213454356";
