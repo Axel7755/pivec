@@ -113,28 +113,35 @@ const ELEMENT_DATA: Horario[] = [
   styleUrl: './verificar-datos.component.css'
 })
 export class VerificarDatosComponent implements OnInit {
+  nombre: string = '';
+  boleta: string = '';
   data: RegistroData = { 
     nombre: '', 
     boleta: '',
     conthash: '',
     correo: '', 
-    materia: [], 
-    profesor: [], 
-    lunes: [], 
-    martes: [], 
-    miercoles: [], 
-    jueves: [], 
-    viernes: [] 
+    materias: {},
+    docentes: {},
+    lunes: {},
+    martes: {},
+    miercoles: {},
+    jueves: {},
+    viernes: {}
   };
 
   constructor(private dataService: RegistroDataService) {}
 
   ngOnInit() {
     this.dataService.currentData.subscribe(data => this.data = data);
+    this.nombre = this.data.nombre
+    this.boleta = this.data.boleta
+    console.log(this.data.lunes)
   }
-  boleta: string = '2021670048';  // Valor predefinido para la boleta
-  nombre: string = 'Luis Francisco Lopez Lopez';  // Valor predefinido para el nombre
-  conthash: string = 'Luis Francisco Lopez Lopez';
+  //boleta: string = '';  // Valor predefinido para la boleta
+  //nombre: string = 'Luis Francisco Lopez Lopez';  // Valor predefinido para el nombre
+  //conthash: string = 'Luis Francisco Lopez Lopez';
+ 
+  
   
   displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   dataSource = ELEMENT_DATA;

@@ -5,14 +5,14 @@ export interface RegistroData {
   nombre: string;
   boleta: string;
   conthash: string;
-  correo: string;
-  materia: string[];
-  profesor: string[];
-  lunes: string[];
-  martes: string[];
-  miercoles: string[];
-  jueves: string[];
-  viernes: string[];
+  correo: string; 
+  materias: { [key: number]: string };
+  docentes: { [key: number]: string };
+  lunes: { [key: number]: string };
+  martes: { [key: number]: string };
+  miercoles: { [key: number]: string };
+  jueves: { [key: number]: string };
+  viernes: { [key: number]: string };
 }
 
 @Injectable({
@@ -26,13 +26,13 @@ export class RegistroDataService {
     boleta: '',
     conthash: '',
     correo: '',
-    materia: [],
-    profesor: [],
-    lunes: [],
-    martes: [],
-    miercoles: [],
-    jueves: [],
-    viernes: []
+    materias: {},
+    docentes: {},
+    lunes: {},
+    martes: {},
+    miercoles: {},
+    jueves: {},
+    viernes: {}
   });
   currentData = this.dataSource.asObservable();
 
