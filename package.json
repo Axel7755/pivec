@@ -26,8 +26,13 @@
     "@videogular/ngx-videogular": "^10.0.0",
     "axios": "^1.7.7",
     "express": "^4.20.0",
+    "file-saver": "^2.0.5",
+    "pdf-lib": "^1.17.1",
+    "pdf-to-excel": "^0.3.2",
+    "pdfjs-dist": "^4.6.82",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

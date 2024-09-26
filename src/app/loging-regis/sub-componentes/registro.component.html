@@ -4,20 +4,21 @@
       Iniciar Sesión
     </h1>
     <form [formGroup]="formReg" class="formulario" >
-      <button mat-raised-button color="accent" class="bonton espacio">Subir horario</button>
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Contraseña</mat-label>
-        <input required type="password" matInput placeholder="Contraseña">
+        <input required formControlName="contr" type="password" matInput placeholder="Contraseña">
       </mat-form-field>
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Confirmar contraseña</mat-label>
-        <input required type="password" matInput placeholder="Contraseña">
+        <input required formControlName="confcontr" type="password" matInput placeholder="Contraseña">
       </mat-form-field>
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Correo de recuperación</mat-label>
-        <input required type="email" matInput placeholder="correo@dominio.com">
+        <input required formControlName="recCorreo" type="email" matInput placeholder="correo@dominio.com">
       </mat-form-field>
-      <button (click)="sendData()"[routerLink]="['/login/verificar-datos']" mat-raised-button color="primary" class="bonton">Iniciar</button>
+      <button (click)="obtenerDataForm()" [disabled]="!formReg.valid" mat-raised-button color="accent" class="bonton espacio">Subir horario</button>
+      <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
+      <button (click)="sendData()" [disabled]="!formReg.valid" [routerLink]="['/login/verificar-datos']" mat-raised-button color="primary" class="bonton">Iniciar</button>
     </form>
     <div class="flex">
       <p class="sub-texto">Cuentas ya con una cuenta? </p>
