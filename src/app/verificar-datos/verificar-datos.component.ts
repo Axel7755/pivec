@@ -25,78 +25,7 @@ export interface Horario {
   viernesSalida: string;
 }
 
-const ELEMENT_DATA: Horario[] = [
-  {
-    materia: 'Matemáticas',
-    docente: 'Dr. Smith',
-    lunesEntrada: '08:30',
-    lunesSalida: '09:30',
-    martesEntrada: '10:00',
-    martesSalida: '11:00',
-    miercolesEntrada: '12:00',
-    miercolesSalida: '13:00',
-    juevesEntrada: '14:00',
-    juevesSalida: '15:00',
-    viernesEntrada: '08:30',
-    viernesSalida: '09:30'
-  },
-  {
-    materia: 'Física',
-    docente: 'Mtra. Johnson',
-    lunesEntrada: '09:30',
-    lunesSalida: '10:30',
-    martesEntrada: '11:00',
-    martesSalida: '12:00',
-    miercolesEntrada: '13:00',
-    miercolesSalida: '14:00',
-    juevesEntrada: '15:00',
-    juevesSalida: '16:00',
-    viernesEntrada: '09:30',
-    viernesSalida: '10:30'
-  },
-  {
-    materia: 'Química',
-    docente: 'Dr. Brown',
-    lunesEntrada: '10:30',
-    lunesSalida: '11:30',
-    martesEntrada: '12:00',
-    martesSalida: '13:00',
-    miercolesEntrada: '14:00',
-    miercolesSalida: '15:00',
-    juevesEntrada: '16:00',
-    juevesSalida: '17:00',
-    viernesEntrada: '10:30',
-    viernesSalida: '11:30'
-  },
-  {
-    materia: 'Historia',
-    docente: 'Mtro. Taylor',
-    lunesEntrada: '11:30',
-    lunesSalida: '12:30',
-    martesEntrada: '13:00',
-    martesSalida: '14:00',
-    miercolesEntrada: '15:00',
-    miercolesSalida: '16:00',
-    juevesEntrada: '08:30',
-    juevesSalida: '09:30',
-    viernesEntrada: '11:30',
-    viernesSalida: '12:30'
-  },
-  {
-    materia: 'Inglés',
-    docente: 'Mtra. Davis',
-    lunesEntrada: '12:30',
-    lunesSalida: '13:30',
-    martesEntrada: '14:00',
-    martesSalida: '15:00',
-    miercolesEntrada: '16:00',
-    miercolesSalida: '17:00',
-    juevesEntrada: '09:30',
-    juevesSalida: '10:30',
-    viernesEntrada: '12:30',
-    viernesSalida: '13:30'
-  },
-];
+const ELEMENT_DATA: Horario[] = [];
 
 @Component({
   selector: 'app-verificar-datos',
@@ -135,14 +64,44 @@ export class VerificarDatosComponent implements OnInit {
     this.dataService.currentData.subscribe(data => this.data = data);
     this.nombre = this.data.nombre
     this.boleta = this.data.boleta
-    console.log(this.data.lunes)
+    const outerKeys = Object.keys(this.data.docentes).map(key => Number(key)); // Obtiene las claves del primer nivel
+    outerKeys.forEach(outerKey => {
+      const [inicioL, endL] = this.separarHoras(this.data.lunes[outerKey-1])
+      const [inicioM, endM] = this.separarHoras(this.data.martes[outerKey-1])
+      const [inicioMi, endMi] = this.separarHoras(this.data.miercoles[outerKey-1])
+      const [inicioJ, endJ] = this.separarHoras(this.data.jueves[outerKey-1])
+      const [inicioV, endV] = this.separarHoras(this.data.viernes[outerKey-1])
+      
+      ELEMENT_DATA.push({
+        materia: this.data.materias[outerKey],
+        docente: this.data.docentes[outerKey],
+        lunesEntrada: inicioL,
+        lunesSalida: endL,
+        martesEntrada: inicioM,
+        martesSalida: endM,
+        miercolesEntrada: inicioMi,
+        miercolesSalida: endMi,
+        juevesEntrada: inicioJ,
+        juevesSalida: endJ,
+        viernesEntrada: inicioV,
+        viernesSalida: endV
+      });
+    });
+    console.log()
+    console.log(this.data.docentes)
+    console.log(this.data.jueves)
   }
   //boleta: string = '';  // Valor predefinido para la boleta
   //nombre: string = 'Luis Francisco Lopez Lopez';  // Valor predefinido para el nombre
   //conthash: string = 'Luis Francisco Lopez Lopez';
  
   
-  
+  separarHoras(timeRange: string): [string, string] {
+    const times = timeRange.split(" - ");
+    const startTime = times[0];
+    const endTime = times[1];
+    return [startTime, endTime];
+  }
   displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   dataSource = ELEMENT_DATA;
 
