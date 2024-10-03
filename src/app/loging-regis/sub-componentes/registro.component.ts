@@ -5,21 +5,32 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { RegistroDataService } from '../../registro-data.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {merge} from 'rxjs';
+import { FormControl, Validators,FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as XLSX from 'xlsx';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/js/pdf.worker.mjs';
 
+
 @Component({
   selector: 'app-registro',
   standalone: true,
   imports: [MatButtonModule, MatInputModule, MatFormFieldModule, MatIconModule,
-    RouterLink, RouterOutlet, ReactiveFormsModule
+    RouterLink, RouterOutlet, ReactiveFormsModule, FormsModule
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
 })
+
 export class RegistroComponent {
   srcResult: any;
   nombre = '';
@@ -40,17 +51,41 @@ export class RegistroComponent {
   formReg = new FormGroup({
     contr: new FormControl(''),
     confcontr: new FormControl(''),
-    recCorreo: new FormControl(''),
+    recCorreo: new FormControl('', [Validators.required, Validators.email]),
   })
-  constructor(private dataService: RegistroDataService) { }
+  errorMessage = '';
+  constructor(private dataService: RegistroDataService, public dialog: MatDialog) { 
+    merge(this.formReg.controls.recCorreo.statusChanges, this.formReg.controls.recCorreo.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage());
+  }
 
+  updateErrorMessage() {
+    if (this.formReg.controls.recCorreo.hasError('required')) {
+      this.errorMessage = 'Ingrese un valor';
+    } else if (this.formReg.controls.recCorreo.hasError('email')) {
+      this.errorMessage = 'Not es un email valido';
+    } else {
+      this.errorMessage = '';
+    }
+  }
 
   obtenerDataForm() {
     const inputNode: any = document.querySelector('#file');
-    inputNode.click()
+    //inputNode.click()
     this.cont = this.formReg.value.contr ?? '';
     this.confcont = this.formReg.value.confcontr ?? '';
     this.correo = this.formReg.value.recCorreo ?? '';
+    if(this.cont!=this.confcont){
+      this.openDialog();
+      //this.formReg.value.recCorreo = '';
+    }else{
+      inputNode.click()
+    }
+  }
+
+  openDialog() {
+    this.dialog.open(DialogElementsExampleDialog);
   }
 
   onFileSelected() {
@@ -255,3 +290,11 @@ export class RegistroComponent {
     });
   }
 }
+
+@Component({
+  selector: 'dialog-elements-example-dialog',
+  templateUrl: 'dialog-contError.html',
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+})
+export class DialogElementsExampleDialog {}

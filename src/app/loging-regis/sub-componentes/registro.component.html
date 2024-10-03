@@ -14,7 +14,10 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Correo de recuperación</mat-label>
-        <input required formControlName="recCorreo" type="email" matInput placeholder="correo@dominio.com">
+        <input matInput placeholder="pat@ejemplo.com" required formControlName="recCorreo"(blur)="updateErrorMessage()">
+        @if (formReg.controls.recCorreo) {
+          <mat-error>{{errorMessage}}</mat-error>
+        }
       </mat-form-field>
       <button (click)="obtenerDataForm()" [disabled]="!formReg.valid" mat-raised-button color="accent" class="bonton espacio">Subir horario</button>
       <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
