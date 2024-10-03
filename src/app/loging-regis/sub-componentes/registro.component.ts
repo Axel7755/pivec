@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { RegistroDataService } from '../../registro-data.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-//import { PdfToExcelService } from '../../pdf-excel.service';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as XLSX from 'xlsx';
 
