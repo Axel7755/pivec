@@ -2,6 +2,15 @@
   padding: 24px;
 }
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+input[type="time"]:focus {
+  outline-color: #6D1A42;
+  box-shadow: none;
+}
+
 mat-sidenav-container {
   height: 100vh;
   background-color: #6D1A42;
@@ -123,10 +132,7 @@ input {
   align-items: flex-start;
 }
 
-.hora-group {
-  margin-bottom: 10px;
-  /* Espacio entre los grupos de entrada y salida */
-}
+
 
 .hora-container label {
   display: block;

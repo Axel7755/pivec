@@ -15,7 +15,7 @@
         <!-- Campo de Boleta -->
         <div class="input-row">
             <mat-form-field class="input-field">
-                <mat-label>Boleta</mat-label>
+                <mat-label>Boleta/No.Trabajador</mat-label>
                 <input matInput placeholder="Boleta" [(ngModel)]="boleta">
             </mat-form-field>
         </div>
@@ -24,7 +24,7 @@
         <div class="input-row">
             <mat-form-field class="input-field">
                 <mat-label>Nombre</mat-label>
-                <input matInput placeholder="Nombre" [(ngModel)]="nombre">
+                <input matInput placeholder="ApellidoPaterno ApellidoMaterno Nombres" [(ngModel)]="nombre">
             </mat-form-field>
         </div>
     </div>
@@ -42,7 +42,7 @@
 
         <!-- docente Column -->
         <ng-container matColumnDef="docente">
-            <th mat-header-cell *matHeaderCellDef class="header-cell-center">Docente</th>
+            <th mat-header-cell *matHeaderCellDef class="header-cell-center">Asignado a</th>
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <mat-form-field>
                     <textarea matInput placeholder="Docente" [(ngModel)]="element.docente"></textarea>
@@ -56,11 +56,11 @@
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <div class="hora-container">
                     <div class="hora-group">
-                        <label for="entrada-lunes">Entrada:</label>
+                        
                         <input id="entrada-lunes" class="hora-entrada" type="time" [(ngModel)]="element.lunesEntrada">
                     </div>
                     <div class="hora-group">
-                        <label for="salida-lunes">Salida:</label>
+                        <label for="salida-lunes">-</label>
                         <input id="salida-lunes" class="hora-salida" type="time" [(ngModel)]="element.lunesSalida">
                     </div>
                 </div>
@@ -73,11 +73,10 @@
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <div class="hora-container">
                     <div class="hora-group">
-                        <label for="entrada-martes">Entrada:</label>
                         <input id="entrada-martes" class="hora-entrada" type="time" [(ngModel)]="element.martesEntrada">
                     </div>
                     <div class="hora-group">
-                        <label for="salida-martes">Salida:</label>
+                        <label for="salida-martes">-</label>
                         <input id="salida-martes" class="hora-salida" type="time" [(ngModel)]="element.martesSalida">
                     </div>
                 </div>
@@ -90,12 +89,12 @@
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <div class="hora-container">
                     <div class="hora-group">
-                        <label for="entrada-miercoles">Entrada:</label>
+                        <label for="entrada-miercoles"></label>
                         <input id="entrada-miercoles" class="hora-entrada" type="time"
                             [(ngModel)]="element.miercolesEntrada">
                     </div>
                     <div class="hora-group">
-                        <label for="salida-miercoles">Salida:</label>
+                        <label for="salida-miercoles">-</label>
                         <input id="salida-miercoles" class="hora-salida" type="time"
                             [(ngModel)]="element.miercolesSalida">
                     </div>
@@ -109,11 +108,11 @@
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <div class="hora-container">
                     <div class="hora-group">
-                        <label for="entrada-jueves">Entrada:</label>
+                        <label for="entrada-jueves"></label>
                         <input id="entrada-jueves" class="hora-entrada" type="time" [(ngModel)]="element.juevesEntrada">
                     </div>
                     <div class="hora-group">
-                        <label for="salida-jueves">Salida:</label>
+                        <label for="salida-jueves">-</label>
                         <input id="salida-jueves" class="hora-salida" type="time" [(ngModel)]="element.juevesSalida">
                     </div>
                 </div>
@@ -126,12 +125,12 @@
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <div class="hora-container">
                     <div class="hora-group">
-                        <label for="entrada-viernes">Entrada:</label>
+                        <label for="entrada-viernes"></label>
                         <input id="entrada-viernes" class="hora-entrada" type="time"
                             [(ngModel)]="element.viernesEntrada">
                     </div>
                     <div class="hora-group">
-                        <label for="salida-viernes">Salida:</label>
+                        <label for="salida-viernes">-</label>
                         <input id="salida-viernes" class="hora-salida" type="time" [(ngModel)]="element.viernesSalida">
                     </div>
                 </div>

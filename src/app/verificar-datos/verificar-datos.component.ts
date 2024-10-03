@@ -41,6 +41,7 @@ const ELEMENT_DATA: Horario[] = [];
   templateUrl: './verificar-datos.component.html',
   styleUrl: './verificar-datos.component.css'
 })
+
 export class VerificarDatosComponent implements OnInit {
   nombre: string = '';
   boleta: string = '';
@@ -59,7 +60,16 @@ export class VerificarDatosComponent implements OnInit {
   };
 
   constructor(private dataService: RegistroDataService) {}
-
+  ngAfterViewInit() {
+    const timeInputs = document.querySelectorAll('input[type="time"]');
+    
+    timeInputs.forEach(input => {
+      input.addEventListener('click', () => {
+        (input as HTMLInputElement).showPicker();
+      });
+    });
+  }
+  
   ngOnInit() {
     this.dataService.currentData.subscribe(data => this.data = data);
     this.nombre = this.data.nombre
@@ -87,9 +97,6 @@ export class VerificarDatosComponent implements OnInit {
         viernesSalida: endV
       });
     });
-    console.log()
-    console.log(this.data.docentes)
-    console.log(this.data.jueves)
   }
   //boleta: string = '';  // Valor predefinido para la boleta
   //nombre: string = 'Luis Francisco Lopez Lopez';  // Valor predefinido para el nombre
@@ -98,8 +105,15 @@ export class VerificarDatosComponent implements OnInit {
   
   separarHoras(timeRange: string): [string, string] {
     const times = timeRange.split(" - ");
-    const startTime = times[0];
-    const endTime = times[1];
+    var startTime = times[0];
+    var endTime = times[1];
+    if(startTime.length == 4){
+      startTime="0"+startTime;
+    }
+    
+    if(endTime!== null && endTime !== undefined && endTime.length == 4){
+      endTime="0"+endTime;
+    }
     return [startTime, endTime];
   }
   displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
