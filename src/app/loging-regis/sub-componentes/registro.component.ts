@@ -64,7 +64,7 @@ export class RegistroComponent {
     if (this.formReg.controls.recCorreo.hasError('required')) {
       this.errorMessage = 'Ingrese un valor';
     } else if (this.formReg.controls.recCorreo.hasError('email')) {
-      this.errorMessage = 'Not es un email valido';
+      this.errorMessage = 'No es un email valido';
     } else {
       this.errorMessage = '';
     }
