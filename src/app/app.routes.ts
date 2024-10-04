@@ -13,6 +13,7 @@ import { GeneralAComponent } from './general-a/general-a.component';
 import { TareasAComponent } from './tareas-a/tareas-a.component';
 import { SubirTareaComponent } from './subir-tarea/subir-tarea.component';
 import { VideoPlayerComponent } from './video-player/video-player.component';
+import { CrearTareasDComponent } from './crear-tareas-d/crear-tareas-d.component';
 
 export const routes: Routes = [
 
@@ -40,6 +41,8 @@ export const routes: Routes = [
             { path: 'tareas-a', component: TareasAComponent },
             { path: 'subir-tarea', component: SubirTareaComponent },
             { path: 'video-player', component: VideoPlayerComponent },
+            { path: 'crear-tareas-d', component: CrearTareasDComponent },
+
 
         ]       
     },

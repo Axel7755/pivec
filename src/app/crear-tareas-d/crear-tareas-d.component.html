@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Tareas Docente</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1>Subir archivos</h1>
+            <p>Sube los archivos que quieras compartir con tus alumnos</p>
+            <p>Se permiten archivos: PDF, Imágenes y Videos</p>
+        </div>
+
+        <div class="drop-section" #dropArea (dragover)="onDragOver($event)" (dragleave)="onDragLeave()"
+            (drop)="onDrop($event)">
+            <div class="col">
+                <div class="cloud-icon">
+                    <img src="../../assets/icons/cloud2.png" alt="cloud">
+                </div>
+                <span>Arrastra y suelta tus archivos aquí</span>
+                <span>O</span>
+                <button class="file-selector" (click)="onFileSelectorClick()">Buscar archivos</button>
+                <input #fileSelectorInput type="file" (change)="onFileChange()" style="display: none;" multiple />
+            </div>
+            <div class="col">
+                <div class="drop-here">Soltar aquí</div>
+            </div>
+        </div>
+
+        <div class="list-section">
+            <div class="list-title">Archivos Subidos</div>
+            <div class="list">
+                <ul #listContainer>
+                    <!-- Aquí se mostrarán los archivos cargados -->
+                </ul>
+            </div>
+
+            
+        </div>
+
+
+    </div>
+</body>
+
+</html>
