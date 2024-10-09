@@ -1,4 +1,4 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../config/dbConfig.js");
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -34,10 +34,10 @@ db.Horarios = require("./horarios.js")(sequelize, Sequelize);
 db.GruposAlumnos = require("./grupos_alumnos.js")(sequelize, Sequelize);
 
 // Aquí puedes definir las asociaciones si es necesario
-Object.keys(db).forEach(modelName => {
+/*Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
-});
+});*/
 
 module.exports = db;
