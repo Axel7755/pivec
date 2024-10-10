@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const tarea = {
-        idTareas: req.body.idTareas,
         descripcion: req.body.descripcion,
         fechaEntrega: req.body.fechaEntrega,
         ta_idmaterias: req.body.ta_idmaterias,

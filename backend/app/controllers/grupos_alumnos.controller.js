@@ -42,31 +42,41 @@ exports.findAll = (req, res) => {
 
 // Obtener un GrupoAlumno por id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { ga_idmaterias, ga_idgrupos, ga_boleta } = req.params;
 
-    GruposAlumnos.findByPk(id)
+    GruposAlumnos.findOne({
+        where: {
+            ga_idmaterias,
+            ga_idgrupos,
+            ga_boleta
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el GrupoAlumno con id=${id}.`
+                    message: `No se puede encontrar el GrupoAlumno con idmaterias=${ga_idmaterias}, idgrupos=${ga_idgrupos}, boleta=${ga_boleta}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el GrupoAlumno con id=" + id
+                message: "Error al recuperar el GrupoAlumno con idmaterias=" + ga_idmaterias + ", idgrupos=" + ga_idgrupos + ", boleta=" + ga_boleta
             });
         });
 };
 
 // Actualizar un GrupoAlumno por id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { ga_idmaterias, ga_idgrupos, ga_boleta } = req.params;
 
     GruposAlumnos.update(req.body, {
-        where: { ga_idmaterias: id }
+        where: {
+            ga_idmaterias,
+            ga_idgrupos,
+            ga_boleta
+        }
     })
         .then(num => {
             if (num == 1) {
@@ -75,23 +85,27 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el GrupoAlumno con id=${id}. Tal vez el GrupoAlumno no fue encontrado o req.body está vacío!`
+                    message: `No se puede actualizar el GrupoAlumno con idmaterias=${ga_idmaterias}, idgrupos=${ga_idgrupos}, boleta=${ga_boleta}. Tal vez el GrupoAlumno no fue encontrado o req.body está vacío!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el GrupoAlumno con id=" + id
+                message: "Error al actualizar el GrupoAlumno con idmaterias=" + ga_idmaterias + ", idgrupos=" + ga_idgrupos + ", boleta=" + ga_boleta
             });
         });
 };
 
 // Eliminar un GrupoAlumno por id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { ga_idmaterias, ga_idgrupos, ga_boleta } = req.params;
 
     GruposAlumnos.destroy({
-        where: { ga_idmaterias: id }
+        where: {
+            ga_idmaterias,
+            ga_idgrupos,
+            ga_boleta
+        }
     })
         .then(num => {
             if (num == 1) {
@@ -100,13 +114,13 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el GrupoAlumno con id=${id}. Tal vez el GrupoAlumno no fue encontrado!`
+                    message: `No se puede eliminar el GrupoAlumno con idmaterias=${ga_idmaterias}, idgrupos=${ga_idgrupos}, boleta=${ga_boleta}. Tal vez el GrupoAlumno no fue encontrado!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el GrupoAlumno con id=" + id
+                message: "No se pudo eliminar el GrupoAlumno con idmaterias=" + ga_idmaterias + ", idgrupos=" + ga_idgrupos + ", boleta=" + ga_boleta
             });
         });
 };

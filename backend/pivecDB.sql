@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS `dbPIEC`.`alumnos` (
   `nombres_Al` VARCHAR(45) NOT NULL,
   `apellidoP_Al` VARCHAR(30) NOT NULL,
   `apellidoM_Al` VARCHAR(30) NULL,
-  `correoRec` VARCHAR(80) NOT NULL,
+  `contraseña_Al` VARCHAR(40) NOT NULL,
+  `correoRec_Al` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`boleta`))
 ENGINE = InnoDB;
 
@@ -43,7 +44,8 @@ CREATE TABLE IF NOT EXISTS `dbPIEC`.`docentes` (
   `nombres_Do` VARCHAR(45) NOT NULL,
   `apellidoP_Do` VARCHAR(30) NOT NULL,
   `apellidoM_Do` VARCHAR(30) NULL,
-  `correoRec` VARCHAR(80) NOT NULL,
+  `contraseña_Do` VARCHAR(40) NOT NULL,
+  `correoRec_Do` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`noTrabajador`))
 ENGINE = InnoDB;
 
@@ -54,7 +56,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`materias` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`materias` (
-  `idmaterias` INT NOT NULL,
+  `idmaterias` INT NOT NULL AUTO_INCREMENT,
   `material` VARCHAR(70) NULL,
   PRIMARY KEY (`idmaterias`))
 ENGINE = InnoDB;
@@ -66,7 +68,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`videos` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`videos` (
-  `idvideos` INT NOT NULL,
+  `idvideos` INT NOT NULL AUTO_INCREMENT,
   `titulo_V` VARCHAR(100) NOT NULL,
   `dirección_V` LONGTEXT NOT NULL,
   `v_boleta` INT(11) NOT NULL,
@@ -119,7 +121,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`grabaciones` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`grabaciones` (
-  `idgrabaciones` INT NOT NULL,
+  `idgrabaciones` INT NOT NULL AUTO_INCREMENT,
   `dirección_G` LONGTEXT NOT NULL,
   `titulo_G` VARCHAR(100) NOT NULL,
   `g_fecha` DATETIME NOT NULL,
@@ -141,7 +143,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`tareas` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`tareas` (
-  `idtareas` INT NOT NULL,
+  `idtareas` INT NOT NULL AUTO_INCREMENT,
   `titulo_T` VARCHAR(255) NOT NULL,
   `descripción_T` LONGTEXT NOT NULL,
   `ta_idmaterias` INT NOT NULL,
@@ -189,8 +191,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`documentos` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`documentos` (
-  `iddocumentos` INT NOT NULL,
+  `iddocumentos` INT NOT NULL AUTO_INCREMENT,
   `dircción_D` LONGTEXT NOT NULL,
+  `nombre_D` VARCHAR(200) NOT NUll,
   `d_idtareas` INT NOT NULL,
   `d_idgrupos` VARCHAR(6) NOT NULL,
   `d_boleta` INT(11) NOT NULL,
@@ -210,7 +213,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`Comentarios` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`Comentarios` (
-  `idComentarios` INT NOT NULL,
+  `idComentarios` INT NOT NULL AUTO_INCREMENT,
   `Comentario` LONGTEXT NOT NULL,
   `c_idtareas` INT NOT NULL,
   `c_idgrupos` VARCHAR(6) NOT NULL,
@@ -233,7 +236,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`avisos` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`avisos` (
-  `idAviso` INT NOT NULL,
+  `idAviso` INT NOT NULL AUTO_INCREMENT,
   `aviso` LONGTEXT NOT NULL,
   `a_fecha` DATETIME NOT NULL,
   `av_idmaterias` INT NOT NULL,
@@ -254,13 +257,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbPIEC`.`horarios` ;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`horarios` (
-  `Horarios` INT NOT NULL,
+  `idHorarios` INT NOT NULL AUTO_INCREMENT,
   `dia` VARCHAR(11) NOT NULL,
   `entrada` TIME NOT NULL,
   `salida` TIME NOT NULL,
   `ho_idmaterias` INT NOT NULL,
   `ho_idgrupos` VARCHAR(6) NOT NULL,
-  PRIMARY KEY (`Horarios`, `ho_idmaterias`, `ho_idgrupos`),
+  PRIMARY KEY (`idHorarios`, `ho_idmaterias`, `ho_idgrupos`),
   INDEX `fk_horarios_grupos1_idx` (`ho_idmaterias` ASC, `ho_idgrupos` ASC) ,
   CONSTRAINT `fk_horarios_grupos1`
     FOREIGN KEY (`ho_idmaterias` , `ho_idgrupos`)

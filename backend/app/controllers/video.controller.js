@@ -43,31 +43,41 @@ exports.findAll = (req, res) => {
 
 // Obtener un Video por id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { v_idmaterias, v_boleta, idvideos } = req.params;
 
-    Videos.findByPk(id)
+    Videos.findOne({
+        where: {
+            v_idmaterias,
+            v_boleta,
+            idvideos
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Video con id=${id}.`
+                    message: `No se puede encontrar el Video con id=${idvideos}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Video con id=" + id
+                message: "Error al recuperar el Video con id=" + idvideos
             });
         });
 };
 
 // Actualizar un Video por id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { v_idmaterias, v_boleta, idvideos } = req.params;
 
     Videos.update(req.body, {
-        where: { idvideos: id }
+        where: {
+            v_idmaterias,
+            v_boleta,
+            idvideos
+        }
     })
         .then(num => {
             if (num == 1) {
@@ -76,23 +86,27 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Video con id=${id}. Tal vez el Video no fue encontrado o req.body está vacío!`
+                    message: `No se puede actualizar el Video con id=${idvideos}. Tal vez el Video no fue encontrado o req.body está vacío!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Video con id=" + id
+                message: "Error al actualizar el Video con id=" + idvideos
             });
         });
 };
 
 // Eliminar un Video por id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { v_idmaterias, v_boleta, idvideos } = req.params;
 
     Videos.destroy({
-        where: { idvideos: id }
+        where: {
+            v_idmaterias,
+            v_boleta,
+            idvideos
+        }
     })
         .then(num => {
             if (num == 1) {
@@ -101,13 +115,13 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Video con id=${id}. Tal vez el Video no fue encontrado!`
+                    message: `No se puede eliminar el Video con id=${idvideos}. Tal vez el Video no fue encontrado!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Video con id=" + id
+                message: "No se pudo eliminar el Video con id=" + idvideos
             });
         });
 };

@@ -2,6 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const Videos = sequelize.define("videos", {
         idvideos: {
             type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
         titulo_V: {

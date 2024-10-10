@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const documento = {
-        idDocumentos: req.body.idDocumentos,
         titulo: req.body.titulo,
         contenido: req.body.contenido,
         doc_idmaterias: req.body.doc_idmaterias,

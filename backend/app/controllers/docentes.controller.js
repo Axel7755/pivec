@@ -17,7 +17,8 @@ exports.create = (req, res) => {
         nombres_Do: req.body.nombres_Do,
         apellidoP_Do: req.body.apellidoP_Do,
         apellidoM_Do: req.body.apellidoM_Do,
-        correoRec: req.body.correoRec
+        contraseña_Do: req.body.contraseña_Do,
+        correoRec_Do: req.body.correoRec_Do
     };
 
     // Guardar Alumno en la base de datos

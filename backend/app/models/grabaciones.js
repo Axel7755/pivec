@@ -2,6 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const Grabaciones = sequelize.define("grabaciones", {
         idgrabaciones: {
             type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
         dirección_G: {

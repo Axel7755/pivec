@@ -2,6 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const Documentos = sequelize.define("documentos", {
         iddocumentos: {
             type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
         dircción_D: {

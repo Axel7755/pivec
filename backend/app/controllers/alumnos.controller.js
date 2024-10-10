@@ -17,7 +17,8 @@ exports.create = (req, res) => {
         nombres_Al: req.body.nombres_Al,
         apellidoP_Al: req.body.apellidoP_Al,
         apellidoM_Al: req.body.apellidoM_Al,
-        correoRec: req.body.correoRec
+        contraseña_Al: req.body.contraseña_Al,
+        correoRec_Al: req.body.correoRec_Al
     };
 
     // Guardar Alumno en la base de datos
@@ -35,15 +36,17 @@ exports.create = (req, res) => {
 // Obtener todos los Alumnos
 exports.findAll = (req, res) => {
     Alumnos.findAll()
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Alumnos."
-            });
+      .then(data => {
+        console.log("Data retrieved: ", data); // Log de los datos recuperados
+        res.send(data);
+      })
+      .catch(err => {
+        console.error("Error retrieving data: ", err); // Log del error
+        res.status(500).send({
+          message: err.message || "Ocurrió un error al recuperar los Alumnos."
         });
-};
+      });
+  };
 
 // Obtener un Alumno por id
 exports.findOne = (req, res) => {

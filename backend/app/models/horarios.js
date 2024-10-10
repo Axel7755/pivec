@@ -1,7 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
     const Horarios = sequelize.define("horarios", {
-        Horarios: {
+        idHorarios: {
             type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
         dia: {
