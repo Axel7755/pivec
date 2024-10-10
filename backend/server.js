@@ -16,20 +16,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 
 const connectWithRetry = () => {
-  return db.sequelize.sync()
+  db.sequelize.sync({ force: true })
     .then(() => {
-      console.log("Synced db.");
+      console.log("Database synchronized with force.");
     })
     .catch((err) => {
-      console.error("Failed to sync db: " + err.message);
+      console.error("Failed to synchronize database: " + err.message);
+
       setTimeout(connectWithRetry, 5000);
     });
 };
 
 connectWithRetry();
 
+const alumnosRouter = require("./app/routes/alumnos.routes.js");
+const docentesRouter = require("./app/routes/docentes.routes.js");
+
+app.use("/api/alumnos", alumnosRouter);
+app.use("/api/docentes", docentesRouter);
+
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to the application." });
 });
 
 const PORT = process.env.PORT || 8080;
