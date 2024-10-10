@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const horario = {
-        Horarios: req.body.Horarios,
         dia: req.body.dia,
         entrada: req.body.entrada,
         salida: req.body.salida,

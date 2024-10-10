@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const grabacion = {
-        idgrabaciones: req.body.idgrabaciones,
         dirección_G: req.body.dirección_G,
         titulo_G: req.body.titulo_G,
         g_fecha: req.body.g_fecha,

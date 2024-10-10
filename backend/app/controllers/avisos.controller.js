@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const aviso = {
-        idAviso: req.body.idAviso,
         aviso: req.body.aviso,
         a_fecha: req.body.a_fecha,
         av_idmaterias: req.body.av_idmaterias,

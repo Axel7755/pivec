@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const comentario = {
-        idComentarios: req.body.idComentarios,
         comentario: req.body.comentario,
         fecha: req.body.fecha,
         com_idvideos: req.body.com_idvideos,

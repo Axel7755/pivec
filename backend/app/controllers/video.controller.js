@@ -11,7 +11,6 @@ exports.create = (req, res) => {
     }
 
     const video = {
-        idvideos: req.body.idvideos,
         titulo_V: req.body.titulo_V,
         dirección_V: req.body.dirección_V,
         v_boleta: req.body.v_boleta,
