@@ -2,8 +2,10 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const cors = require('cors');
 
 const app = express();
+app.use(cors()); // Habilitar CORS
 
 // Configurar almacenamiento para Multer
 const storage = multer.diskStorage({
@@ -21,22 +23,30 @@ const storage = multer.diskStorage({
         let version = 1; // Comenzar con la versión 1
 
         // Si el archivo original ya existe, comenzar a agregar versiones
-        if (fs.existsSync(filePath)) {
-            // Generar nombres con versión hasta encontrar uno disponible
-            while (fs.existsSync(filePath)) {
-                version++;
-                newFileName = `${baseName}-v${version}${extension}`;
-                filePath = path.join(uploadDir, newFileName);
-            }
+        while (fs.existsSync(filePath)) {
+            version++;
+            newFileName = `${baseName}-v${version}${extension}`;
+            filePath = path.join(uploadDir, newFileName);
         }
 
         // Devolver el nombre final que no esté en uso
         cb(null, newFileName);
     }
-
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = /jpeg|jpg|png|gif|pdf|docx|zip/; // Tipos permitidos
+        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = allowedTypes.test(file.mimetype);
+
+        if (extname && mimetype) {
+            return cb(null, true);
+        }
+        cb('Error: El archivo no es un tipo permitido');
+    }
+});
 
 // Ruta para subir archivos
 app.post('/upload', upload.single('file'), (req, res) => {
