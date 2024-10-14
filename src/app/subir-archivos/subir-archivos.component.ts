@@ -9,15 +9,14 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-crear-tareas-d',
+  selector: 'app-subir-archivos',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './crear-tareas-d.component.html',
-  styleUrl: './crear-tareas-d.component.css',
+  templateUrl: './subir-archivos.component.html',
+  styleUrl: './subir-archivos.component.css',
   host: { 'ngSkipHydration': '' }
-
 })
-export class CrearTareasDComponent implements OnInit {
+export class SubirArchivosComponent implements OnInit {
 
   @ViewChild('fileSelectorInput') fileSelectorInput!: ElementRef<HTMLInputElement>;
   @ViewChild('dropArea') dropArea!: ElementRef<HTMLDivElement>;
