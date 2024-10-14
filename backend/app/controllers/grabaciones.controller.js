@@ -1,15 +1,8 @@
 const db = require("../models");
-const Grabaciones = db.Grabaciones;
+const Grabaciones = db.grabaciones;
 
-// Crear y guardar una nueva Grabación
+// Create a new video
 exports.create = (req, res) => {
-    if (!req.body.idgrabaciones) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const grabacion = {
         dirección_G: req.body.dirección_G,
         titulo_G: req.body.titulo_G,
@@ -24,12 +17,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear la Grabación."
+                message: err.message || "Ocurrio un error al crear guardar la grabación"
             });
         });
 };
 
-// Obtener todas las Grabaciones
+// Retrieve all videos
 exports.findAll = (req, res) => {
     Grabaciones.findAll()
         .then(data => {
@@ -37,78 +30,92 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar las Grabaciones."
+                message: err.message || "Ocurrio un error al recuperar las grabaciones."
             });
         });
 };
 
-// Obtener una Grabación por id
+// Retrieve a single video by id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { idgrabaciones, gr_idmaterias, gr_idgrupos } = req.params;
 
-    Grabaciones.findByPk(id)
+    Grabaciones.findOne({
+        where: {
+            idgrabaciones: idgrabaciones,
+            gr_idmaterias: gr_idmaterias,
+            gr_idgrupos: gr_idgrupos
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar la Grabación con id=${id}.`
+                    message: `No se encontro la grabación con id ${idgrabaciones}, materia ${gr_idmaterias}, y grupo ${gr_idgrupos}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar la Grabación con id=" + id
+                message: err.message || "Error al recuperar grabación."
             });
         });
 };
 
-// Actualizar una Grabación por id
+// Update a video by id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { idgrabaciones, gr_idmaterias, gr_idgrupos } = req.params;
 
     Grabaciones.update(req.body, {
-        where: { idgrabaciones: id }
+        where: {
+            idgrabaciones: idgrabaciones,
+            gr_idmaterias: gr_idmaterias,
+            gr_idgrupos: gr_idgrupos
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "La Grabación fue actualizada exitosamente."
+                    message: "La grabación se actualizo con exito."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar la Grabación con id=${id}. Tal vez la Grabación no fue encontrada o req.body está vacío!`
+                    message: `No se pudo actualizar la grabación con id ${idgrabaciones}, materia ${gr_idmaterias}, y grupo ${gr_idgrupos}. Tal vez el Video no fue encontrado o req.body está vacío!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar la Grabación con id=" + id
+                message: err.message || "Error al actualizar grabación"
             });
         });
 };
 
-// Eliminar una Grabación por id
+// Delete a video by id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { idgrabaciones, gr_idmaterias, gr_idgrupos } = req.params;
 
     Grabaciones.destroy({
-        where: { idgrabaciones: id }
+        where: {
+            idgrabaciones: idgrabaciones,
+            gr_idmaterias: gr_idmaterias,
+            gr_idgrupos: gr_idgrupos
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "La Grabación fue eliminada exitosamente!"
+                    message: "Grabación eliminada"
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar la Grabación con id=${id}. Tal vez la Grabación no fue encontrada!`
+                    message: `No es posible eliminar grabacion con id ${idgrabaciones}, materia ${gr_idmaterias}, y grupos ${gr_idgrupos}. Tal vez la grabacion no fue encontrada`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar la Grabación con id=" + id
+                message: err.message || "No se pudo eliminar la grabación"
             });
         });
 };

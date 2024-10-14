@@ -1,15 +1,8 @@
 const db = require("../models");
-const Avisos = db.Avisos;
+const Avisos = db.avisos;
 
-// Crear y guardar un nuevo Aviso
+// Crear un nuevo aviso
 exports.create = (req, res) => {
-    if (!req.body.idAviso) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const aviso = {
         aviso: req.body.aviso,
         a_fecha: req.body.a_fecha,
@@ -23,12 +16,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Aviso."
+                message: err.message || "Ocurrió un error al crear el aviso."
             });
         });
 };
 
-// Obtener todos los Avisos
+// Obtener todos los avisos
 exports.findAll = (req, res) => {
     Avisos.findAll()
         .then(data => {
@@ -36,78 +29,92 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Avisos."
+                message: err.message || "Ocurrió un error al recuperar los avisos."
             });
         });
 };
 
-// Obtener un Aviso por id
+// Obtener un aviso por id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { idAviso, av_idmaterias, av_idgrupos } = req.params;
 
-    Avisos.findByPk(id)
+    Avisos.findOne({
+        where: {
+            idAviso: idAviso,
+            av_idmaterias: av_idmaterias,
+            av_idgrupos: av_idgrupos
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Aviso con id=${id}.`
+                    message: `No se encontró el aviso con id ${idAviso}, materias ${av_idmaterias}, y grupos ${av_idgrupos}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Aviso con id=" + id
+                message: err.message || "Ocurrió un error al recuperar el aviso."
             });
         });
 };
 
-// Actualizar un Aviso por id
+// Actualizar un aviso por id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { idAviso, av_idmaterias, av_idgrupos } = req.params;
 
     Avisos.update(req.body, {
-        where: { idAviso: id }
+        where: {
+            idAviso: idAviso,
+            av_idmaterias: av_idmaterias,
+            av_idgrupos: av_idgrupos
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Aviso fue actualizado exitosamente."
+                    message: "El aviso fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Aviso con id=${id}. Tal vez el Aviso no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el aviso con id ${idAviso}, materias ${av_idmaterias}, y grupos ${av_idgrupos}. Quizás el aviso no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Aviso con id=" + id
+                message: err.message || "Ocurrió un error al actualizar el aviso."
             });
         });
 };
 
-// Eliminar un Aviso por id
+// Eliminar un aviso por id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { idAviso, av_idmaterias, av_idgrupos } = req.params;
 
     Avisos.destroy({
-        where: { idAviso: id }
+        where: {
+            idAviso: idAviso,
+            av_idmaterias: av_idmaterias,
+            av_idgrupos: av_idgrupos
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Aviso fue eliminado exitosamente!"
+                    message: "El aviso fue eliminado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Aviso con id=${id}. Tal vez el Aviso no fue encontrado!`
+                    message: `No se pudo eliminar el aviso con id ${idAviso}, materias ${av_idmaterias}, y grupos ${av_idgrupos}. Quizás el aviso no fue encontrado.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Aviso con id=" + id
+                message: err.message || "Ocurrió un error al eliminar el aviso."
             });
         });
 };

@@ -1,15 +1,8 @@
 const db = require("../models");
-const Horarios = db.Horarios;
+const Horarios = db.horarios;
 
-// Crear y guardar un nuevo Horario
+// Crear un nuevo horario
 exports.create = (req, res) => {
-    if (!req.body.Horarios) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const horario = {
         dia: req.body.dia,
         entrada: req.body.entrada,
@@ -24,12 +17,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Horario."
+                message: err.message || "Ocurrió un error al crear el horario."
             });
         });
 };
 
-// Obtener todos los Horarios
+// Obtener todos los horarios
 exports.findAll = (req, res) => {
     Horarios.findAll()
         .then(data => {
@@ -37,78 +30,92 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Horarios."
+                message: err.message || "Ocurrió un error al recuperar los horarios."
             });
         });
 };
 
-// Obtener un Horario por id
+// Obtener un horario por id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { idHorarios, ho_idmaterias, ho_idgrupos } = req.params;
 
-    Horarios.findByPk(id)
+    Horarios.findOne({
+        where: {
+            idHorarios: idHorarios,
+            ho_idmaterias: ho_idmaterias,
+            ho_idgrupos: ho_idgrupos
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Horario con id=${id}.`
+                    message: `No se encontró el horario con id ${idHorarios}, materias ${ho_idmaterias}, y grupos ${ho_idgrupos}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Horario con id=" + id
+                message: err.message || "Ocurrió un error al recuperar el horario."
             });
         });
 };
 
-// Actualizar un Horario por id
+// Actualizar un horario por id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { idHorarios, ho_idmaterias, ho_idgrupos } = req.params;
 
     Horarios.update(req.body, {
-        where: { Horarios: id }
+        where: {
+            idHorarios: idHorarios,
+            ho_idmaterias: ho_idmaterias,
+            ho_idgrupos: ho_idgrupos
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Horario fue actualizado exitosamente."
+                    message: "El horario fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Horario con id=${id}. Tal vez el Horario no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el horario con id ${idHorarios}, materias ${ho_idmaterias}, y grupos ${ho_idgrupos}. Quizás el horario no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Horario con id=" + id
+                message: err.message || "Ocurrió un error al actualizar el horario."
             });
         });
 };
 
-// Eliminar un Horario por id
+// Eliminar un horario por id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { idHorarios, ho_idmaterias, ho_idgrupos } = req.params;
 
     Horarios.destroy({
-        where: { Horarios: id }
+        where: {
+            idHorarios: idHorarios,
+            ho_idmaterias: ho_idmaterias,
+            ho_idgrupos: ho_idgrupos
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Horario fue eliminado exitosamente!"
+                    message: "El horario fue eliminado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Horario con id=${id}. Tal vez el Horario no fue encontrado!`
+                    message: `No se pudo eliminar el horario con id ${idHorarios}, materias ${ho_idmaterias}, y grupos ${ho_idgrupos}. Quizás el horario no fue encontrado.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Horario con id=" + id
+                message: err.message || "Ocurrió un error al eliminar el horario."
             });
         });
 };
