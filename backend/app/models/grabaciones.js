@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
         idgrabaciones: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
         dirección_G: {
             type: Sequelize.TEXT,
@@ -19,16 +20,35 @@ module.exports = (sequelize, Sequelize) => {
         },
         gr_idmaterias: {
             type: Sequelize.INTEGER,
+            primaryKey: true,
             allowNull: false
         },
         gr_idgrupos: {
             type: Sequelize.STRING(6),
+            primaryKey: true,
             allowNull: false
         }
     }, {
         indexes: [
             {
+                name: 'fk_grabaciones_grupos1_idx',
                 fields: ['gr_idmaterias', 'gr_idgrupos']
+            },
+            {
+                name: 'grabaciones_gr_idmaterias_gr_idgrupos',
+                fields: ['gr_idmaterias', 'gr_idgrupos']
+            }
+        ],
+        foreignKeys: [
+            {
+                name: 'fk_grabaciones_grupos1',
+                field: ['gr_idmaterias', 'gr_idgrupos'],
+                references: {
+                    table: 'grupos',
+                    field: ['g_idmaterias', 'idgrupos']
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             }
         ]
     });
@@ -36,15 +56,11 @@ module.exports = (sequelize, Sequelize) => {
     Grabaciones.associate = (models) => {
         Grabaciones.belongsTo(models.Grupos, {
             foreignKey: 'gr_idmaterias',
-            targetKey: 'g_idmaterias',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            targetKey: 'g_idmaterias'
         });
         Grabaciones.belongsTo(models.Grupos, {
             foreignKey: 'gr_idgrupos',
-            targetKey: 'idgrupos',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            targetKey: 'idgrupos'
         });
     };
 

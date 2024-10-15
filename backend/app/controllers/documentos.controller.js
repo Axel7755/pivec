@@ -1,20 +1,13 @@
 const db = require("../models");
-const Documentos = db.Documentos;
+const Documentos = db.documentos;
 
-// Crear y guardar un nuevo Documento
+// Crear un nuevo documento
 exports.create = (req, res) => {
-    if (!req.body.idDocumentos) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const documento = {
-        titulo: req.body.titulo,
-        contenido: req.body.contenido,
-        doc_idmaterias: req.body.doc_idmaterias,
-        doc_idgrupos: req.body.doc_idgrupos
+        dircción_D: req.body.dircción_D,
+        nombre_D: req.body.nombre_D,
+        d_idtareas: req.body.d_idtareas,
+        d_boleta: req.body.d_boleta
     };
 
     Documentos.create(documento)
@@ -23,12 +16,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Documento."
+                message: err.message || "Ocurrió un error al crear el documento."
             });
         });
 };
 
-// Obtener todos los Documentos
+// Obtener todos los documentos
 exports.findAll = (req, res) => {
     Documentos.findAll()
         .then(data => {
@@ -36,78 +29,92 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Documentos."
+                message: err.message || "Ocurrió un error al recuperar los documentos."
             });
         });
 };
 
-// Obtener un Documento por id
+// Obtener un documento por id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { iddocumentos, d_idtareas, d_boleta } = req.params;
 
-    Documentos.findByPk(id)
+    Documentos.findOne({
+        where: {
+            iddocumentos: iddocumentos,
+            d_idtareas: d_idtareas,
+            d_boleta: d_boleta
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Documento con id=${id}.`
+                    message: `No se encontró el documento con id ${iddocumentos}, tarea ${d_idtareas}, y boleta ${d_boleta}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Documento con id=" + id
+                message: err.message || "Ocurrió un error al recuperar el documento."
             });
         });
 };
 
-// Actualizar un Documento por id
+// Actualizar un documento por id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { iddocumentos, d_idtareas, d_boleta } = req.params;
 
     Documentos.update(req.body, {
-        where: { idDocumentos: id }
+        where: {
+            iddocumentos: iddocumentos,
+            d_idtareas: d_idtareas,
+            d_boleta: d_boleta
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Documento fue actualizado exitosamente."
+                    message: "El documento fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Documento con id=${id}. Tal vez el Documento no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el documento con id ${iddocumentos}, tarea ${d_idtareas}, y boleta ${d_boleta}. Quizás el documento no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Documento con id=" + id
+                message: err.message || "Ocurrió un error al actualizar el documento."
             });
         });
 };
 
-// Eliminar un Documento por id
+// Eliminar un documento por id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { iddocumentos, d_idtareas, d_boleta } = req.params;
 
     Documentos.destroy({
-        where: { idDocumentos: id }
+        where: {
+            iddocumentos: iddocumentos,
+            d_idtareas: d_idtareas,
+            d_boleta: d_boleta
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Documento fue eliminado exitosamente!"
+                    message: "El documento fue eliminado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Documento con id=${id}. Tal vez el Documento no fue encontrado!`
+                    message: `No se pudo eliminar el documento con id ${iddocumentos}, tarea ${d_idtareas}, y boleta ${d_boleta}. Quizás el documento no fue encontrado.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Documento con id=" + id
+                message: err.message || "Ocurrió un error al eliminar el documento."
             });
         });
 };

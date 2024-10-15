@@ -1,20 +1,14 @@
 const db = require("../models");
-const Comentarios = db.Comentarios;
+const Comentarios = db.comentarios;
 
-// Crear y guardar un nuevo Comentario
+// Crear un nuevo comentario
 exports.create = (req, res) => {
-    if (!req.body.idComentarios) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const comentario = {
-        comentario: req.body.comentario,
-        fecha: req.body.fecha,
-        com_idvideos: req.body.com_idvideos,
-        com_boleta: req.body.com_boleta
+        Comentario: req.body.Comentario,
+        c_fecha: req.body.c_fecha,
+        doc_al: req.body.doc_al,
+        c_idtareas: req.body.c_idtareas,
+        c_boleta: req.body.c_boleta
     };
 
     Comentarios.create(comentario)
@@ -23,12 +17,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Comentario."
+                message: err.message || "Ocurrió un error al crear el comentario."
             });
         });
 };
 
-// Obtener todos los Comentarios
+// Obtener todos los comentarios
 exports.findAll = (req, res) => {
     Comentarios.findAll()
         .then(data => {
@@ -36,78 +30,92 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Comentarios."
+                message: err.message || "Ocurrió un error al recuperar los comentarios."
             });
         });
 };
 
-// Obtener un Comentario por id
+// Obtener un comentario por id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const { idComentarios, c_idtareas, c_boleta } = req.params;
 
-    Comentarios.findByPk(id)
+    Comentarios.findOne({
+        where: {
+            idComentarios: idComentarios,
+            c_idtareas: c_idtareas,
+            c_boleta: c_boleta
+        }
+    })
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Comentario con id=${id}.`
+                    message: `No se encontró el comentario con id ${idComentarios}, tarea ${c_idtareas}, y boleta ${c_boleta}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Comentario con id=" + id
+                message: err.message || "Ocurrió un error al recuperar el comentario."
             });
         });
 };
 
-// Actualizar un Comentario por id
+// Actualizar un comentario por id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const { idComentarios, c_idtareas, c_boleta } = req.params;
 
     Comentarios.update(req.body, {
-        where: { idComentarios: id }
+        where: {
+            idComentarios: idComentarios,
+            c_idtareas: c_idtareas,
+            c_boleta: c_boleta
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Comentario fue actualizado exitosamente."
+                    message: "El comentario fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Comentario con id=${id}. Tal vez el Comentario no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el comentario con id ${idComentarios}, tarea ${c_idtareas}, y boleta ${c_boleta}. Quizás el comentario no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Comentario con id=" + id
+                message: err.message || "Ocurrió un error al actualizar el comentario."
             });
         });
 };
 
-// Eliminar un Comentario por id
+// Eliminar un comentario por id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const { idComentarios, c_idtareas, c_boleta } = req.params;
 
     Comentarios.destroy({
-        where: { idComentarios: id }
+        where: {
+            idComentarios: idComentarios,
+            c_idtareas: c_idtareas,
+            c_boleta: c_boleta
+        }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Comentario fue eliminado exitosamente!"
+                    message: "El comentario fue eliminado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Comentario con id=${id}. Tal vez el Comentario no fue encontrado!`
+                    message: `No se pudo eliminar el comentario con id ${idComentarios}, tarea ${c_idtareas}, y boleta ${c_boleta}. Quizás el comentario no fue encontrado.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Comentario con id=" + id
+                message: err.message || "Ocurrió un error al eliminar el comentario."
             });
         });
 };

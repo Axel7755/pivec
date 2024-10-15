@@ -33,6 +33,8 @@ db.Comentarios = require("./comentarios.js")(sequelize, Sequelize);
 db.Avisos = require("./avisos.js")(sequelize, Sequelize);
 db.Horarios = require("./horarios.js")(sequelize, Sequelize);
 db.GruposAlumnos = require("./grupos_alumnos.js")(sequelize, Sequelize);
+db.AvisosDocumentos = require("./avisosDocumentos.js")(sequelize, Sequelize);
+db.DocumentosTareas = require("./documentosTareas.js")(sequelize, Sequelize);
 
 // Aquí puedes definir las asociaciones si es necesario
 /*Object.keys(db).forEach(modelName => {

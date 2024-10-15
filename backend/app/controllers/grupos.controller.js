@@ -1,15 +1,8 @@
 const db = require("../models");
-const Grupos = db.Grupos;
+const Grupos = db.grupos;
 
-// Crear y guardar un nuevo Grupo
+// Crear un nuevo grupo
 exports.create = (req, res) => {
-    if (!req.body.g_idmaterias || !req.body.idgrupos) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const grupo = {
         g_idmaterias: req.body.g_idmaterias,
         g_doc_noTrabajador: req.body.g_doc_noTrabajador,
@@ -24,12 +17,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Grupo."
+                message: err.message || "Ocurrió un error al crear el grupo."
             });
         });
 };
 
-// Obtener todos los Grupos
+// Obtener todos los grupos
 exports.findAll = (req, res) => {
     Grupos.findAll()
         .then(data => {
@@ -37,19 +30,19 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Grupos."
+                message: err.message || "Ocurrió un error al recuperar los grupos."
             });
         });
 };
 
-// Obtener un Grupo por id
+// Obtener un grupo por id
 exports.findOne = (req, res) => {
     const { g_idmaterias, idgrupos } = req.params;
 
     Grupos.findOne({
         where: {
-            g_idmaterias,
-            idgrupos
+            g_idmaterias: g_idmaterias,
+            idgrupos: idgrupos
         }
     })
         .then(data => {
@@ -57,69 +50,69 @@ exports.findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Grupo con idmaterias=${g_idmaterias} y idgrupos=${idgrupos}.`
+                    message: `No se encontró el grupo con id de materia ${g_idmaterias} y grupo ${idgrupos}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Grupo con idmaterias=" + g_idmaterias + " y idgrupos=" + idgrupos
+                message: err.message || "Ocurrió un error al recuperar el grupo."
             });
         });
 };
 
-// Actualizar un Grupo por id
+// Actualizar un grupo por id
 exports.update = (req, res) => {
     const { g_idmaterias, idgrupos } = req.params;
 
     Grupos.update(req.body, {
         where: {
-            g_idmaterias,
-            idgrupos
+            g_idmaterias: g_idmaterias,
+            idgrupos: idgrupos
         }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Grupo fue actualizado exitosamente."
+                    message: "El grupo fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Grupo con idmaterias=${g_idmaterias} y idgrupos=${idgrupos}. Tal vez el Grupo no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el grupo con id de materia ${g_idmaterias} y grupo ${idgrupos}. Quizás el grupo no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Grupo con idmaterias=" + g_idmaterias + " y idgrupos=" + idgrupos
+                message: err.message || "Ocurrió un error al actualizar el grupo."
             });
         });
 };
 
-// Eliminar un Grupo por id
+// Eliminar un grupo por id
 exports.delete = (req, res) => {
     const { g_idmaterias, idgrupos } = req.params;
 
     Grupos.destroy({
         where: {
-            g_idmaterias,
-            idgrupos
+            g_idmaterias: g_idmaterias,
+            idgrupos: idgrupos
         }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Grupo fue eliminado exitosamente!"
+                    message: "El grupo fue eliminado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Grupo con idmaterias=${g_idmaterias} y idgrupos=${idgrupos}. Tal vez el Grupo no fue encontrado!`
+                    message: `No se pudo eliminar el grupo con id de materia ${g_idmaterias} y grupo ${idgrupos}. Quizás el grupo no fue encontrado.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Grupo con idmaterias=" + g_idmaterias + " y idgrupos=" + idgrupos
+                message: err.message || "Ocurrió un error al eliminar el grupo."
             });
         });
 };

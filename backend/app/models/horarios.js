@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
         idHorarios: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
         dia: {
             type: Sequelize.STRING(11),
@@ -19,16 +20,35 @@ module.exports = (sequelize, Sequelize) => {
         },
         ho_idmaterias: {
             type: Sequelize.INTEGER,
+            primaryKey: true,
             allowNull: false
         },
         ho_idgrupos: {
             type: Sequelize.STRING(6),
+            primaryKey: true,
             allowNull: false
         }
     }, {
         indexes: [
             {
+                name: 'fk_horarios_grupos1_idx',
                 fields: ['ho_idmaterias', 'ho_idgrupos']
+            },
+            {
+                name: 'horarios_ho_idmaterias_ho_idgrupos',
+                fields: ['ho_idmaterias', 'ho_idgrupos']
+            }
+        ],
+        foreignKeys: [
+            {
+                name: 'fk_horarios_grupos1',
+                field: ['ho_idmaterias', 'ho_idgrupos'],
+                references: {
+                    table: 'grupos',
+                    field: ['g_idmaterias', 'idgrupos']
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             }
         ]
     });
@@ -36,15 +56,11 @@ module.exports = (sequelize, Sequelize) => {
     Horarios.associate = (models) => {
         Horarios.belongsTo(models.Grupos, {
             foreignKey: 'ho_idmaterias',
-            targetKey: 'g_idmaterias',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            targetKey: 'g_idmaterias'
         });
         Horarios.belongsTo(models.Grupos, {
             foreignKey: 'ho_idgrupos',
-            targetKey: 'idgrupos',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            targetKey: 'idgrupos'
         });
     };
 

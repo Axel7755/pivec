@@ -1,17 +1,8 @@
 const db = require("../models");
-const Alumnos = db.Alumnos;
+const Alumnos = db.alumnos;
 
-// Crear y guardar un nuevo Alumno
+// Crear un nuevo alumno
 exports.create = (req, res) => {
-    // Validar la solicitud
-    if (!req.body.boleta) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
-    // Crear un Alumno
     const alumno = {
         boleta: req.body.boleta,
         nombres_Al: req.body.nombres_Al,
@@ -21,100 +12,97 @@ exports.create = (req, res) => {
         correoRec_Al: req.body.correoRec_Al
     };
 
-    // Guardar Alumno en la base de datos
     Alumnos.create(alumno)
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Alumno."
+                message: err.message || "Ocurrió un error al crear el alumno."
             });
         });
 };
 
-// Obtener todos los Alumnos
+// Obtener todos los alumnos
 exports.findAll = (req, res) => {
     Alumnos.findAll()
-      .then(data => {
-        console.log("Data retrieved: ", data); // Log de los datos recuperados
-        res.send(data);
-      })
-      .catch(err => {
-        console.error("Error retrieving data: ", err); // Log del error
-        res.status(500).send({
-          message: err.message || "Ocurrió un error al recuperar los Alumnos."
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Ocurrió un error al recuperar los alumnos."
+            });
         });
-      });
-  };
+};
 
-// Obtener un Alumno por id
+// Obtener un alumno por boleta
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const boleta = req.params.boleta;
 
-    Alumnos.findByPk(id)
+    Alumnos.findByPk(boleta)
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Alumno con id=${id}.`
+                    message: `No se encontró el alumno con la boleta ${boleta}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Alumno con id=" + id
+                message: err.message || "Ocurrió un error al recuperar el alumno."
             });
         });
 };
 
-// Actualizar un Alumno por id
+// Actualizar un alumno por boleta
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const boleta = req.params.boleta;
 
     Alumnos.update(req.body, {
-        where: { boleta: id }
+        where: { boleta: boleta }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Alumno fue actualizado exitosamente."
+                    message: "El alumno fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Alumno con id=${id}. Tal vez el Alumno no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el alumno con la boleta ${boleta}. Quizás el alumno no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Alumno con id=" + id
+                message: err.message || "Ocurrió un error al actualizar el alumno."
             });
         });
 };
 
-// Eliminar un Alumno por id
+// Eliminar un alumno por boleta
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const boleta = req.params.boleta;
 
     Alumnos.destroy({
-        where: { boleta: id }
+        where: { boleta: boleta }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Alumno fue eliminado exitosamente!"
+                    message: "El alumno fue eliminado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar el Alumno con id=${id}. Tal vez el Alumno no fue encontrado!`
+                    message: `No se pudo eliminar el alumno con la boleta ${boleta}. Quizás el alumno no fue encontrado.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar el Alumno con id=" + id
+                message: err.message || "Ocurrió un error al eliminar el alumno."
             });
         });
 };
