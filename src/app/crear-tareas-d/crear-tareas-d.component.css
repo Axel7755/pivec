@@ -1,322 +1,384 @@
-.container {
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-    min-height: 435px;
-    margin: auto;
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
 
-.header-section {
-    padding: 25px 0px;
-}
-
-.header-section h1 {
-    font-weight: 500;
-    font-size: 1.7rem;
-    text-transform: uppercase;
-    color: #707EA0;
-    margin: 0px;
-    margin-bottom: 8px;
-}
-
-.header-section p {
-    margin: 5px;
-    font-size: 0.95rem;
-    color: #707EA0;
-}
-
-.drop-section {
-    min-height: 250px;
-    border: 1px dashed #A8B3E3;
-    background-image: linear-gradient(180deg, white, #F1F6FF);
-    margin: 5px 35px 35px 35px;
-    border-radius: 12px;
+.contenedor-tarea {
     position: relative;
+    width: 60%;
+    /* Ancho relativo para diseño responsive */
+    max-width: 770px;
+    /* Ancho máximo para pantallas grandes */
+    margin: 15px auto;
+    /* Centra el contenedor horizontalmente */
+    padding: 20px;
+    border-radius: 15px;
+    background-color: rgba(226, 226, 226, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Alinea el contenido al centro */
+    justify-content: center;
+    border: 1px solid transparent;
 }
 
-.drop-section div.col:first-child {
-    opacity: 1;
-    visibility: visible;
-    transition-duration: 0.2s;
-    transform: scale(1);
-    width: 200px;
-    margin: auto;
+
+/* ------ */
+
+.contenedor-tarea {
+    font-family: Arial, sans-serif;
+    padding: 15px;
 }
 
-.drop-section div.col:last-child {
-    font-size: 40px;
-    font-weight: 700;
-    color: #c0cae1;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    margin: auto;
-    width: 200px;
-    height: 55px;
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.6);
-    transition-duration: 0.2s;
-}
-
-/* we will use "drag-over-effect" class in js */
-/* Efectos cuando el archivo se arrastra sobre el área */
-.drag-over-effect div.col:first-child {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: scale(1.1);
-}
-
-.drag-over-effect div.col:last-child {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-}
-
-.drop-section .cloud-icon {
-    margin-top: 25px;
+.contenido-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
     margin-bottom: 20px;
 }
 
-.drop-section span,
-.drop-section button {
-    display: block;
-    margin: auto;
-    color: #707EA0;
-    margin-bottom: 10px;
-}
-
-.drop-section button {
-    color: white;
-    background-color: #ff9933;
-    border: none;
-    outline: none;
-    padding: 7px 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    cursor: pointer;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-.drop-section input {
-    display: none;
-}
-
-.list-section {
-    display: none;
+.informacion-materia {
+    flex: 1;
     text-align: left;
-    margin: 0px 35px;
-    padding-bottom: 20px;
+    padding-right: 15px;
+    /* Ajusta el espacio entre las columnas */
 }
 
-.list-section .list-title {
-    font-size: 0.95rem;
-    color: #707EA0;
-    text-transform: uppercase;
-}
-
-.list-section li {
+.img-materia {
+    flex: 1;
     display: flex;
-    margin: 15px 0px;
-    padding-top: 4px;
-    padding-bottom: 2px;
-    border-radius: 8px;
-    transition-duration: 0.2s;
+    justify-content: center;
 }
 
-.list-section li:hover {
-    box-shadow: #E3EAF9 0px 0px 4px 0px, #E3EAF9 0px 12px 16px 0px;
+.img-materia img {
+    max-width: 100%;
+    height: 150px;
+    /* Fija una altura específica para uniformidad */
+    object-fit: contain;
 }
 
-.list-section li .col {
-    flex: .1;
+.acciones {
+    flex: 1;
+    text-align: right;
+    padding-left: 15px;
+    /* Ajusta el espacio entre las columnas */
 }
 
-.list-section li .col:nth-child(1) {
-    flex: .15;
+.info-tarea {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+
+.info-tarea .nombre-tarea,
+.info-tarea .desc-tarea {
+    margin-bottom: 10px;
+    margin-left: 45px;
+}
+
+.desc-tarea {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 95px;
+}
+
+.buton-download {
+    display: inline-block;
+    margin-left: 10px;
+    /* Reduce el espacio entre el texto y el botón */
+}
+
+.subir-documentos {
+    width: 100%;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-.list-section li .col:nth-child(2) {
-    flex: .78;
-    text-align: left;
-    font-size: 0.9rem;
-    color: #3e4046;
-    padding: 8px 10px;
-}
-
-.list-section li .col .file-name span {
-    color: #707EA0;
-    float: right;
-    margin-top: -16px;
-}
-
-.list-section li .file-progress {
+.comentarios {
     width: 100%;
-    height: 5px;
-    margin-top: 8px;
-    border-radius: 8px;
-    background-color: #dee6fd;
 }
 
-.list-section li .file-progress span {
-    display: block;
-    width: 50%;
-    height: 100%;
-    border-radius: 8px;
-    background-image: linear-gradient(120deg, #6b99fd, #9385ff);
-    transition-duration: 0.4s;
+.download-icon {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
 }
 
-.list-section li .col .file-size {
-    margin-top: 5px;
-    font-size: 0.75rem;
-    color: #707EA0;
+
+/* ------ */
+
+.informacion-materia {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
 }
 
-.list-section li .col svg.cross,
-.list-section li .col svg.tick {
-    fill: #8694d2;
-    background-color: #dee6fd;
-    position: relative;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
+.informacion-materia h1 {
+    margin: 30px;
+    font-size: 35px;
+    font-family: "Girassol", cursive;
+    color: #1854fa;
 }
 
-.list-section li .col svg.tick {
-    fill: #50a156;
-    background-color: transparent;
+.informacion-materia .vence {
+    margin: 30px;
+    color: red;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 25px;
+    font-weight: bold;
 }
 
-.list-section li.complete span,
-.list-section li.complete .file-progress,
-.list-section li.complete svg.cross {
-    display: none;
+.img-materia {
+    margin-top: 0;
+    width: 100%;
+    max-width: 25%;
+    display: flex;
+    justify-content: left;
+    padding: 10px 0;
 }
 
-.list-section li.in-prog .file-size,
-.list-section li.in-prog svg.tick {
-    display: none;
-}
-
-.list-section {
-    display: block;
-}
-
-/* Tamaño para las img 'iconos' de los archivos que se suban' */
-/* crear-tareas-d.component.css */
-img {
-    width: 40px;
-    height: 50px;
-    object-fit: cover;
-    /* Asegura que la imagen se ajuste al espacio dado */
-}
-
-img {
-    width: 40px;
-    height: 50px;
+img[mat-card-image] {
+    width: 100%;
+    height: 200px;
     object-fit: contain;
-    /* Mantiene la proporción de la imagen dentro de 40x50 */
 }
 
-/* Informacion extra después del texto de mi header */
-.file-info-container {
+.acciones {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    position: relative;
+    top: -35px;
+    /* Ajusta el valor según lo necesites */
+    padding: 10px 0;
+}
+
+.entregar-button {
+    margin-right: 60px;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.entregar-button:hover {
+    background-color: #0033cc;
+}
+
+.download-icon {
+    font-size: 24px;
+    color: rgb(109, 26, 66);
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.download-icon:hover {
+    color: #ff0000;
+}
+
+@keyframes click-animation {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(360deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(720deg);
+    }
+}
+
+.download-icon:active {
+    animation: click-animation 0.9s ease-in-out;
+}
+
+.subir-documentos {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.subir-button {
+    padding: 10px 20px;
+    background: linear-gradient(to right, #FF9933, #FFC545) !important;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.contenedor-tarea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Alinea todo el contenido del contenedor a la izquierda */
+}
+
+.comentarios {
+    width: 100%;
+    /* Ocupa todo el ancho del contenedor */
+    padding: 10px 0;
+    margin-top: -20px;
+    margin-left: 45px;
+}
+
+.comentarios h2 {
+    font-family: 'Times New Roman', Times, serif;
+    color: #1854fa;
+    margin-bottom: 10px;
+    text-align: left;
+    /* Asegura que el título esté alineado a la izquierda */
+}
+
+textarea {
+    width: 65%;
+    height: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+    text-align: left;
+    /* Alinea el texto dentro del textarea a la izquierda */
+}
+
+.input-comentario {
+    flex: 1;
+    /* Toma todo el espacio disponible */
+    width: 270px;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.btn-comentar {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 90px;
+    border-radius: 15px;
+}
+
+/* nuevos estilos para escribir */
+.nombre-tarea input,
+.desc-tarea textarea {
+    width: 87%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nombre-tarea input:focus,
+.desc-tarea textarea:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.desc-tarea textarea {
+    width: 660px;
+    height: 150px;
+    resize: vertical;
+}
+
+.nombre-tarea {
+    display: flex;
+    flex-direction: column;
+    /* Asegura que el texto esté arriba del input */
+    margin-bottom: 16px;
+    /* Añade espacio debajo del contenedor */
+}
+
+.nombre-tarea input {
+    margin-top: 8px;
+    /* Espacio entre el texto y el input */
+}
+
+/* espacio para la fecha */
+.informacion-materia {
+    display: flex;
+    flex-direction: column;
+}
+
+.vence-fecha {
     display: flex;
     align-items: center;
-    padding-left: 45px;
+    justify-content: flex-start; /* Alinea a la izquierda */
+    margin: 0;
+    padding: 0;
 }
 
-.info-icon {
-    margin-left: 3px;
-    /* Espacio entre el texto y la imagen */
-    cursor: pointer;
-    /* Cambiar el cursor al pasar sobre la imagen */
+.vence {
+    margin: 0; /* Asegúrate de eliminar cualquier margen */
+    padding: 0; /* Elimina cualquier relleno */
+    font-size: 10px; /* Ajusta el tamaño de fuente si es necesario */
 }
 
-.info-icon:hover::after {
-    content: attr(title);
-    position: absolute;
-    background-color: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    top: 100%;
-    /* Justo debajo de la imagen */
-    left: 0;
-    white-space: pre;
-    /* Para mantener los saltos de línea en el tooltip */
+.input-vencimiento {
+    margin-left: -25px; /* Ajusta el espacio entre el texto y el input */
+    padding: 2px; 
 }
 
-/* Boton para subir archivos */
-.upload-btn {
-    display: block;
-    margin: 10px auto;
-    background-color: #921f4c;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-/* otra seccion */
-.hidden {
-    display: none;
-}
-
-/* barra de progreso */
-.file-progress span {
-    display: block;
-    height: 100%;
-    border-radius: 8px;
-    background-image: linear-gradient(120deg, #6b99fd, #9385ff);
-    transition: width 0.4s ease;
-    /* Transición suave */
-}
-
-/* boton de subir archivos actualizado */
-.upload-button-container {
+/* estilos para input: fecha */
+.input-container {
     display: flex;
-    /* Usar flexbox para centrar */
-    justify-content: center;
-    /* Centra horizontalmente */
-    margin: 10px;
-    /* Margen superior e inferior */
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+    margin-bottom: 15px; /* Espaciado inferior */
 }
 
-.upload-button {
-    background-color: #900;
-    color: white;
-    border: 2px solid #700;
+.input-vencimiento {
+    width: auto;
+    color: #333;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    width: 150px;
-    height: auto;
-    /* Ancho específico del botón */
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.upload-button:hover {
-    background-color: #b00;
-    transform: scale(1.05);
+/* Cambia el borde al hacer foco */
+.input-vencimiento:focus {
+    border-color: #007BFF; /* Color del borde al hacer foco */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2); /* Añade un sombreado suave */
 }
 
-.upload-button:disabled {
-    background-color: #d9d9d9;
-    color: #a6a6a6;
-    border: 2px solid #ccc;
+/* Cambia el cursor cuando el input está inactivo */
+.input-vencimiento:disabled {
+    background-color: #e9ecef;
     cursor: not-allowed;
+    color: #6c757d;
+}
+
+/* Estilo para un estado válido */
+.input-vencimiento:valid {
+    border-color: #007BFF;
+}
+
+/* Estilo para un estado inválido */
+.input-vencimiento:invalid {
+    border-color: #dc3545;
+}
+
+/* Placeholder */
+.input-vencimiento::placeholder {
+    color: #999;
+}
+
+/* para mensaje del input: fecha */
+.validation-message {
+    margin-top: 5px; /* Espacio entre el input y el mensaje */
+    font-size: 14px;
+    color: #dc3545; /* Rojo */
+    display: none; /* Oculto por defecto */
 }

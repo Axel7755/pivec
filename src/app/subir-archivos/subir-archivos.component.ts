@@ -7,11 +7,12 @@ import { catchError, tap } from 'rxjs/operators'; // Correcto: importando de 'rx
 
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatDialogActions, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-subir-archivos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatDialogModule],
   templateUrl: './subir-archivos.component.html',
   styleUrl: './subir-archivos.component.css',
   host: { 'ngSkipHydration': '' }
