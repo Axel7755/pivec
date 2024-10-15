@@ -1,18 +1,11 @@
 const db = require("../models");
-const Tareas = db.Tareas;
+const Tareas = db.tareas;
 
-// Crear y guardar una nueva Tarea
+// Crear una nueva tarea
 exports.create = (req, res) => {
-    if (!req.body.idTareas) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const tarea = {
-        descripcion: req.body.descripcion,
-        fechaEntrega: req.body.fechaEntrega,
+        titulo_T: req.body.titulo_T,
+        descripción_T: req.body.descripción_T,
         ta_idmaterias: req.body.ta_idmaterias,
         ta_idgrupos: req.body.ta_idgrupos
     };
@@ -23,12 +16,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear la Tarea."
+                message: err.message || "Ocurrió un error al crear la tarea."
             });
         });
 };
 
-// Obtener todas las Tareas
+// Obtener todas las tareas
 exports.findAll = (req, res) => {
     Tareas.findAll()
         .then(data => {
@@ -36,12 +29,12 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar las Tareas."
+                message: err.message || "Ocurrió un error al recuperar las tareas."
             });
         });
 };
 
-// Obtener una Tarea por id
+// Obtener una tarea por id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
@@ -51,63 +44,63 @@ exports.findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar la Tarea con id=${id}.`
+                    message: `No se encontró la tarea con id ${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar la Tarea con id=" + id
+                message: err.message || "Ocurrió un error al recuperar la tarea."
             });
         });
 };
 
-// Actualizar una Tarea por id
+// Actualizar una tarea por id
 exports.update = (req, res) => {
     const id = req.params.id;
 
     Tareas.update(req.body, {
-        where: { idTareas: id }
+        where: { idtareas: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "La Tarea fue actualizada exitosamente."
+                    message: "La tarea fue actualizada exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar la Tarea con id=${id}. Tal vez la Tarea no fue encontrada o req.body está vacío!`
+                    message: `No se pudo actualizar la tarea con id ${id}. Quizás la tarea no fue encontrada o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar la Tarea con id=" + id
+                message: err.message || "Ocurrió un error al actualizar la tarea."
             });
         });
 };
 
-// Eliminar una Tarea por id
+// Eliminar una tarea por id
 exports.delete = (req, res) => {
     const id = req.params.id;
 
     Tareas.destroy({
-        where: { idTareas: id }
+        where: { idtareas: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "La Tarea fue eliminada exitosamente!"
+                    message: "La tarea fue eliminada exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede eliminar la Tarea con id=${id}. Tal vez la Tarea no fue encontrada!`
+                    message: `No se pudo eliminar la tarea con id ${id}. Quizás la tarea no fue encontrada.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se pudo eliminar la Tarea con id=" + id
+                message: err.message || "Ocurrió un error al eliminar la tarea."
             });
         });
 };

@@ -1,15 +1,8 @@
 const db = require("../models");
-const Videos = db.Videos;
+const Videos = db.videos;
 
-// Crear y guardar un nuevo Video
+// Crear un nuevo video
 exports.create = (req, res) => {
-    if (!req.body.idvideos) {
-        res.status(400).send({
-            message: "El contenido no puede estar vacío!"
-        });
-        return;
-    }
-
     const video = {
         titulo_V: req.body.titulo_V,
         dirección_V: req.body.dirección_V,
@@ -23,12 +16,12 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el Video."
+                message: err.message || "Ocurrió un error al crear el video."
             });
         });
 };
 
-// Obtener todos los Videos
+// Obtener todos los videos
 exports.findAll = (req, res) => {
     Videos.findAll()
         .then(data => {
@@ -36,20 +29,20 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al recuperar los Videos."
+                message: err.message || "Ocurrió un error al recuperar los videos."
             });
         });
 };
 
-// Obtener un Video por id
+// Obtener un video por id
 exports.findOne = (req, res) => {
-    const { v_idmaterias, v_boleta, idvideos } = req.params;
+    const { idvideos, v_boleta, v_idmaterias } = req.params;
 
     Videos.findOne({
         where: {
-            v_idmaterias,
-            v_boleta,
-            idvideos
+            idvideos: idvideos,
+            v_boleta: v_boleta,
+            v_idmaterias: v_idmaterias
         }
     })
         .then(data => {
@@ -57,61 +50,61 @@ exports.findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se puede encontrar el Video con id=${idvideos}.`
+                    message: `No se encontró el video con id ${idvideos}, boleta ${v_boleta} y materia ${v_idmaterias}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al recuperar el Video con id=" + idvideos
+                message: err.message || "Ocurrió un error al recuperar el video."
             });
         });
 };
 
-// Actualizar un Video por id
+// Actualizar un video por id
 exports.update = (req, res) => {
-    const { v_idmaterias, v_boleta, idvideos } = req.params;
+    const { idvideos, v_boleta, v_idmaterias } = req.params;
 
     Videos.update(req.body, {
         where: {
-            v_idmaterias,
-            v_boleta,
-            idvideos
+            idvideos: idvideos,
+            v_boleta: v_boleta,
+            v_idmaterias: v_idmaterias
         }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Video fue actualizado exitosamente."
+                    message: "El video fue actualizado exitosamente."
                 });
             } else {
                 res.send({
-                    message: `No se puede actualizar el Video con id=${idvideos}. Tal vez el Video no fue encontrado o req.body está vacío!`
+                    message: `No se pudo actualizar el video con id ${idvideos}, boleta ${v_boleta} y materia ${v_idmaterias}. Quizás el video no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error al actualizar el Video con id=" + idvideos
+                message: err.message || "Ocurrió un error al actualizar el video."
             });
         });
 };
 
-// Eliminar un Video por id
+// Eliminar un video por id
 exports.delete = (req, res) => {
-    const { v_idmaterias, v_boleta, idvideos } = req.params;
+    const { idvideos, v_boleta, v_idmaterias } = req.params;
 
     Videos.destroy({
         where: {
-            v_idmaterias,
-            v_boleta,
-            idvideos
+            idvideos: idvideos,
+            v_boleta: v_boleta,
+            v_idmaterias: v_idmaterias
         }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "El Video fue eliminado exitosamente!"
+                    message: "El video fue eliminado exitosamente."
                 });
             } else {
                 res.send({

@@ -51,7 +51,7 @@ exports.findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `No se encontró el horario con id ${idHorarios}, materias ${ho_idmaterias}, y grupos ${ho_idgrupos}.`
+                    message: `No se encontró el horario con id ${idHorarios}, materia ${ho_idmaterias}, y grupo ${ho_idgrupos}.`
                 });
             }
         })
@@ -80,7 +80,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `No se pudo actualizar el horario con id ${idHorarios}, materias ${ho_idmaterias}, y grupos ${ho_idgrupos}. Quizás el horario no fue encontrado o el cuerpo de la solicitud está vacío.`
+                    message: `No se pudo actualizar el horario con id ${idHorarios}, materia ${ho_idmaterias}, y grupo ${ho_idgrupos}. Quizás el horario no fue encontrado o el cuerpo de la solicitud está vacío.`
                 });
             }
         })
@@ -109,7 +109,7 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `No se pudo eliminar el horario con id ${idHorarios}, materias ${ho_idmaterias}, y grupos ${ho_idgrupos}. Quizás el horario no fue encontrado.`
+                    message: `No se pudo eliminar el horario con id ${idHorarios}, materia ${ho_idmaterias}, y grupo ${ho_idgrupos}. Quizás el horario no fue encontrado.`
                 });
             }
         })

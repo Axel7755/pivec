@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
         idAviso: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
         aviso: {
             type: Sequelize.TEXT,
@@ -15,16 +16,35 @@ module.exports = (sequelize, Sequelize) => {
         },
         av_idmaterias: {
             type: Sequelize.INTEGER,
+            primaryKey: true,
             allowNull: false
         },
         av_idgrupos: {
             type: Sequelize.STRING(6),
+            primaryKey: true,
             allowNull: false
         }
     }, {
         indexes: [
             {
+                name: 'fk_avisos_grupos1_idx',
                 fields: ['av_idmaterias', 'av_idgrupos']
+            },
+            {
+                name: 'avisos_av_idmaterias_av_idgrupos',
+                fields: ['av_idmaterias', 'av_idgrupos']
+            }
+        ],
+        foreignKeys: [
+            {
+                name: 'fk_avisos_grupos1',
+                field: ['av_idmaterias', 'av_idgrupos'],
+                references: {
+                    table: 'grupos',
+                    field: ['g_idmaterias', 'idgrupos']
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             }
         ]
     });
@@ -32,15 +52,11 @@ module.exports = (sequelize, Sequelize) => {
     Avisos.associate = (models) => {
         Avisos.belongsTo(models.Grupos, {
             foreignKey: 'av_idmaterias',
-            targetKey: 'g_idmaterias',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            targetKey: 'g_idmaterias'
         });
         Avisos.belongsTo(models.Grupos, {
             foreignKey: 'av_idgrupos',
-            targetKey: 'idgrupos',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            targetKey: 'idgrupos'
         });
     };
 
