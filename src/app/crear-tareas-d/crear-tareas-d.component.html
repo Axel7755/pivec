@@ -8,46 +8,50 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="contenedor-tarea">
 
-        <div class="header-section">
-            <h1>Subir archivos</h1>
-            <p>Sube los archivos que quieras compartir con tus alumnos</p>
-            <div class="file-info-container">
-                <p>Se permiten archivos: Documentos, Imágenes y Videos</p>
-                <img src="../../assets/images/information.ico" alt="Información" class="info-icon"
-                    title="Se permiten archivos comprimidos: .rar, .zip y documentos PDF y de Office: .docx, .doc, .xlsx, .xls, .pptx, .ppt">
-            </div>
-        </div>
+        <div class="contenido-principal">
+            <div class="informacion-materia">
+                <h1>Uriel Alejandro</h1>
+                <div class="vence-fecha">
+                    <p class="vence">Fecha de entrega:</p>
+                    <div class="input-container">
+                        <input #fechaVencimiento type="datetime-local" class="input-vencimiento" required />
+                        <div #validationMessage class="validation-message" style="display: none;">
+                            Por favor, ingrese una fecha y hora válidas.
+                        </div>
+                    </div>
 
-        <div class="drop-section" #dropArea (dragover)="onDragOver($event)" (dragleave)="onDragLeave()"
-            (drop)="onDrop($event)">
-            <div class="col">
-                <div class="cloud-icon">
-                    <img src="../../assets/icons/cloud2.png" alt="cloud">
                 </div>
-                <span>Arrastra y suelta tus archivos aquí</span>
-                <span>O</span>
-                <button class="file-selector" (click)="onFileSelectorClick()">Buscar archivos</button>
-                <input #fileSelectorInput type="file" (change)="onFileChange()" style="display: none;" multiple />
             </div>
-            <div class="col">
-                <div class="drop-here">Soltar aquí</div>
+
+            <div class="img-materia">
+                <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+            </div>
+
+            <div class="acciones">
+                <button class="entregar-button" mat-raised-button color="primary"> Guardar</button>
             </div>
         </div>
 
-        <div class="list-section">
-            <div class="list-title">Archivos Subidos</div>
-            <div class="list">
-                <ul #listContainer>
-                    <!-- Aquí se mostrarán los archivos cargados -->
-                </ul>
+        <div class="info-tarea">
+            <div class="nombre-tarea">
+                <strong>Nombre de tarea:</strong>
+                <input type="text" placeholder="Escribe el nombre de la tarea" class="input-nombre-tarea">
             </div>
-            <div class="upload-button-container">
-                <button class="upload-button" [disabled]="archivosSubidos.length === 0" (click)="uploadFiles()">Subir Archivos</button>
+
+            <div class="desc-tarea">
+                <strong>Descripción de la tarea:</strong>
+                <textarea placeholder="Escribe la descripción de la tarea" class="input-desc-tarea"></textarea>
             </div>
+        </div>
+
+        <div class="subir-documentos">
+            <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button color="accent">Subir Documentos</button>
+            <input type="file" id="documento" name="documento" multiple style="display: none;">
         </div>
     </div>
+
 </body>
 
 </html>
