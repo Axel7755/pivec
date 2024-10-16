@@ -43,9 +43,6 @@ export const routes: Routes = [
             { path: 'subir-tarea', component: SubirTareaComponent },
             { path: 'video-player', component: VideoPlayerComponent },
             { path: 'crear-tareas-d', component: CrearTareasDComponent },
-            { path: 'subir-archivos', component: SubirArchivosComponent },
-
-
         ]       
     },
     { path: 'menu-principal', redirectTo: '/menu-principal/materias', pathMatch: 'full' },

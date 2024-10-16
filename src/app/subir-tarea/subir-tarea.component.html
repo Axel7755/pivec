@@ -42,7 +42,7 @@
         </div>
 
         <div class="subir-documentos">
-            <button for="documento" class="subir-button" mat-raised-button color="accent">Subir Documentos</button>
+            <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button color="accent">Subir Documentos</button>
             <input type="file" id="documento" name="documento" multiple style="display: none;">
         </div>
 
