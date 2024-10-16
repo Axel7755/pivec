@@ -2,15 +2,19 @@
 
 .contenedor-tarea {
     position: relative;
-    width: 60%; /* Ancho relativo para diseño responsive */
-    max-width: 770px; /* Ancho máximo para pantallas grandes */
-    margin: 15px auto; /* Centra el contenedor horizontalmente */
+    width: 60%;
+    /* Ancho relativo para diseño responsive */
+    max-width: 770px;
+    /* Ancho máximo para pantallas grandes */
+    margin: 15px auto;
+    /* Centra el contenedor horizontalmente */
     padding: 20px;
     border-radius: 15px;
     background-color: rgba(226, 226, 226, 0.8);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Alinea el contenido al centro */
+    align-items: center;
+    /* Alinea el contenido al centro */
     justify-content: center;
     border: 1px solid transparent;
 }
@@ -34,7 +38,8 @@
 .informacion-materia {
     flex: 1;
     text-align: left;
-    padding-right: 15px; /* Ajusta el espacio entre las columnas */
+    padding-right: 15px;
+    /* Ajusta el espacio entre las columnas */
 }
 
 .img-materia {
@@ -45,14 +50,16 @@
 
 .img-materia img {
     max-width: 100%;
-    height: 150px; /* Fija una altura específica para uniformidad */
+    height: 150px;
+    /* Fija una altura específica para uniformidad */
     object-fit: contain;
 }
 
 .acciones {
     flex: 1;
     text-align: right;
-    padding-left: 15px; /* Ajusta el espacio entre las columnas */
+    padding-left: 15px;
+    /* Ajusta el espacio entre las columnas */
 }
 
 .info-tarea {
@@ -76,7 +83,8 @@
 
 .buton-download {
     display: inline-block;
-    margin-left: 10px; /* Reduce el espacio entre el texto y el botón */
+    margin-left: 10px;
+    /* Reduce el espacio entre el texto y el botón */
 }
 
 .subir-documentos {
@@ -239,9 +247,36 @@ textarea {
     /* Alinea el texto dentro del textarea a la izquierda */
 }
 
+/* Estilos para la lista de mensajes */
+.lista-mensajes {
+    border: 1px solid #ccc;
+    padding: 8px;
+    max-height: 30%;
+    width: 87%;
+    overflow-y: auto;
+}
+
+.mensaje {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+
+.mensaje.alumno {
+    background-color: #e0f7fa; /* Color de fondo para mensajes del alumno */
+    color: black; /* Color del texto */
+    text-align: left;
+}
+
+.mensaje.docente {
+    background-color: #ffecb3; /* Color de fondo para mensajes del docente */
+    color: black; /* Color del texto */
+    text-align: right;
+}
+
 .input-comentario {
-    flex: 1; /* Toma todo el espacio disponible */
-    width: 270px;
+    flex: 1;
+    width: 50%;
     padding: 10px;
     font-size: 15px;
     border: 1px solid #ccc;
@@ -254,6 +289,28 @@ textarea {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    margin-left: 90px;
+    margin-left: 70%;
     border-radius: 15px;
+    margin-top: -55px;
 }
+
+.nuevo-comentario{
+    margin-top: 10px;
+}
+
+/* deslice de mensajes */
+.lista-mensajes {
+    max-height: 217px; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+    border: 1px solid #ccc; /* Opcional: agrega un borde */
+    padding: 10px; /* Opcional: agrega un relleno */
+    margin-bottom: 10px; /* Espacio entre la lista y el nuevo comentario */
+}
+
+/* estilo para la fecha del mensaje enviado */
+.fecha-mensaje {
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+    color: gray; /* Color de texto gris para la fecha */
+    margin-left: 10px; /* Espacio entre el nombre y la fecha */
+}
+
