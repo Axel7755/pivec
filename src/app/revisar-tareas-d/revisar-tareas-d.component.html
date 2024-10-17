@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar Tareas</title>
+</head>
+
+<body>
+    <div class="contenedor-tarea">
+        <div class="contenido-principal">
+            <div class="informacion-materia">
+                <h1>Uriel Alejandro</h1>
+                <p class="vence">Vence: 12/08/2024</p>
+            </div>
+
+            <div class="img-materia">
+                <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+            </div>
+
+            <div class="acciones">
+                <button class="entregar-button" mat-raised-button color="primary"> Revisar</button>
+            </div>
+        </div>
+
+        <div class="info-tarea">
+            <div class="nombre-tarea">
+                <strong>Nombre de tarea:</strong> Tarea 1
+            </div>
+
+            <div class="desc-tarea">
+                <strong>Descripción de la tarea:</strong> Realizar un FODA de uno mismo
+                <div class="buton-download">
+                    <a href="./assets/download/materia1.pdf" download class="download-icon">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Apartado de calificación -->
+        <div class="calificacion">
+            <label for="calificacionInput"><strong>Ingrese la calificación:</strong></label>
+            <input type="number" id="calificacionInput" [(ngModel)]="calificacion" placeholder="0.00" min="0" max="10"
+                step="0.01" class="input-calificacion" (input)="validarDecimales()" />
+            <div *ngIf="calificacionFueraDeRango" class="error-msg">La calificación debe estar entre 0 y 10</div>
+            <div *ngIf="decimalesInvalidos" class="error-msg">Solo se permiten hasta dos decimales</div>
+        </div>
+
+        <!-- Sección de mensajeria new -->
+        <div class="comentarios">
+            <h2>Comentarios</h2>
+
+            <!-- Contenedor para los mensajes -->
+            <div class="lista-mensajes">
+                <!-- Mensajes dinámicos -->
+                <div *ngFor="let mensaje of getMensajesOrdenados()"
+                    [ngClass]="{'mensaje': true, 'docente': mensaje.emisor === 'docente', 'alumno': mensaje.emisor === 'alumno'}">
+                    <p>
+                        <strong>{{ mensaje.emisor | titlecase }}: {{ mensaje.nombre }}</strong>
+                        <span class="fecha-mensaje">({{ mensaje.fecha }})</span>
+                    </p>
+                    <p>{{ mensaje.texto }}</p>
+                </div>
+            </div>
+
+            <!-- Campo para enviar un nuevo mensaje -->
+            <div class="nuevo-comentario">
+                <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un comentario..."
+                    class="input-comentario" (keyup.enter)="enviarMensaje()">
+                <button (click)="enviarMensaje()" class="btn-comentar" mat-raised-button
+                    color="primary">Comentar</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

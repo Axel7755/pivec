@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
+
+.contenedor-tarea {
+    position: relative;
+    width: 60%;
+    /* Ancho relativo para diseño responsive */
+    max-width: 770px;
+    /* Ancho máximo para pantallas grandes */
+    margin: 15px auto;
+    /* Centra el contenedor horizontalmente */
+    padding: 20px;
+    border-radius: 15px;
+    background-color: rgba(226, 226, 226, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Alinea el contenido al centro */
+    justify-content: center;
+    border: 1px solid transparent;
+}
+
+
+/* ------ */
+
+.contenedor-tarea {
+    font-family: Arial, sans-serif;
+    padding: 15px;
+}
+
+.contenido-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.informacion-materia {
+    flex: 1;
+    text-align: left;
+    padding-right: 15px;
+    /* Ajusta el espacio entre las columnas */
+}
+
+.img-materia {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.img-materia img {
+    max-width: 100%;
+    height: 150px;
+    /* Fija una altura específica para uniformidad */
+    object-fit: contain;
+}
+
+.acciones {
+    flex: 1;
+    text-align: right;
+    padding-left: 15px;
+    /* Ajusta el espacio entre las columnas */
+}
+
+.info-tarea {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+
+.info-tarea .nombre-tarea,
+.info-tarea .desc-tarea {
+    margin-bottom: 10px;
+    margin-left: 45px;
+}
+
+.desc-tarea {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 95px;
+}
+
+.buton-download {
+    display: inline-block;
+    margin-left: 10px;
+    /* Reduce el espacio entre el texto y el botón */
+}
+
+.subir-documentos {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.comentarios {
+    width: 100%;
+}
+
+.download-icon {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+}
+
+
+/* ------ */
+
+.informacion-materia {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+}
+
+.informacion-materia h1 {
+    margin: 30px;
+    font-size: 35px;
+    font-family: "Girassol", cursive;
+    color: #1854fa;
+}
+
+.informacion-materia .vence {
+    margin: 30px;
+    color: red;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.img-materia {
+    margin-top: 0;
+    width: 100%;
+    max-width: 25%;
+    display: flex;
+    justify-content: left;
+    padding: 10px 0;
+}
+
+img[mat-card-image] {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+}
+
+.acciones {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    position: relative;
+    top: -35px;
+    /* Ajusta el valor según lo necesites */
+    padding: 10px 0;
+}
+
+.entregar-button {
+    margin-right: 60px;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.entregar-button:hover {
+    background-color: #0033cc;
+}
+
+.download-icon {
+    font-size: 24px;
+    color: rgb(109, 26, 66);
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.download-icon:hover {
+    color: #ff0000;
+}
+
+@keyframes click-animation {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(360deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(720deg);
+    }
+}
+
+.download-icon:active {
+    animation: click-animation 0.9s ease-in-out;
+}
+
+.subir-documentos {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.subir-button {
+    padding: 10px 20px;
+    background: linear-gradient(to right, #FF9933, #FFC545) !important;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.contenedor-tarea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Alinea todo el contenido del contenedor a la izquierda */
+}
+
+.comentarios {
+    width: 100%;
+    /* Ocupa todo el ancho del contenedor */
+    padding: 10px 0;
+    margin-top: -20px;
+    margin-left: 45px;
+}
+
+.comentarios h2 {
+    font-family: 'Times New Roman', Times, serif;
+    color: #1854fa;
+    margin-bottom: 10px;
+    text-align: left;
+    /* Asegura que el título esté alineado a la izquierda */
+}
+
+textarea {
+    width: 65%;
+    height: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+    text-align: left;
+    /* Alinea el texto dentro del textarea a la izquierda */
+}
+
+/* Estilos para la lista de mensajes */
+.lista-mensajes {
+    border: 1px solid #ccc;
+    padding: 8px;
+    max-height: 30%;
+    width: 87%;
+    overflow-y: auto;
+}
+
+.mensaje {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+
+.mensaje.alumno {
+    background-color: #e0f7fa; /* Color de fondo para mensajes del alumno */
+    color: black; /* Color del texto */
+    text-align: right;
+}
+
+.mensaje.docente {
+    background-color: #ffecb3; /* Color de fondo para mensajes del docente */
+    color: black; /* Color del texto */
+    text-align: left;
+}
+
+.input-comentario {
+    flex: 1;
+    width: 50%;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.btn-comentar {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 70%;
+    border-radius: 15px;
+    margin-top: -55px;
+}
+
+.nuevo-comentario{
+    margin-top: 10px;
+}
+
+/* deslice de mensajes */
+.lista-mensajes {
+    max-height: 217px; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+    border: 1px solid #ccc; /* Opcional: agrega un borde */
+    padding: 10px; /* Opcional: agrega un relleno */
+    margin-bottom: 10px; /* Espacio entre la lista y el nuevo comentario */
+}
+
+/* estilo para la fecha del mensaje enviado */
+.fecha-mensaje {
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+    color: gray; /* Color de texto gris para la fecha */
+    margin-left: 10px; /* Espacio entre el nombre y la fecha */
+}
+
+/* estilos para el input de calificación */
+.calificacion{
+    width: 35%;
+    margin-top: 10px;
+    margin-left: 45px;
+    font-size: 18px;
+    display: flex;                  
+    align-items: center;           
+    margin-bottom: 10px;    
+}
+
+.calificacion label {
+    margin-right: 10px;            /* Espacio entre el label y el input */
+    white-space: nowrap;           /* Evita que el label salte de línea */
+    color: #1d80f2;
+}
+
+.input-calificacion {
+    display: block;            
+    width: 250px;              
+    padding: 10px;           
+    box-sizing: border-box;   /* Evita que el padding se desborde del ancho total */
+    
+    border: 2px solid #32b5fb; /* Color de borde verde */
+    border-radius: 8px;       
+    background-color: #f9f9f9; 
+    color: #333;              
+    font-size: 13px;         
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    outline: none;            /* Elimina el borde de enfoque predeterminado */
+}
+
+/* Efecto de enfoque */
+.input-calificacion:focus { /* Cambiado de #input-calificacion a .input-calificacion */
+    border-color: #4CAF50;    /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Agrega sombra al enfoque */
+}
+
+.error-msg {
+    color: red;  
+    font-size: 14px;             /* Tamaño de fuente más pequeño */
+    margin-top: 5px;             /* Margen superior para separación */
+    margin-left: 10px;           /* Opcional: Espaciado izquierdo para alinear con el input */
+    white-space: nowrap;           /* Evita que el label salte de línea */
+}
