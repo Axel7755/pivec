@@ -1,8 +1,9 @@
 const db = require("../models");
+const bcrypt = require('bcrypt');
 const Docentes = db.Docentes;
 
 // Crear y guardar un nuevo Alumno
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validar la solicitud
     if (!req.body.noTrabajador) {
         res.status(400).send({
@@ -10,14 +11,16 @@ exports.create = (req, res) => {
         });
         return;
     }
-
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.contraseña_Do, saltRounds);
+    console.log(hashedPassword)
     // Crear un Alumno
     const docente = {
         noTrabajador: req.body.noTrabajador,
         nombres_Do: req.body.nombres_Do,
         apellidoP_Do: req.body.apellidoP_Do,
         apellidoM_Do: req.body.apellidoM_Do,
-        contraseña_Do: req.body.contraseña_Do,
+        contraseña_Do: hashedPassword,
         correoRec_Do: req.body.correoRec_Do
     };
 

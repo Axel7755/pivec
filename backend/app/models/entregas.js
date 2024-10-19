@@ -48,8 +48,8 @@ module.exports = (sequelize, Sequelize) => {
                     table: 'tareas',
                     field: 'idtareas'
                 },
-                onDelete: 'NO ACTION',
-                onUpdate: 'NO ACTION'
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             }
         ]
     });

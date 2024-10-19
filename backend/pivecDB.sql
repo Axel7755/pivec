@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `dbPIEC`.`alumnos` (
   `nombres_Al` VARCHAR(45) NOT NULL,
   `apellidoP_Al` VARCHAR(30) NOT NULL,
   `apellidoM_Al` VARCHAR(30) NULL DEFAULT NULL,
-  `contraseña_Al` VARCHAR(40) NOT NULL,
+  `contraseña_Al` VARCHAR(60) NOT NULL,
   `correoRec_Al` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`boleta`))
 ENGINE = InnoDB
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `dbPIEC`.`docentes` (
   `nombres_Do` VARCHAR(45) NOT NULL,
   `apellidoP_Do` VARCHAR(30) NOT NULL,
   `apellidoM_Do` VARCHAR(30) NULL DEFAULT NULL,
-  `contraseña_Do` VARCHAR(40) NOT NULL,
+  `contraseña_Do` VARCHAR(60) NOT NULL,
   `correoRec_Do` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`noTrabajador`))
 ENGINE = InnoDB
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `dbPIEC`.`grupos` (
   `g_idmaterias` INT(11) NOT NULL,
   `g_doc_noTrabajador` INT(11) NOT NULL,
   `idgrupos` VARCHAR(6) NOT NULL,
-  `fechin` DATETIME NOT NULL,
-  `fechfin` DATETIME NOT NULL,
+  `fechin` DATE NOT NULL,
+  `fechfin` DATE NOT NULL,
   PRIMARY KEY (`g_idmaterias`, `idgrupos`),
   INDEX `fk_grupos_docentes1_idx` (`g_doc_noTrabajador` ASC) ,
   INDEX `grupos_g_doc_no_trabajador` (`g_doc_noTrabajador` ASC) ,
@@ -278,8 +278,8 @@ DROP TABLE IF EXISTS `dbPIEC`.`horarios` ;
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`horarios` (
   `idHorarios` INT(11) NOT NULL AUTO_INCREMENT,
   `dia` VARCHAR(11) NOT NULL,
-  `entrada` TIME NOT NULL,
-  `salida` TIME NOT NULL,
+  `entrada` TIME NULL,
+  `salida` TIME NULL,
   `ho_idmaterias` INT(11) NOT NULL,
   `ho_idgrupos` VARCHAR(6) NOT NULL,
   PRIMARY KEY (`idHorarios`, `ho_idmaterias`, `ho_idgrupos`),

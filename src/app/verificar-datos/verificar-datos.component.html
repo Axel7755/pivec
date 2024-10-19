@@ -16,7 +16,7 @@
         <div class="input-row">
             <mat-form-field class="input-field">
                 <mat-label>Boleta/No.Trabajador</mat-label>
-                <input matInput placeholder="Boleta" [(ngModel)]="boleta">
+                <input type="number" matInput placeholder="Boleta" [(ngModel)]="boleta">
             </mat-form-field>
         </div>
 
@@ -24,18 +24,30 @@
         <div class="input-row">
             <mat-form-field class="input-field">
                 <mat-label>Nombre</mat-label>
-                <input matInput placeholder="ApellidoPaterno ApellidoMaterno Nombres" [(ngModel)]="nombre">
+                <input matInput placeholder="ApellidoPaterno ApellidoMaterno Nombres" [(ngModel)]="nombre"
+                    style="text-transform: uppercase;">
             </mat-form-field>
         </div>
+
     </div>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+
+        <!-- grupo Column -->
+        <ng-container matColumnDef="grupo">
+            <th mat-header-cell *matHeaderCellDef class="header-cell-center">Grupo</th>
+            <td mat-cell *matCellDef="let element" class="cell-center">
+                <mat-form-field>
+                    <textarea matInput placeholder="Grupo" [(ngModel)]="element.grupo" style="text-transform: uppercase;"></textarea>
+                </mat-form-field>
+            </td>
+        </ng-container>
         <!-- materia Column -->
         <ng-container matColumnDef="materia">
             <th mat-header-cell *matHeaderCellDef class="header-cell-center">Materia</th>
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <mat-form-field>
-                    <textarea matInput placeholder="Materia" [(ngModel)]="element.materia"></textarea>
+                    <textarea matInput placeholder="Materia" [(ngModel)]="element.materia" style="text-transform: uppercase;"></textarea>
                 </mat-form-field>
             </td>
         </ng-container>
@@ -45,7 +57,7 @@
             <th mat-header-cell *matHeaderCellDef class="header-cell-center">Asignado a</th>
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <mat-form-field>
-                    <textarea matInput placeholder="Docente" [(ngModel)]="element.docente"></textarea>
+                    <textarea matInput placeholder="Docente" [(ngModel)]="element.docente" style="text-transform: uppercase;"></textarea>
                 </mat-form-field>
             </td>
         </ng-container>
@@ -56,7 +68,7 @@
             <td mat-cell *matCellDef="let element" class="cell-center">
                 <div class="hora-container">
                     <div class="hora-group">
-                        
+
                         <input id="entrada-lunes" class="hora-entrada" type="time" [(ngModel)]="element.lunesEntrada">
                     </div>
                     <div class="hora-group">
@@ -145,7 +157,7 @@
         <tr mat-row color="primary" *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </table>
-    <div id="boton">
+    <div id="boton" (click)="guardarUsuario()">
         <button mat-button color="primary" mat-raised-button class="boton">Guardar Horario</button>
     </div>
 

@@ -12,11 +12,11 @@ module.exports = (sequelize, Sequelize) => {
         },
         entrada: {
             type: Sequelize.TIME,
-            allowNull: false
+            allowNull: true
         },
         salida: {
             type: Sequelize.TIME,
-            allowNull: false
+            allowNull: true
         },
         ho_idmaterias: {
             type: Sequelize.INTEGER,

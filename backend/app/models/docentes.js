@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true
         },
         contraseña_Do: {
-            type: Sequelize.STRING(40),
+            type: Sequelize.STRING(60),
             allowNull: true
         },
         correoRec_Do: {

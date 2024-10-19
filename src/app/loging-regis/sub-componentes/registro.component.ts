@@ -41,6 +41,7 @@ export class RegistroComponent {
   correo = "baxeltomas@gmail.com"
 
   materias: { [key: number]: string } = {};
+  grupos: { [key: number]: string } = {};
   docentes: { [key: number]: string } = {};
   lunes: { [key: number]: string } = {};
   martes: { [key: number]: string } = {};
@@ -210,6 +211,7 @@ export class RegistroComponent {
       conthash: this.conthash,
       correo: this.correo,
       materias: this.materias,
+      grupos: this.grupos,
       docentes: this.docentes,
       lunes: this.lunes,
       martes: this.martes,
@@ -259,33 +261,60 @@ export class RegistroComponent {
     });
     this.materias = rows[8];
     this.docentes = rows[32];
+    //console.log(rows)
 
     const outerKeys = Object.keys(this.docentes).map(key => Number(key)); // Obtiene las claves del primer nivel
     outerKeys.forEach(outerKey => {
+
+      if(rows[5][outerKey]){
+        this.grupos[outerKey] = rows[5][outerKey];
+      }
+
+      //asignación de las horas
       if (rows[48][outerKey - 1]) {
         this.lunes[outerKey - 1] = rows[48][outerKey - 1];
       } else {
-        this.lunes[outerKey - 1] = '';
+        if (rows[48][outerKey]) {
+          this.lunes[outerKey - 1] = rows[48][outerKey];
+        }else{
+          this.lunes[outerKey - 1] = '';
+        }
       }
       if (rows[58][outerKey - 1]) {
         this.martes[outerKey - 1] = rows[58][outerKey - 1];
       } else {
-        this.martes[outerKey - 1] = '';
+        if (rows[58][outerKey]) {
+          this.martes[outerKey - 1] = rows[58][outerKey];
+        }else{
+          this.martes[outerKey - 1] = '';
+        }
       }
       if (rows[68][outerKey - 1]) {
         this.miercoles[outerKey - 1] = rows[68][outerKey - 1];
       } else {
-        this.miercoles[outerKey - 1] = '';
+        if (rows[68][outerKey]) {
+          this.miercoles[outerKey - 1] = rows[68][outerKey];
+        }else{
+          this.miercoles[outerKey - 1] = '';
+        }
       }
       if (rows[78][outerKey - 1]) {
         this.jueves[outerKey - 1] = rows[78][outerKey - 1];
       } else {
-        this.jueves[outerKey - 1] = '';
+        if (rows[78][outerKey]) {
+          this.jueves[outerKey - 1] = rows[78][outerKey];
+        }else{
+          this.jueves[outerKey - 1] = '';
+        }
       }
       if (rows[88][outerKey - 1]) {
         this.viernes[outerKey - 1] = rows[88][outerKey - 1]; // Imprime cada valor
       } else {
-        this.viernes[outerKey - 1] = '';
+        if (rows[88][outerKey]) {
+          this.viernes[outerKey - 1] = rows[88][outerKey];
+        }else{
+          this.viernes[outerKey - 1] = '';
+        }
       }
     });
   }

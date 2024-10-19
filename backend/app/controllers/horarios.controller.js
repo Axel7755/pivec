@@ -5,8 +5,8 @@ const Horarios = db.horarios;
 exports.create = (req, res) => {
     const horario = {
         dia: req.body.dia,
-        entrada: req.body.entrada,
-        salida: req.body.salida,
+        entrada: req.body.entrada !== "" ? req.body.entrada : null,
+        salida: req.body.salida !== "" ? req.body.salida : null, 
         ho_idmaterias: req.body.ho_idmaterias,
         ho_idgrupos: req.body.ho_idgrupos
     };

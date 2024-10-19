@@ -41,8 +41,11 @@ const resetDatabase = async () => {
     await db.Horarios.destroy({ where: {}, truncate: true });
     await db.Grabaciones.destroy({ where: {}, truncate: true });
     await db.GruposAlumnos.destroy({ where: {}, truncate: true });
+    await db.Videos.destroy({ where: {}, truncate: true });
     await db.Grupos.destroy({ where: {}, truncate: true });
     await db.Alumnos.destroy({ where: {}, truncate: true });
+    await db.Materias.destroy({ where: {}, truncate: true });
+    await db.Docentes.destroy({ where: {}, truncate: true });
     await sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
     await sequelize.sync();
 })};
