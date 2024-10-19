@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: null
         },
         contraseña_Al: {
-            type: Sequelize.STRING(40),
+            type: Sequelize.STRING(60),
             allowNull: false
         },
         correoRec_Al: {

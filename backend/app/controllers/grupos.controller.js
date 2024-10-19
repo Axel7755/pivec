@@ -2,25 +2,25 @@ const db = require("../models");
 const Grupos = db.grupos;
 
 // Crear un nuevo grupo
-exports.create = (req, res) => {
-    const grupo = {
-        g_idmaterias: req.body.g_idmaterias,
-        g_doc_noTrabajador: req.body.g_doc_noTrabajador,
-        idgrupos: req.body.idgrupos,
-        fechin: req.body.fechin,
-        fechfin: req.body.fechfin
-    };
+exports.create = async (req, res) => {
+    try {
+        const grupo = {
+            g_idmaterias: req.body.g_idmaterias,
+            g_doc_noTrabajador: req.body.g_doc_noTrabajador,
+            idgrupos: req.body.idgrupos,
+            fechin: req.body.fechin,
+            fechfin: req.body.fechfin
+        };
 
-    Grupos.create(grupo)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Ocurrió un error al crear el grupo."
-            });
+        const data = await Grupos.create(grupo);
+        res.send(data);
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Ocurrió un error al crear el grupo."
         });
+    }
 };
+
 
 // Obtener todos los grupos
 exports.findAll = (req, res) => {

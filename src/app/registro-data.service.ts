@@ -7,6 +7,7 @@ export interface RegistroData {
   conthash: string;
   correo: string; 
   materias: { [key: number]: string };
+  grupos: { [key: number]: string };
   docentes: { [key: number]: string };
   lunes: { [key: number]: string };
   martes: { [key: number]: string };
@@ -28,6 +29,7 @@ export class RegistroDataService {
     correo: '',
     materias: {},
     docentes: {},
+    grupos :{},
     lunes: {},
     martes: {},
     miercoles: {},
