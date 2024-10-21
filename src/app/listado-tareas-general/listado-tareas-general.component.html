@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado tareas general</title>
+</head>
+
+<body>
+    <!-- Enlaces de "Pendientes" y "Vencidas" -->
+
+    <div class="crear-tareas">
+        <button mat-button class="crear-tareas-btn" mat-raised-button color="accent" (click)="navigateToCrearTareas()">
+            <img src="../../assets/images/homework.ico" alt="Icono Tarea" class="icono-tarea">
+            Crear Tarea
+        </button>
+    </div>
+
+    <hr>
+
+    <div class="contenedor-tarea">
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+        </div>
+        <div class="informacion-materia">
+            <div class="titulo-icono">
+                <h1>Liderazgo Personal</h1>
+                <!-- Ícono de opciones convertido en botón -->
+                <button mat-icon-button class="boton-opciones" [matMenuTriggerFor]="menu">
+                    <img class="icono-materia" src="../../assets/images/options.ico" alt="Opciones">
+                </button>
+                <mat-menu class="menuu" #menu="matMenu" color="primary">
+                    <button mat-menu-item class="custom-menu-item" (click)="editarTarea()">Editar Tarea</button>
+                    <button mat-menu-item class="custom-menu-item" (click)="eliminarTarea()">Eliminar Tarea</button>
+                </mat-menu>                                              
+            </div>
+
+            <div class="seccion-medio">
+                <p>El desarrollo del liderazgo personal es crucial para el crecimiento individual y profesional.
+                    ambiciosas, superando obstáculos con mayor claridad y dirección...</p>
+            </div>
+
+            <div class="seccion-abajo">
+                <p class="vence">Vence: 12/08/2024</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- seccion de modificacion -->
+    <div class="contenedor-tarea">
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+        </div>
+        <div class="informacion-materia">
+            <div class="titulo-icono">
+                <h1>Liderazgo Personal</h1>
+                <!-- Ícono de opciones convertido en botón -->
+                <button mat-icon-button class="boton-opciones" [matMenuTriggerFor]="menu">
+                    <img class="icono-materia" src="../../assets/images/options.ico" alt="Opciones">
+                </button>
+                <!-- Menú desplegable con las opciones -->
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editarTarea()">Editar Tarea</button>
+                    <button mat-menu-item (click)="eliminarTarea()">Eliminar Tarea</button>
+                </mat-menu>
+            </div>
+
+            <div class="seccion-medio">
+                <p>El desarrollo del liderazgo personal es crucial para el crecimiento individual y profesional.
+                    ambiciosas, superando obstáculos con mayor claridad y dirección...</p>
+            </div>
+
+            <div class="seccion-abajo">
+                <p class="vence">Vence: 12/08/2024</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
