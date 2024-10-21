@@ -16,6 +16,7 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
 import { CrearTareasDComponent } from './crear-tareas-d/crear-tareas-d.component';
 import { SubirArchivosComponent } from './subir-archivos/subir-archivos.component';
 import { RevisarTareasDComponent } from './revisar-tareas-d/revisar-tareas-d.component';
+import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-tareas-general.component';
 
 export const routes: Routes = [
 
@@ -45,6 +46,7 @@ export const routes: Routes = [
             { path: 'video-player', component: VideoPlayerComponent },
             { path: 'crear-tareas-d', component: CrearTareasDComponent },
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
+            { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
 
         ]       
     },
