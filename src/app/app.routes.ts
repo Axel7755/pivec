@@ -17,6 +17,7 @@ import { CrearTareasDComponent } from './crear-tareas-d/crear-tareas-d.component
 import { SubirArchivosComponent } from './subir-archivos/subir-archivos.component';
 import { RevisarTareasDComponent } from './revisar-tareas-d/revisar-tareas-d.component';
 import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-tareas-general.component';
+import { ListadoEntregasTareasComponent } from './listado-entregas-tareas/listado-entregas-tareas.component';
 
 export const routes: Routes = [
 
@@ -47,6 +48,8 @@ export const routes: Routes = [
             { path: 'crear-tareas-d', component: CrearTareasDComponent },
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
+            { path: 'listado-entregas-tareas', component: ListadoEntregasTareasComponent },
+
 
         ]       
     },

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado entregas tareas</title>
+</head>
+
+<body>
+    <div class="eliminar-tareas">
+        <button mat-button class="seleccionar-tareas-btn" mat-raised-button color="accent" (click)="toggleCheckboxes()">
+            <img src="../../assets/images/check-all-white.ico" alt="Icono Tarea" class="icono-tarea">
+            Seleccionar Entrega
+        </button>
+    
+        <!-- Muestra el botón de eliminar solo si hay tareas seleccionadas -->
+        <button mat-button class="eliminar-tareas-btn" mat-raised-button color="accent" (click)="eliminarEntregas()" *ngIf="hayTareasSeleccionadas()">
+            <img src="../../assets/images/delete.ico" alt="Icono Tarea" class="icono-tarea">
+            Eliminar Entrega
+        </button>
+    </div>
+    
+    <hr>
+    
+    <div *ngFor="let tarea of tareas" class="contenedor-tarea">
+        <div class="checkbox-container" *ngIf="showCheckboxes">
+            <input type="checkbox" class="tarea-checkbox" [(ngModel)]="tarea.seleccionada">
+        </div>
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+        </div>
+        <div class="informacion-materia">
+            <div class="titulo-icono">
+                <h1>{{ tarea.nombre }}</h1>
+            </div>
+    
+            <div class="seccion-medio">
+                <p>{{ tarea.descripcion }}</p>
+            </div>
+    
+            <div class="seccion-abajo">
+                <p class="entregado">Entregado: {{ tarea.fecha }} - {{ tarea.hora }}</p>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+
+</html>
