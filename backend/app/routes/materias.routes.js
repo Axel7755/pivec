@@ -17,4 +17,7 @@ router.put("/:id", materias.update);
 // Eliminar una Materia por id
 router.delete("/:id", materias.delete);
 
+// Verificar existencia de la materia
+router.get("/findByName/:material", materias.findByName);
+
 module.exports = router;

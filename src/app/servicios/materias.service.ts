@@ -13,4 +13,8 @@ export class MateriasService {
   createMateria(materia: any): Observable<any> {
     return this.http.post(this.baseUrl, materia);
   }
+
+  findMateriaByName(material: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/findByName/${material}`);
+  }
 }

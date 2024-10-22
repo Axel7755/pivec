@@ -14,16 +14,50 @@ exports.create = (req, res) => {
         material: req.body.material
     };
 
-    Materia.create(materia)
+    Materia.findOne({ where: { material: materia.material } })
+    .then(data => {
+        if (data) {
+            res.status(400).send({
+                message: "La materia ya existe."
+            });
+        } else {
+            Materia.create(materia)
+                .then(data => {
+                    res.send(data);
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Ocurrió un error al crear la materia."
+                    });
+                });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message || "Ocurrió un error al buscar la materia."
+        });
+    });
+};
+
+// Encontrar una materia por nombre
+exports.findByName = async (req, res) => {
+    const material = req.params.material;
+    Materia.findOne({ where: { material: material } })
         .then(data => {
-            res.send(data);
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `No se encontró la materia con nombre ${material}.`
+                });
+            }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Ocurrió un error al crear la Materia."
+                message: err.message || "Ocurrió un error al buscar la materia."
             });
         });
-};
+  };
 
 // Obtener todas las Materias
 exports.findAll = (req, res) => {
