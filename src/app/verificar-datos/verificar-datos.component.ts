@@ -145,7 +145,7 @@ export class VerificarDatosComponent implements OnInit {
         contraseña_Do: this.data.conthash,
         correoRec_Do: this.data.correo
       };
-    
+
       this.docentesService.createDocente(docente).pipe(
         catchError(error => {
           console.error('Error al crear el docente', error);
@@ -154,61 +154,47 @@ export class VerificarDatosComponent implements OnInit {
       ).subscribe({
         next: response => {
           console.log('Docente creado exitosamente', response);
-          this.dataSource.forEach(grupoData => {
+          this.dataSource[1]
+          for(var x=0; x < this.dataSource.length; x++){
+            const grupoData=this.dataSource[x]
+          //this.dataSource.forEach(grupoData => {
             const materia = { material: grupoData.materia };
-            this.materiasService.createMateria(materia).pipe(
+            this.materiasService.findMateriaByName(grupoData.materia).pipe(
+              catchError(error => {
+                console.error('Error al buscar la materia', error);
+                return of(null);
+              })
+            ).subscribe(materiaEncontrada => {
+              if (materiaEncontrada) {
+                //console.log("se encontro materia",materiaEncontrada);
+                this.gruposHorarios(materiaEncontrada.idmaterias, grupoData)
+              }else{
+                //console.log("no se encontro materia");
+                this.materiasService.createMateria(materia).pipe(
+                  catchError(error => {
+                    console.error('Error al crear la materia', error);
+                    return of(null);
+                  })
+                ).subscribe(materiaResponse => {
+                  if (materiaResponse) {
+                    console.error('Creo la materia con exito');
+                    this.gruposHorarios(materiaResponse.idmaterias, grupoData)
+                  }
+                });
+              }
+            });
+            /*this.materiasService.createMateria(materia).pipe(
               catchError(error => {
                 console.error('Error al crear la materia', error);
                 return of(null);
               })
             ).subscribe(materiaResponse => {
               if (materiaResponse) {
-                const grupo = {
-                  g_idmaterias: materiaResponse.idmaterias,
-                  g_doc_noTrabajador: this.boleta,
-                  idgrupos: grupoData.docente,
-                  fechin: this.formattedDate,
-                  fechfin: this.futureDate
-                };
-                //console.log(grupo)
-                this.gruposService.createGrupo(grupo).pipe(
-                  catchError(error => {
-                    console.error('Error al crear el grupo', error);
-                    return of(null);
-                  })
-                ).subscribe(grupoResponse => {
-                  console.log('Grupo creado exitosamente', grupoResponse);
-                  
-                  const horarios = [
-                    { dia: 'LUNES', entrada: grupoData.lunesEntrada, salida: grupoData.lunesSalida },
-                    { dia: 'MARTES', entrada: grupoData.martesEntrada, salida: grupoData.martesSalida },
-                    { dia: 'MIERCOLES', entrada: grupoData.miercolesEntrada, salida: grupoData.miercolesSalida },
-                    { dia: 'JUEVES', entrada: grupoData.juevesEntrada, salida: grupoData.juevesSalida },
-                    { dia: 'VIERNES', entrada: grupoData.viernesEntrada, salida: grupoData.viernesSalida }
-                  ];
-    
-                  horarios.forEach(horarioData => {
-                    const horario = {
-                      dia: horarioData.dia,
-                      entrada: horarioData.entrada,
-                      salida: horarioData.salida,
-                      ho_idmaterias: materiaResponse.idmaterias,
-                      ho_idgrupos: grupoData.docente
-                    };
-                    console.log(horario)
-                    this.horariosService.createHorario(horario).pipe(
-                      catchError(error => {
-                        console.error(`Error al crear el horario de ${horarioData.dia}`, error);
-                        return of(null);
-                      })
-                    ).subscribe(horarioResponse => {
-                      console.log(`Horario de ${horarioData.dia} creado exitosamente`, horarioResponse);
-                    });
-                  });
-                });
+                this.gruposHorarios(materiaResponse.idmaterias, grupoData)
               }
-            });
-          });
+            });*/
+          //});
+        }
         },
         error: error => console.error('Error al crear el docente', error),
         complete: () => console.log('Solicitud de creación de docente completada')
@@ -227,8 +213,8 @@ export class VerificarDatosComponent implements OnInit {
     if (endTime !== null && endTime !== undefined && endTime.length == 4) {
       endTime = "0" + endTime;
     }
-    if (endTime == null && endTime == undefined){
-      endTime="";
+    if (endTime == null && endTime == undefined) {
+      endTime = "";
     }
     return [startTime, endTime];
   }
@@ -262,6 +248,50 @@ export class VerificarDatosComponent implements OnInit {
     return result;
   }
 
+  gruposHorarios(idMaterias: number, grupoData: any) {
+    const grupo = {
+      g_idmaterias: idMaterias,
+      g_doc_noTrabajador: this.boleta,
+      idgrupos: grupoData.docente,
+      fechin: this.formattedDate,
+      fechfin: this.futureDate
+    };
+    //console.log(grupo)
+    this.gruposService.createGrupo(grupo).pipe(
+      catchError(error => {
+        console.error('Error al crear el grupo', error);
+        return of(null);
+      })
+    ).subscribe(grupoResponse => {
+      console.log('Grupo creado exitosamente', grupoResponse);
 
+      const horarios = [
+        { dia: 'LUNES', entrada: grupoData.lunesEntrada, salida: grupoData.lunesSalida },
+        { dia: 'MARTES', entrada: grupoData.martesEntrada, salida: grupoData.martesSalida },
+        { dia: 'MIERCOLES', entrada: grupoData.miercolesEntrada, salida: grupoData.miercolesSalida },
+        { dia: 'JUEVES', entrada: grupoData.juevesEntrada, salida: grupoData.juevesSalida },
+        { dia: 'VIERNES', entrada: grupoData.viernesEntrada, salida: grupoData.viernesSalida }
+      ];
+
+      horarios.forEach(horarioData => {
+        const horario = {
+          dia: horarioData.dia,
+          entrada: horarioData.entrada,
+          salida: horarioData.salida,
+          ho_idmaterias: idMaterias,
+          ho_idgrupos: grupoData.docente
+        };
+        console.log(horario)
+        this.horariosService.createHorario(horario).pipe(
+          catchError(error => {
+            console.error(`Error al crear el horario de ${horarioData.dia}`, error);
+            return of(null);
+          })
+        ).subscribe(horarioResponse => {
+          console.log(`Horario de ${horarioData.dia} creado exitosamente`, horarioResponse);
+        });
+      });
+    });
+  }
 
 }
