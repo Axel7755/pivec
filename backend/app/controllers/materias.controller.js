@@ -4,26 +4,32 @@ const Materia = db.Materias;
 // Crear y guardar una nueva Materia
 exports.create = (req, res) => {
     if (!req.body.material) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "El contenido no puede estar vacío!"
         });
-        return;
     }
 
     const materia = {
         material: req.body.material
     };
 
+    // Busca si ya existe una materia con el mismo nombre
     Materia.findOne({ where: { material: materia.material } })
     .then(data => {
         if (data) {
-            res.status(400).send({
-                message: "La materia ya existe."
+            // Si la materia ya existe, devuelve un mensaje claro y los datos de la materia existente
+            return res.status(200).send({
+                message: "La materia con ese nombre ya existe.",
+                data: data  // Devolvemos los datos de la materia existente
             });
         } else {
+            // Si no existe, crea una nueva materia
             Materia.create(materia)
                 .then(data => {
-                    res.send(data);
+                    res.status(201).send({
+                        message: "Materia creada exitosamente.",
+                        idmaterias: data.idmaterias  // Asegúrate de devolver el ID correctamente
+                    });
                 })
                 .catch(err => {
                     res.status(500).send({

@@ -1,14 +1,23 @@
 const db = require("../models");
-const Alumnos = db.alumnos;
+const bcrypt = require('bcrypt');
+const Alumnos = db.Alumnos;
 
 // Crear un nuevo alumno
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
+    if (!req.body.boleta) {
+        res.status(400).send({
+            message: "El contenido no puede estar vacío!"
+        });
+        return;
+    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.contraseña_Al, saltRounds);
     const alumno = {
         boleta: req.body.boleta,
         nombres_Al: req.body.nombres_Al,
         apellidoP_Al: req.body.apellidoP_Al,
         apellidoM_Al: req.body.apellidoM_Al,
-        contraseña_Al: req.body.contraseña_Al,
+        contraseña_Al: hashedPassword,
         correoRec_Al: req.body.correoRec_Al
     };
 
@@ -38,7 +47,7 @@ exports.findAll = (req, res) => {
 
 // Obtener un alumno por boleta
 exports.findOne = (req, res) => {
-    const boleta = req.params.boleta;
+    const boleta = req.params.id;
 
     Alumnos.findByPk(boleta)
         .then(data => {

@@ -13,4 +13,7 @@ export class DocentesService {
   createDocente(docente: any): Observable<any> {
     return this.http.post(this.baseUrl, docente);
   }
+  obtenerDocente(idDocente: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${idDocente}`);
+  }
 }

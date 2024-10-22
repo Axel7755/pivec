@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { LateralLogin } from '../loging-regis/sub-componentes/lateral.component';
 import { LoginFormComponent } from '../loging-regis/sub-componentes/login-form.component';
@@ -12,8 +12,12 @@ import { DocentesService } from '../servicios/docentes.service';
 import { MateriasService } from '../servicios/materias.service';
 import { GruposService } from '../servicios/grupos.service';
 import { HorariosService } from '../servicios/horarios.service';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { AlumnosService } from '../servicios/alumnos.service';
+import { GruposAlumnosService } from '../servicios/grupos-alumnos.service';
+import { Router } from '@angular/router';
 
 
 export interface Horario {
@@ -72,7 +76,9 @@ export class VerificarDatosComponent implements OnInit {
 
   constructor(private dataService: RegistroDataService, private docentesService: DocentesService,
     private materiasService: MateriasService, private gruposService: GruposService,
-    private horariosService: HorariosService
+    private horariosService: HorariosService, public dialog: MatDialog,
+    private alumnosService: AlumnosService, private grupoAlumnoService: GruposAlumnosService,
+    private router: Router
   ) { }
   ngAfterViewInit() {
     const timeInputs = document.querySelectorAll('input[type="time"]');
@@ -135,6 +141,69 @@ export class VerificarDatosComponent implements OnInit {
         contraseña_Al: this.data.conthash,
         correoRec_Al: this.data.correo
       };
+      this.alumnosService.obtenerAlumno(alumno.boleta).pipe(
+        catchError(error => {
+          console.error('Error al recuperar alumno', error);
+          return of(null);
+        })
+      ).subscribe(alumnoEncontrado => {
+        if (alumnoEncontrado) {
+          this.openDialog("alumno");
+        } else {
+          this.alumnosService.createAlumno(alumno).pipe(
+            catchError(error => {
+              console.error('Error al crear alumno', error);
+              return of(null);
+            })
+          ).subscribe({
+            next: response => {
+              if(response){
+              console.log('alumno creado exitosamente', response);
+              for (var x = 0; x < this.dataSource.length; x++) {
+                const grupoData = this.dataSource[x];
+                this.materiasService.findMateriaByName(grupoData.materia).pipe(
+                  catchError(error => {
+                    console.error('Error al encontrar materia', error);
+                    return of(null)
+                  })
+                ).subscribe(async materiaEncontrada => {
+                  if (materiaEncontrada) {
+                    const grupo_alumno = {
+                      ga_idmaterias: materiaEncontrada.idmaterias,
+                      ga_idgrupos: grupoData.grupo,
+                      ga_boleta: alumno.boleta,
+                    }
+                    const GrupoAlumResponse = await this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno).toPromise();
+
+                    if (GrupoAlumResponse) {
+                      console.log("Respuesta del backend:", GrupoAlumResponse);
+
+                      if (GrupoAlumResponse.message && GrupoAlumResponse.message.includes('ya existe')) {
+                        console.log('Materia ya existente:', GrupoAlumResponse.data);
+
+                      } else if (GrupoAlumResponse.idmaterias) {
+                        console.log('Materia creada exitosamente:', GrupoAlumResponse);
+
+                      } else {
+                        console.error('No se pudo procesar la materia.');
+                      }
+                    } else {
+
+                    }
+                  }
+                })
+              }
+              this.router.navigate(["/login/login-component"]);
+            }else{
+
+            }
+            },
+            error: error => console.error('Error al crear el alumno', error),
+            complete: () => {console.log('Solicitud de creación de alumno completada');
+            }
+          })
+        }
+      })
       // Guardar alumno...
     } else {
       const docente = {
@@ -146,47 +215,56 @@ export class VerificarDatosComponent implements OnInit {
         correoRec_Do: this.data.correo
       };
 
-      this.docentesService.createDocente(docente).pipe(
+      this.docentesService.obtenerDocente(docente.noTrabajador).pipe(
         catchError(error => {
-          console.error('Error al crear el docente', error);
+          console.error('Error al recuperar docente', error);
           return of(null);
         })
-      ).subscribe({
-        next: response => {
-          console.log('Docente creado exitosamente', response);
-          this.dataSource[1]
-          for(var x=0; x < this.dataSource.length; x++){
-            const grupoData=this.dataSource[x]
-          //this.dataSource.forEach(grupoData => {
-            const materia = { material: grupoData.materia };
-            this.materiasService.findMateriaByName(grupoData.materia).pipe(
-              catchError(error => {
-                console.error('Error al buscar la materia', error);
-                return of(null);
-              })
-            ).subscribe(materiaEncontrada => {
-              if (materiaEncontrada) {
-                //console.log("se encontro materia",materiaEncontrada);
-                this.gruposHorarios(materiaEncontrada.idmaterias, grupoData)
-              }else{
-                //console.log("no se encontro materia");
-                this.materiasService.createMateria(materia).pipe(
-                  catchError(error => {
-                    console.error('Error al crear la materia', error);
-                    return of(null);
-                  })
-                ).subscribe(materiaResponse => {
-                  if (materiaResponse) {
-                    console.error('Creo la materia con exito');
-                    this.gruposHorarios(materiaResponse.idmaterias, grupoData)
+      ).subscribe(docenteEncontrado => {
+        if (docenteEncontrado) {
+          this.openDialog("docente");
+        } else {
+          this.docentesService.createDocente(docente).pipe(
+            catchError(error => {
+              console.error('Error al crear el docente', error);
+              return of(null);
+            })
+          ).subscribe({
+            next: async response => {
+              if(response){
+              console.log('Docente creado exitosamente', response);
+
+              // Itera a través de las materias para cada grupo
+              for (var x = 0; x < this.dataSource.length; x++) {
+                const grupoData = this.dataSource[x];
+                const materia = { material: grupoData.materia };
+
+                // Crear la materia de manera secuencial y esperar a la respuesta antes de continuar
+                const materiaResponse = await this.materiasService.createMateria(materia).toPromise();
+
+                if (materiaResponse) {
+                  console.log("Respuesta del backend:", materiaResponse);
+
+                  if (materiaResponse.message && materiaResponse.message.includes('ya existe')) {
+                    console.log('Materia ya existente:', materiaResponse.data);
+                    this.gruposHorarios(materiaResponse.data.idmaterias, grupoData); // Materia ya existente
+
+                  } else if (materiaResponse.idmaterias) {
+                    console.log('Materia creada exitosamente:', materiaResponse);
+                    this.gruposHorarios(materiaResponse.idmaterias, grupoData); // Materia creada
+
+                  } else {
+                    console.error('No se pudo procesar la materia.');
                   }
-                });
+                }
               }
-            });
+              this.router.navigate(["/login/login-component"]);
+            }
+            },
+            error: error => console.error('Error al crear el docente', error),
+            complete: () => console.log('Solicitud de creación de docente completada')
+          });
         }
-        },
-        error: error => console.error('Error al crear el docente', error),
-        complete: () => console.log('Solicitud de creación de docente completada')
       });
     }
 
@@ -283,4 +361,33 @@ export class VerificarDatosComponent implements OnInit {
     });
   }
 
+  openDialog(texto: string) {
+    this.dialog.open(DialogElementsExistenteErrorDialog, {
+      data: {
+        texto: texto,
+      },
+    });
+  }
+
+}
+
+@Component({
+  selector: 'dialog-elements-dialog',
+  templateUrl: 'dialog-existenteError.html',
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+  ],
+})
+export class DialogElementsExistenteErrorDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DialogElementsExistenteErrorDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

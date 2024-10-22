@@ -1,5 +1,5 @@
 const db = require("../models");
-const GruposAlumnos = db.grupos_alumnos;
+const GruposAlumnos = db.GruposAlumnos;
 
 // Crear una nueva relación grupo-alumno
 exports.create = (req, res) => {
