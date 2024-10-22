@@ -183,17 +183,6 @@ export class VerificarDatosComponent implements OnInit {
                 });
               }
             });
-            /*this.materiasService.createMateria(materia).pipe(
-              catchError(error => {
-                console.error('Error al crear la materia', error);
-                return of(null);
-              })
-            ).subscribe(materiaResponse => {
-              if (materiaResponse) {
-                this.gruposHorarios(materiaResponse.idmaterias, grupoData)
-              }
-            });*/
-          //});
         }
         },
         error: error => console.error('Error al crear el docente', error),
