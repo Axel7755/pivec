@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
+
+.contenedor-tarea {
+    width: 90%;
+    max-width: 2040px;
+    margin: 20px auto;
+    /* Combina los márgenes superior e inferior */
+    padding: 15px;
+    border-radius: 15px;
+    background-color: rgba(226, 226, 226, 0.8);
+    /* Color de fondo simplificado */
+    display: flex;
+    /* Utiliza flexbox para alinear los elementos */
+    align-items: flex-start;
+    /* Alinea elementos al inicio del contenedor */
+    border: 1px solid transparent;
+    /* La propiedad border ya es transparente */
+}
+
+/* Ajustes para la imagen */
+.img-materia {
+    flex: 0 0 24%;
+    /* Reduce el espacio asignado a la imagen */
+    max-width: 24%;
+    /* Limita el tamaño máximo */
+}
+
+img[mat-card-image] {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin: 0;
+}
+
+/* Ajustes para la información de la materia */
+.informacion-materia {
+    flex: 1;
+    /* Ocupa el espacio restante a la derecha de la imagen */
+    padding-left: 10px;
+    /* Espacio a la izquierda de la información */
+    padding-right: 30px;
+    /* Espacio a la derecha de la información */
+}
+
+/* Sección de medio */
+.seccion-medio {
+    margin: 20px 0;
+    /* Espaciado superior e inferior */
+    margin-bottom: 40px;
+    /* Aumenta el espacio hacia abajo */
+}
+
+/* Sección de abajo */
+.seccion-abajo {
+    margin: 20px 0;
+    /* Espaciado superior e inferior */
+}
+
+
+/* --------------------------------- */
+.titulo-icono {
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    width: 100%;
+}
+
+.informacion-materia h1 {
+    margin: 0 auto;
+    /* Asegura que el h1 esté centrado horizontalmente */
+    text-align: center;
+    width: 100%;
+    /* Ocupa todo el ancho del contenedor */
+}
+
+.informacion-materia h1 {
+    margin-top: 10px;
+    padding: 5px 0;
+    font-family: "Girassol", cursive;
+    color: #1854fa;
+}
+
+.informacion-materia p {
+    text-align: justify;
+    /* Justifica el texto en el párrafo */
+}
+
+/* Estilo para la línea hr */
+hr {
+    border: 0;
+    height: 2px;
+    background-color: deeppink;
+    margin-top: 13px;
+}
+
+/* -------------------- */
+
+/* mensaje de fecha de vencimiento */
+.entregado {
+    color: rgba(14, 167, 255, 0.823);
+    font-family: "Girassol";
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+/* --------------------- Estilos para el boton de crear tarea --------------------- */
+.eliminar-tareas {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los botones */
+    align-items: center; /* Alinea verticalmente los botones */
+}
+
+.icono-tarea {
+    width: 23px;
+    /* Ajusta el tamaño del icono */
+    height: 23px;
+    margin-right: 2px;
+    /* Espacio entre el icono y el texto */
+    margin-bottom: -7px;
+    cursor: pointer;
+}
+
+.titulo-icono {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.seleccionar-tareas-btn {
+    display: inline-flex;
+    justify-content: center;
+    /* Centra el contenido del botón horizontalmente */
+    align-items: center;
+    /* Alinea el icono y el texto verticalmente */
+    padding: 10px 20px;
+    background: linear-gradient(to left, #B22222, #FF6347) !important; /* Degradado rojo */
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    font: bold;
+    text-align: center;
+}
+
+.eliminar-tareas-btn {
+    display: inline-flex;
+    justify-content: center;
+    /* Centra el contenido del botón horizontalmente */
+    align-items: center;
+    /* Alinea el icono y el texto verticalmente */
+    padding: 10px 20px;
+    background: linear-gradient(to left, #FF9933, #FFC545) !important;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    font: bold;
+    text-align: center;
+}
+
+/* checkbox */
+.checkbox-container {
+    flex: 0 0 5%;
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center;
+    margin-right: 10px;
+    position: relative; /* Hacer que el checkbox sea relativo para que ::before esté centrado */
+}
+
+.tarea-checkbox {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%; /* Hacerlo circular */
+    border: 2px solid #cccccce0;
+    appearance: none; /* Eliminar el estilo por defecto del checkbox */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: relative; /* Necesario para que el icono aparezca centrado */
+    margin-top: 15px;
+}
+
+.tarea-checkbox:checked {
+    background-color: #800020; /* Color guinda cuando está seleccionado */
+    border-color: #800020; /* Cambiar el borde a guinda también */
+}
+
+.tarea-checkbox:checked::before {
+    content: '✔'; /* Icono de check */
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrar el icono */
+    display: block;
+}
