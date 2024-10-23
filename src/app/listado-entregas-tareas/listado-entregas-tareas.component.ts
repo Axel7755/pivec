@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
+import { FormsModule } from '@angular/forms'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listado-entregas-tareas',
@@ -13,6 +14,15 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
   host: { 'ngSkipHydration': '' }
 })
 export class ListadoEntregasTareasComponent {
+
+  constructor(private router: Router) {}
+
+  irACalificarTarea() {
+    // Navegas a la página de calificar tarea, pasando el id de la tarea
+    //this.router.navigate(['/menu-materia/crear-tareas-d', tareaId]);
+    this.router.navigate(['/menu-materia/revisar-tareas-d']);
+
+  }
 
   showCheckboxes = false;
   tareas = [

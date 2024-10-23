@@ -23,7 +23,7 @@
     
     <hr>
     
-    <div *ngFor="let tarea of tareas" class="contenedor-tarea">
+    <div *ngFor="let tarea of tareas" class="contenedor-tarea" (click)="irACalificarTarea()">
         <div class="checkbox-container" *ngIf="showCheckboxes">
             <input type="checkbox" class="tarea-checkbox" [(ngModel)]="tarea.seleccionada">
         </div>
@@ -34,16 +34,15 @@
             <div class="titulo-icono">
                 <h1>{{ tarea.nombre }}</h1>
             </div>
-    
             <div class="seccion-medio">
                 <p>{{ tarea.descripcion }}</p>
             </div>
-    
             <div class="seccion-abajo">
                 <p class="entregado">Entregado: {{ tarea.fecha }} - {{ tarea.hora }}</p>
             </div>
         </div>
     </div>
+    
     
 
 </body>
