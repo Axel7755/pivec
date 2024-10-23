@@ -3,17 +3,17 @@
     <h1 class="titulo">
       Iniciar Sesión
     </h1>
-    <form class="formulario">
+    <form [formGroup]="formReg" class="formulario" >
       <!--<button mat-raised-button color="accent" class="bontonAcentuado">Subir horario</button>-->
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Boleta / No. Trabajador</mat-label>
-        <input matInput placeholder="1234567890">
+        <input required formControlName="identificador" matInput placeholder="1234567890">
       </mat-form-field>
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Contraseña</mat-label>
-        <input matInput placeholder="Contraseña" type="password">
+        <input required formControlName="contraseña" matInput placeholder="Contraseña" type="password">
       </mat-form-field>
-      <button mat-raised-button color="primary" class="bonton">Iniciar</button>
+      <button  (click)="iniciarSesion()" [disabled]="!formReg.valid" mat-raised-button color="primary" class="bonton">Iniciar</button>
     </form>
     <div class="flex">
       <p class="sub-texto">Aun no cuentas con una cuenta? </p>

@@ -37,8 +37,8 @@ export class RegistroComponent {
   boleta = '';
   cont = '';
   confcont = '';
-  conthash = "3456213454356";
-  correo = "baxeltomas@gmail.com"
+  conthash = "";
+  correo = ""
 
   materias: { [key: number]: string } = {};
   grupos: { [key: number]: string } = {};
@@ -81,6 +81,7 @@ export class RegistroComponent {
       this.openDialog();
       //this.formReg.value.recCorreo = '';
     }else{
+      this.conthash=this.cont
       inputNode.click()
     }
   }
