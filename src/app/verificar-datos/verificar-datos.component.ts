@@ -57,6 +57,7 @@ export class VerificarDatosComponent implements OnInit {
   formattedDate = this.formatDateForMySQL(this.currentDate);
   nombre: string = '';
   boleta: string = '';
+  conthash: string = '';
   dataSource: Horario[] = [];
   displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   data: RegistroData = {
@@ -94,8 +95,9 @@ export class VerificarDatosComponent implements OnInit {
 
   ngOnInit() {
     this.dataService.currentData.subscribe(data => this.data = data);
-    this.nombre = this.data.nombre
-    this.boleta = this.data.boleta
+    this.nombre = this.data.nombre;
+    this.boleta = this.data.boleta;
+    this.conthash = this.data.conthash;
     const outerKeys = Object.keys(this.data.docentes).map(key => Number(key)); // Obtiene las claves del primer nivel
     outerKeys.forEach(outerKey => {
       const [inicioL, endL] = this.separarHoras(this.data.lunes[outerKey - 1])
@@ -138,9 +140,10 @@ export class VerificarDatosComponent implements OnInit {
         nombres_Al: nombre,
         apellidoP_Al: apellidoPaterno,
         apellidoM_Al: apellidoMaterno,
-        contraseña_Al: this.data.conthash,
+        contraseña_Al: this.conthash,
         correoRec_Al: this.data.correo
       };
+      console.log(alumno)
       this.alumnosService.obtenerAlumno(alumno.boleta).pipe(
         catchError(error => {
           console.error('Error al recuperar alumno', error);
@@ -157,49 +160,50 @@ export class VerificarDatosComponent implements OnInit {
             })
           ).subscribe({
             next: response => {
-              if(response){
-              console.log('alumno creado exitosamente', response);
-              for (var x = 0; x < this.dataSource.length; x++) {
-                const grupoData = this.dataSource[x];
-                this.materiasService.findMateriaByName(grupoData.materia).pipe(
-                  catchError(error => {
-                    console.error('Error al encontrar materia', error);
-                    return of(null)
-                  })
-                ).subscribe(async materiaEncontrada => {
-                  if (materiaEncontrada) {
-                    const grupo_alumno = {
-                      ga_idmaterias: materiaEncontrada.idmaterias,
-                      ga_idgrupos: grupoData.grupo,
-                      ga_boleta: alumno.boleta,
-                    }
-                    const GrupoAlumResponse = await this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno).toPromise();
-
-                    if (GrupoAlumResponse) {
-                      console.log("Respuesta del backend:", GrupoAlumResponse);
-
-                      if (GrupoAlumResponse.message && GrupoAlumResponse.message.includes('ya existe')) {
-                        console.log('Materia ya existente:', GrupoAlumResponse.data);
-
-                      } else if (GrupoAlumResponse.idmaterias) {
-                        console.log('Materia creada exitosamente:', GrupoAlumResponse);
-
-                      } else {
-                        console.error('No se pudo procesar la materia.');
+              if (response) {
+                console.log('alumno creado exitosamente', response);
+                for (var x = 0; x < this.dataSource.length; x++) {
+                  const grupoData = this.dataSource[x];
+                  this.materiasService.findMateriaByName(grupoData.materia).pipe(
+                    catchError(error => {
+                      console.error('Error al encontrar materia', error);
+                      return of(null)
+                    })
+                  ).subscribe(async materiaEncontrada => {
+                    if (materiaEncontrada) {
+                      const grupo_alumno = {
+                        ga_idmaterias: materiaEncontrada.idmaterias,
+                        ga_idgrupos: grupoData.grupo,
+                        ga_boleta: alumno.boleta,
                       }
-                    } else {
+                      const GrupoAlumResponse = await this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno).toPromise();
 
+                      if (GrupoAlumResponse) {
+                        console.log("Respuesta del backend:", GrupoAlumResponse);
+
+                        if (GrupoAlumResponse.message && GrupoAlumResponse.message.includes('ya existe')) {
+                          console.log('Materia ya existente:', GrupoAlumResponse.data);
+
+                        } else if (GrupoAlumResponse.idmaterias) {
+                          console.log('Materia creada exitosamente:', GrupoAlumResponse);
+
+                        } else {
+                          console.error('No se pudo procesar la materia.');
+                        }
+                      } else {
+
+                      }
                     }
-                  }
-                })
-              }
-              this.router.navigate(["/login/login-component"]);
-            }else{
+                  })
+                }
+                this.router.navigate(["/login/login-component"]);
+              } else {
 
-            }
+              }
             },
             error: error => console.error('Error al crear el alumno', error),
-            complete: () => {console.log('Solicitud de creación de alumno completada');
+            complete: () => {
+              console.log('Solicitud de creación de alumno completada');
             }
           })
         }
@@ -231,35 +235,35 @@ export class VerificarDatosComponent implements OnInit {
             })
           ).subscribe({
             next: async response => {
-              if(response){
-              console.log('Docente creado exitosamente', response);
+              if (response) {
+                console.log('Docente creado exitosamente', response);
 
-              // Itera a través de las materias para cada grupo
-              for (var x = 0; x < this.dataSource.length; x++) {
-                const grupoData = this.dataSource[x];
-                const materia = { material: grupoData.materia };
+                // Itera a través de las materias para cada grupo
+                for (var x = 0; x < this.dataSource.length; x++) {
+                  const grupoData = this.dataSource[x];
+                  const materia = { material: grupoData.materia };
 
-                // Crear la materia de manera secuencial y esperar a la respuesta antes de continuar
-                const materiaResponse = await this.materiasService.createMateria(materia).toPromise();
+                  // Crear la materia de manera secuencial y esperar a la respuesta antes de continuar
+                  const materiaResponse = await this.materiasService.createMateria(materia).toPromise();
 
-                if (materiaResponse) {
-                  console.log("Respuesta del backend:", materiaResponse);
+                  if (materiaResponse) {
+                    console.log("Respuesta del backend:", materiaResponse);
 
-                  if (materiaResponse.message && materiaResponse.message.includes('ya existe')) {
-                    console.log('Materia ya existente:', materiaResponse.data);
-                    this.gruposHorarios(materiaResponse.data.idmaterias, grupoData); // Materia ya existente
+                    if (materiaResponse.message && materiaResponse.message.includes('ya existe')) {
+                      console.log('Materia ya existente:', materiaResponse.data);
+                      this.gruposHorarios(materiaResponse.data.idmaterias, grupoData); // Materia ya existente
 
-                  } else if (materiaResponse.idmaterias) {
-                    console.log('Materia creada exitosamente:', materiaResponse);
-                    this.gruposHorarios(materiaResponse.idmaterias, grupoData); // Materia creada
+                    } else if (materiaResponse.idmaterias) {
+                      console.log('Materia creada exitosamente:', materiaResponse);
+                      this.gruposHorarios(materiaResponse.idmaterias, grupoData); // Materia creada
 
-                  } else {
-                    console.error('No se pudo procesar la materia.');
+                    } else {
+                      console.error('No se pudo procesar la materia.');
+                    }
                   }
                 }
+                this.router.navigate(["/login/login-component"]);
               }
-              this.router.navigate(["/login/login-component"]);
-            }
             },
             error: error => console.error('Error al crear el docente', error),
             complete: () => console.log('Solicitud de creación de docente completada')

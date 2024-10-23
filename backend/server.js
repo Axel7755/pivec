@@ -72,6 +72,7 @@ const comentariosRouter = require("./app/routes/comentarios.routes.js");
 
 const documentosTareasRouter = require("./app/routes/documentosTareas.routes.js");
 const documentosAvisosRouter = require("./app/routes/avisosDocumentos.routes.js");
+const AuthRouter = require("./app/routes/auth.routes.js");
 
 app.use("/api/alumnos", alumnosRouter);
 app.use("/api/docentes", docentesRouter);
@@ -90,6 +91,7 @@ app.use("/api/comentarios", comentariosRouter);
 
 app.use("/api/documentosTareas", documentosTareasRouter);
 app.use("/api/documentosAvisos", documentosAvisosRouter);
+app.use("/api/auth", AuthRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the application." });
