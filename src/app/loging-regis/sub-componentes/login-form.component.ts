@@ -33,7 +33,7 @@ export class LoginFormComponent {
         // Almacenar el token si el login es exitoso
         localStorage.setItem('user', JSON.stringify(response));
         console.log('Inicio de sesión exitoso');
-        
+        this.router.navigate(['/menu-principal/materias']);        
       } else {
         console.error('Error en las credenciales');
       }

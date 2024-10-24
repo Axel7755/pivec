@@ -2,7 +2,7 @@ mat-sidenav-container{
     height: 100vh;
   }
   mat-sidenav{
-    width: 300px;
+    width: 23%;
     padding: 15px;
 
     transition: 400ms;

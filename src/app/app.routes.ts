@@ -32,6 +32,7 @@ export const routes: Routes = [
     {
         path: 'menu-principal', component: MenuPrincipalComponent,
         children: [
+            { path: '', redirectTo: 'materias', pathMatch: 'full' },
             { path: 'materias', component: MateriasComponent },
             { path: 'tareas', component: TareasComponent },
             { path: 'videos-compartidos', component: VideosCompartidosComponent },
@@ -53,6 +54,5 @@ export const routes: Routes = [
 
         ]       
     },
-    { path: 'menu-principal', redirectTo: '/menu-principal/materias', pathMatch: 'full' },
     { path: '', redirectTo: '/login/login-component', pathMatch: 'full' },
 ];
