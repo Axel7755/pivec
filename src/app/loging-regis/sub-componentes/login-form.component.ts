@@ -30,13 +30,16 @@ export class LoginFormComponent {
     var contraseña = this.formReg.value.contraseña ?? '';
     this.authService.login(identificador, contraseña).subscribe(response => {
       if (response) {
-        // Almacenar el token si el login es exitoso
         localStorage.setItem('user', JSON.stringify(response));
         console.log('Inicio de sesión exitoso');
-        this.router.navigate(['/menu-principal/materias']);        
+        this.router.navigate(['/menu-principal/materias']); // Redirigir al usuario a la página de inicio o a otro lugar
       } else {
         console.error('Error en las credenciales');
+        alert('Error en las credenciales');
       }
+    }, error => {
+      console.error('Error al conectar con el servidor', error);
+      alert('Error al conectar con el servidor');
     });
   }
   //title = 'pivec';
