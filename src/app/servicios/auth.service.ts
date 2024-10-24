@@ -1,39 +1,60 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 import { Observable, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/api/auth'; // URL de tu backend
+  private baseUrl = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) {}
 
-  // El método login debería devolver un Observable al componente que lo llame
   login(identificador: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/`, { identificador, password })
       .pipe(
         catchError(error => {
           console.error('Error al iniciar sesión', error);
-          return of(null);  // Retornar null en caso de error
+          return of(null);
         })
       );
   }
 
-  // Método logout para eliminar el token del localStorage
   logout() {
-    localStorage.removeItem('user');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('user');
+    }
   }
 
-  // Verificar si hay un usuario logueado
   isLoggedIn(): boolean {
-    return localStorage.getItem('user') !== null;
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('user') !== null;
+    }
+    return false;
   }
 
-  // Obtener el token JWT almacenado
   getToken(): string | null {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user).token : null;
+    if (isPlatformBrowser(this.platformId)) {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user).token : null;
+    }
+    return null;
+  }
+
+  getUserRole(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user).role : null;
+    }
+    return null;
+  }
+
+  getUserId(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user).id : null;
+    }
+    return null;
   }
 }

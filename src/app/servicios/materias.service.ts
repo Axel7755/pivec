@@ -17,4 +17,7 @@ export class MateriasService {
   findMateriaByName(material: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/findByName/${material}`);
   }
+  findMateriaById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
+  }
 }

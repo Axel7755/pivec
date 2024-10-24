@@ -21,6 +21,19 @@ exports.create = async (req, res) => {
     }
 };
 
+exports.getGruposByDocente = (req, res) => {
+    const docenteId = req.params.docenteId;
+  
+    Grupos.findAll({ where: { g_doc_noTrabajador: docenteId } })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Ocurrió un error al recuperar los grupos."
+        });
+      });
+  };
 
 // Obtener todos los grupos
 exports.findAll = (req, res) => {

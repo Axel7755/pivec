@@ -17,4 +17,6 @@ router.put("/:g_idmaterias/:idgrupos", grupos.update);
 // Eliminar un grupo por id
 router.delete("/:g_idmaterias/:idgrupos", grupos.delete);
 
+router.get('/:docenteId', grupos.getGruposByDocente);
+
 module.exports = router;

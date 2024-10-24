@@ -13,4 +13,7 @@ export class GruposService {
   createGrupo(grupo: any): Observable<any> {
     return this.http.post(this.baseUrl, grupo);
   }
+  getGruposByDocente(docenteId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${docenteId}`);
+  }
 }

@@ -17,6 +17,7 @@ import { CrearTareasDComponent } from './crear-tareas-d/crear-tareas-d.component
 import { RevisarTareasDComponent } from './revisar-tareas-d/revisar-tareas-d.component';
 import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-tareas-general.component';
 import { ListadoEntregasTareasComponent } from './listado-entregas-tareas/listado-entregas-tareas.component';
+import { AuthGuard, DocenteGuard } from './servicios/guards/auth.guard';
 
 export const routes: Routes = [
 
@@ -31,11 +32,11 @@ export const routes: Routes = [
     {
         path: 'menu-principal', component: MenuPrincipalComponent,
         children: [
-            { path: '', redirectTo: 'materias', pathMatch: 'full' },
-            { path: 'materias', component: MateriasComponent },
-            { path: 'tareas', component: TareasComponent },
-            { path: 'videos-compartidos', component: VideosCompartidosComponent },
+            { path: 'materias', component: MateriasComponent , canActivate: [AuthGuard] },
+            { path: 'tareas', component: TareasComponent , canActivate: [AuthGuard] },
+            { path: 'videos-compartidos', component: VideosCompartidosComponent , canActivate: [AuthGuard]},
             { path: 'google-academico', component: GoogleAcademicoComponent },
+            { path: '', redirectTo: 'materias', pathMatch: 'full' },
         ]
     },
     {
@@ -45,11 +46,11 @@ export const routes: Routes = [
             { path: 'tareas-a', component: TareasAComponent },
             { path: 'subir-tarea', component: SubirTareaComponent },
             { path: 'video-player', component: VideoPlayerComponent },
-            { path: 'crear-tareas-d', component: CrearTareasDComponent },
+            { path: 'crear-tareas-d', component: CrearTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
             { path: 'listado-entregas-tareas', component: ListadoEntregasTareasComponent },
-
+            { path: '', redirectTo: 'general-a', pathMatch: 'full' },
 
         ]       
     },
