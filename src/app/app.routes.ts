@@ -40,7 +40,7 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'menu-materia', component: MenuMateriaComponent, 
+        path: 'menu-materia/:idgrupos/:g_idmaterias', component: MenuMateriaComponent, 
         children:[
             { path: 'general-a', component: GeneralAComponent },
             { path: 'tareas-a', component: TareasAComponent },

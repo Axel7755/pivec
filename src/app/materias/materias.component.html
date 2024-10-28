@@ -9,7 +9,20 @@
 </head>
 
 <body>
-    <div class="card-container">
+    <div class="card-container" *ngIf="combinados.length > 0; else noGrupos">
+        <mat-card class="example-card" appearance="outlined" *ngFor="let grupo of combinados" (click)="irGeneralMaterias(grupo)">
+          <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+          <mat-card-content>
+            <h3>{{ grupo.material }}</h3>
+            <h4>{{ grupo.idgrupos }}</h4>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <ng-template #noGrupos>
+        <p>No tienes grupos asignados.</p>
+      </ng-template>
+      
+    <!--<div class="card-container">
 
         <mat-card class="example-card" appearance="outlined">
             <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
@@ -65,7 +78,7 @@
                 <h4>8CM1</h4>
             </mat-card-content>
         </mat-card>
-    </div>
+    </div>-->
 </body>
 
 </html>
