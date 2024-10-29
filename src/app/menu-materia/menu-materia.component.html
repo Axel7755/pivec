@@ -1,37 +1,37 @@
-
 <mat-sidenav-container>
-    <mat-sidenav  opened mode="side" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
-      <div class="sidenav-header" [ngClass]="collapsed ? 'sidenav-header-collapsed': ''">
-      @if (!collapsed) {
+  <mat-sidenav opened mode="side" [ngClass]="{ 'sidenav-collapsed': collapsed }">
+    
+    <div class="sidenav-header" [ngClass]="collapsed ? 'sidenav-header-collapsed' : ''">
+      <ng-container *ngIf="!collapsed">
         <h2 class="tit1">PIV</h2>
         <h2 class="tit2">EC</h2>
-      }
-        <button mat-icon-button (click)="collapse()" color="warn" class="desplegable">
-        @if (!collapsed) {
-          <mat-icon>keyboard_arrow_left</mat-icon>
-        }@else{
-          <mat-icon>keyboard_arrow_right</mat-icon>
-        }
-        </button>
-      </div>
-      <mat-nav-list>
-      @for (seccion of secciones; track seccion) {
-        <a mat-list-item class="tamanio-auto" routerLink={{seccion.route}} [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon matListItemIcon  class="blanco">
-          {{seccion.icon}}
-          </mat-icon>
-          @if (!collapsed) {
-            <span matListItemTitle class="textoblanco">
-              {{seccion.name}}
-            </span>
-          }
-          
-        </a>
-      }
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content [ngClass]="collapsed ? 'sidenav-collapsed-content':''">
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
+      </ng-container>
+      
+      <button mat-icon-button (click)="collapse()" color="warn" class="desplegable">
+        <mat-icon>{{ collapsed ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
+      </button>
+    </div>
 
-  </mat-sidenav-container>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        class="tamanio-auto"
+        *ngFor="let seccion of secciones"
+        [routerLink]="seccion.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListItemIcon class="blanco">
+          {{ seccion.icon }}
+        </mat-icon>
+        <span *ngIf="!collapsed" matListItemTitle class="textoblanco">
+          {{ seccion.name }}
+        </span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content [class.adjusted-width]="collapsed">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

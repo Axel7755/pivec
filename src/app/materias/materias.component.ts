@@ -55,6 +55,7 @@ export class MateriasComponent implements OnInit {
               .pipe(
                 catchError(error => {
                   console.error('Error al recuperar materias', error);
+                  alert('Error al recuperar materias');
                   return of(null);
                 })
               )
@@ -70,7 +71,7 @@ export class MateriasComponent implements OnInit {
                   ? { ...obj1, material: matchingObj2.material }
                   : obj1;
               });
-              console.log(this.combinados);
+              //console.log(this.combinados);
             }
           });
         });
