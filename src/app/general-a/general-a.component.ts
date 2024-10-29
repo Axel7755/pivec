@@ -19,8 +19,8 @@ export class GeneralAComponent implements OnInit {
     this.route.parent?.params.subscribe(params => {
       this.idgrupos = params['idgrupos'];
       this.g_idmaterias = params['g_idmaterias'];
-      console.log('ID de grupo:', this.idgrupos);
-      console.log('ID de materia:', this.g_idmaterias);
+      //console.log('ID de grupo:', this.idgrupos);
+      //console.log('ID de materia:', this.g_idmaterias);
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
@@ -12,11 +12,23 @@ import { MatMenuModule } from '@angular/material/menu';
   host: { 'ngSkipHydration': '' }
 })
 export class ListadoTareasGeneralComponent {
+  idgrupos: string | null = null;
+  g_idmaterias: string | null = null;
 
-  constructor(private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit(): void {
+    // Usa `parent` para acceder a los parámetros de `menu-materia`
+    this.route.parent?.params.subscribe(params => {
+      this.idgrupos = params['idgrupos'];
+      this.g_idmaterias = params['g_idmaterias'];
+      //console.log('ID de grupo:', this.idgrupos);
+      //console.log('ID de materia:', this.g_idmaterias);
+    });
+  }
 
   navigateToCrearTareas() {
-    this.router.navigate(['/menu-materia/crear-tareas-d']);
+    this.router.navigate(['/menu-materia',this.idgrupos,this.g_idmaterias,'crear-tareas-d']);
   }
 
   editarTarea() {
