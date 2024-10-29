@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './general-a.component.css',
   host: { 'ngSkipHydration': '' }
 })
-export class GeneralAComponent implements OnInit {
+export class GeneralAComponent {
   idgrupos: string | null = null;
   g_idmaterias: string | null = null;
 
