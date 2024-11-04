@@ -71,6 +71,7 @@ const comentariosRouter = require("./app/routes/comentarios.routes.js");
 const documentosTareasRouter = require("./app/routes/documentosTareas.routes.js");
 const documentosAvisosRouter = require("./app/routes/avisosDocumentos.routes.js");
 const AuthRouter = require("./app/routes/auth.routes.js");
+const UploadRouter = require("./app/routes/upload.routes.js");
 
 // Usar rutas
 app.use("/api/alumnos", alumnosRouter);
@@ -89,6 +90,7 @@ app.use("/api/comentarios", comentariosRouter);
 app.use("/api/documentosTareas", documentosTareasRouter);
 app.use("/api/documentosAvisos", documentosAvisosRouter);
 app.use("/api/auth", AuthRouter);
+app.use("/api/upload", UploadRouter);
 
 // Ruta base
 app.get("/", (req, res) => {

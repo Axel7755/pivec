@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { SubirTareaComponent } from '../subir-tarea/subir-tarea.component';
 import { SubirArchivosComponent } from '../subir-archivos/subir-archivos.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-crear-tareas-d',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './crear-tareas-d.component.html',
   styleUrl: './crear-tareas-d.component.css',
   host: { 'ngSkipHydration': '' }
