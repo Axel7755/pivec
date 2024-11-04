@@ -1,9 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require('morgan');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const db = require("./app/models");
 const app = express();
 
