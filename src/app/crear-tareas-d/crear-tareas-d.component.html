@@ -1,57 +1,44 @@
-<!DOCTYPE html>
-<html lang="es">
+<div class="contenedor-tarea">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Tareas Docente</title>
-</head>
-
-<body>
-    <div class="contenedor-tarea">
-
-        <div class="contenido-principal">
-            <div class="informacion-materia">
-                <h1>Uriel Alejandro</h1>
-                <div class="vence-fecha">
-                    <p class="vence">Fecha de entrega:</p>
-                    <div class="input-container">
-                        <input #fechaVencimiento type="datetime-local" class="input-vencimiento" required />
-                        <div #validationMessage class="validation-message" style="display: none;">
-                            Por favor, ingrese una fecha y hora válidas.
-                        </div>
+    <div class="contenido-principal">
+        <div class="informacion-materia">
+            <h1>Uriel Alejandro</h1>
+            <div class="vence-fecha">
+                <p class="vence">Fecha de entrega:</p>
+                <div class="input-container">
+                    <input #fechaVencimiento type="datetime-local" class="input-vencimiento" required />
+                    <div #validationMessage class="validation-message" style="display: none;">
+                        Por favor, ingrese una fecha y hora válidas.
                     </div>
-
                 </div>
-            </div>
 
-            <div class="img-materia">
-                <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
-            </div>
-
-            <div class="acciones">
-                <button class="entregar-button" mat-raised-button color="primary"> Guardar</button>
             </div>
         </div>
 
-        <div class="info-tarea">
-            <div class="nombre-tarea">
-                <strong>Nombre de tarea:</strong>
-                <input type="text" placeholder="Escribe el nombre de la tarea" class="input-nombre-tarea">
-            </div>
-
-            <div class="desc-tarea">
-                <strong>Descripción de la tarea:</strong>
-                <textarea placeholder="Escribe la descripción de la tarea" class="input-desc-tarea"></textarea>
-            </div>
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
         </div>
 
-        <div class="subir-documentos">
-            <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button color="accent">Subir Documentos</button>
-            <input type="file" id="documento" name="documento" multiple style="display: none;">
+        <div class="acciones">
+            <button class="entregar-button" mat-raised-button color="primary"> Guardar</button>
         </div>
     </div>
 
-</body>
+    <div class="info-tarea">
+        <div class="nombre-tarea">
+            <strong>Nombre de tarea:</strong>
+            <input type="text" placeholder="Escribe el nombre de la tarea" class="input-nombre-tarea">
+        </div>
 
-</html>
+        <div class="desc-tarea">
+            <strong>Descripción de la tarea:</strong>
+            <textarea placeholder="Escribe la descripción de la tarea" class="input-desc-tarea"></textarea>
+        </div>
+    </div>
+
+    <div class="subir-documentos">
+        <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button
+            color="accent">Subir Documentos</button>
+        <input type="file" id="documento" name="documento" multiple style="display: none;">
+    </div>
+</div>
