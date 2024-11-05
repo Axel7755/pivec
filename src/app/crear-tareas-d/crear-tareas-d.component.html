@@ -1,8 +1,14 @@
 <div class="contenedor-tarea">
 
+    <div class="encabezado-materia">
+        <h1>Uriel Alejandro</h1>
+        <button class="entregar-button acciones" (click)="guardarTarea()" mat-raised-button color="primary">
+            Guardar</button>
+
+    </div>
     <div class="contenido-principal">
         <div class="informacion-materia">
-            <h1>Uriel Alejandro</h1>
+
             <div class="vence-fecha">
                 <p class="vence">Fecha de entrega:</p>
                 <div class="input-container">
@@ -18,27 +24,31 @@
         <div class="img-materia">
             <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
         </div>
-
-        <div class="acciones">
-            <button class="entregar-button" mat-raised-button color="primary"> Guardar</button>
+    </div>
+    <div class="list-section">
+        <div class="list-title">Archivos Subidos</div>
+        <div class="list">
+            <ul #listContainer>
+                <!-- Aquí se mostrarán los archivos cargados -->
+            </ul>
         </div>
     </div>
-
-    <div class="info-tarea">
-        <div class="nombre-tarea">
-            <strong>Nombre de tarea:</strong>
-            <input type="text" placeholder="Escribe el nombre de la tarea" class="input-nombre-tarea">
-        </div>
-
-        <div class="desc-tarea">
-            <strong>Descripción de la tarea:</strong>
-            <textarea placeholder="Escribe la descripción de la tarea" class="input-desc-tarea"></textarea>
-        </div>
-    </div>
-
     <div class="subir-documentos">
         <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button
             color="accent">Subir Documentos</button>
         <input type="file" id="documento" name="documento" multiple style="display: none;">
+    </div>
+    <div class="info-tarea">
+        <div class="nombre-tarea">
+            <strong>Nombre de tarea:</strong>
+            <input type="text" placeholder="Escribe el nombre de la tarea" [(ngModel)]="titulo"
+                class="input-nombre-tarea">
+        </div>
+
+        <div class="desc-tarea">
+            <strong>Descripción de la tarea:</strong>
+            <textarea placeholder="Escribe la descripción de la tarea" [(ngModel)]="descrip"
+                class="input-desc-tarea"></textarea>
+        </div>
     </div>
 </div>

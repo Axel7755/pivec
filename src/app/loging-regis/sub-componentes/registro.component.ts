@@ -262,7 +262,15 @@ export class RegistroComponent {
     });
     this.materias = rows[8];
     this.docentes = rows[32];
-    //console.log(rows)
+    console.log(rows[8])
+
+    const Keysmats = Object.keys(this.materias).map(key => Number(key));
+
+    Keysmats.forEach(mate => {
+      this.materias[mate] = this.materias[mate].split(" - ")[1];
+    })
+
+    console.log(this.materias)
 
     const outerKeys = Object.keys(this.docentes).map(key => Number(key)); // Obtiene las claves del primer nivel
     outerKeys.forEach(outerKey => {

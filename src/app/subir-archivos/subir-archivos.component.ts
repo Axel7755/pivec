@@ -8,6 +8,7 @@ import { catchError, tap } from 'rxjs/operators'; // Correcto: importando de 'rx
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-subir-archivos',
@@ -28,7 +29,8 @@ export class SubirArchivosComponent implements OnInit {
   currentFile?: File;
   fileInfos?: Observable<any>;
 
-  constructor(private subirArchivosService: SubirArchivosService) { }
+  constructor(private subirArchivosService: SubirArchivosService,
+    public dialogRef: MatDialogRef<SubirArchivosComponent>) { }
 
   ngOnInit(): void {
     // Carga la lista de archivos subidos al inicializar el componente
@@ -185,6 +187,9 @@ export class SubirArchivosComponent implements OnInit {
 
   // Método para subir archivos solo cuando se hace clic en el botón
   uploadFiles(): void {
+    this.dialogRef.close(this.archivosSubidos);
+    
+    /*
     if (this.archivosSubidos.length === 0) {
       console.warn('No hay archivos para subir.');
       return;
@@ -245,7 +250,7 @@ export class SubirArchivosComponent implements OnInit {
           this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
         }
       });
-    }
+    }*/
   }
 
 

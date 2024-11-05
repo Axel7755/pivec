@@ -1,8 +1,10 @@
 .container {
     text-align: center;
     width: 100%;
+    overflow-y: scroll;
     max-width: 500px;
     min-height: 435px;
+    max-height: 650px ;
     margin: auto;
     background-color: white;
     border-radius: 16px;

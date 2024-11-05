@@ -1,9 +1,10 @@
 const db = require("../models");
-const Tareas = db.tareas;
+const Tareas = db.Tareas;
 
 // Crear una nueva tarea
 exports.create = (req, res) => {
     const tarea = {
+        fecha_Entrega: req.body.fecha_Entrega,
         titulo_T: req.body.titulo_T,
         descripción_T: req.body.descripción_T,
         ta_idmaterias: req.body.ta_idmaterias,
