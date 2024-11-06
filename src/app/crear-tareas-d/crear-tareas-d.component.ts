@@ -83,6 +83,8 @@ export class CrearTareasDComponent implements OnInit {
     ).subscribe({
       next: response => {
         if (response) {
+          const idtareas = response.idtareas;
+          console.log(response);
           if (this.archivosSubidos.length === 0) {
             console.warn('No hay archivos para subir.');
             return;
@@ -118,6 +120,11 @@ export class CrearTareasDComponent implements OnInit {
               next: (responses) => {
                 responses.forEach((response: any) => {
                   if (response && response.body) {
+                    const archivoTarea = {
+                      dirección_DT: response.body.file.path,
+                      nombre_DT:response.body.file.name,
+                      dt_idtareas: idtareas
+                    }
                     console.log('Ruta completa:', response.body.file.path);
                   }
                 });
