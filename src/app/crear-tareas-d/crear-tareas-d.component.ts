@@ -87,25 +87,24 @@ export class CrearTareasDComponent implements OnInit {
             console.warn('No hay archivos para subir.');
             return;
           }
-      
+          
           const uploadObservables = this.archivosSubidos.map(file => {
             const listItems = this.listContainer.nativeElement.querySelectorAll('li');
             let li: HTMLElement | null = null;
-      
+          
             listItems.forEach((item: HTMLElement) => {
               const nameElement = item.querySelector('.file-name .name');
               if (nameElement && nameElement.textContent === file.name) {
                 li = item;
               }
             });
-      
+          
             if (!li) {
               console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
               return null; // Devuelve null si no se encuentra el elemento
             }
-      
-            return this.subirArchivosService.upload(file).pipe(
-              // Manejar errores
+          
+            return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!).pipe(
               catchError(err => {
                 console.error('Error al subir el archivo', err);
                 li?.remove();
@@ -113,21 +112,25 @@ export class CrearTareasDComponent implements OnInit {
               })
             );
           }).filter(obs => obs !== null); // Filtrar nulls
-      
-          // Combina todos los observables para ejecutar la subida de todos los archivos
+          
           if (uploadObservables.length > 0) {
             forkJoin(uploadObservables).subscribe({
-              next: () => {
-                console.log('Todos los archivos se han subido con éxito.');
+              next: (responses) => {
+                responses.forEach((response: any) => {
+                  if (response && response.body) {
+                    console.log('Ruta completa:', response.body.file.path);
+                  }
+                });
               },
               complete: () => {
+                console.log('Todos los archivos se han subido con éxito.');
                 // Limpiar la lista de archivos después de completar la subida
                 this.archivosSubidos = [];
-                //this.fileSelectorInput.nativeElement.value = ''; // Limpiar el input de archivos
-                //this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
+                this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
               }
             });
           }
+          
         }
       },
       error: error => console.error('Error al crear tarea', error),

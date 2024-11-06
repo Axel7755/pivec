@@ -11,22 +11,22 @@ export class SubirArchivosService {
   constructor(private http: HttpClient) { }
 
   // Método para cargar un archivo
-  upload(file: File): Observable<HttpEvent<any>> {
-    const formData: FormData = new FormData();
-    formData.append('file', file);
+  upload(file: File, idgrupos: string, g_idmaterias: string): Observable<HttpEvent<any>> {
+  const formData: FormData = new FormData();
+  formData.append('file', file);
 
-    const headers = new HttpHeaders({
-      'enctype': 'multipart/form-data'
-    });
+  const headers = new HttpHeaders({
+    'enctype': 'multipart/form-data'
+  });
 
-    const req = new HttpRequest('POST', this.baseUrl, formData, {
-      headers,
-      reportProgress: true,
-      responseType: 'json'
-    });
+  const req = new HttpRequest('POST', `${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}`, formData, {
+    headers,
+    reportProgress: true,
+    responseType: 'json'
+  });
 
-    return this.http.request(req);
-  }
+  return this.http.request(req);
+}
 
   // Método para obtener la lista de archivos
   getFiles(): Observable<any> {
