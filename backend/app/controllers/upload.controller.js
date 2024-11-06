@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const { idgrupos, g_idmaterias } = req.params;
     const uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}`;
-    
+
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true }); // Crear la carpeta si no existe
     }
@@ -47,14 +47,26 @@ const uploadFile = (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No se ha subido ningún archivo' });
   }
-  res.json({ message: 'Archivo subido exitosamente', file: {
-    originalName: req.file.originalname, // Nombre original del archivo
-    finalName: nombreFinal,              // Nombre con el que se guardó
-    path: rutaCompleta                   // Ruta completa del archivo guardado
-  } });
+  res.json({
+    message: 'Archivo subido exitosamente', file: {
+      originalName: req.file.originalname, // Nombre original del archivo
+      finalName: nombreFinal,              // Nombre con el que se guardó
+      path: rutaCompleta                   // Ruta completa del archivo guardado
+    }
+  });
+};
+
+const getFiles = (req, res) => {
+  const uploadDir =  req.params; 
+  fs.readdir(uploadDir, (err, files) => {
+     if (err) { return res.status(500).json({ message: 'Error al leer los archivos' }); 
+    } 
+    res.json({ files }); 
+  });
 };
 
 module.exports = {
   uploadT,
-  uploadFile
+  uploadFile,
+  getFiles
 };

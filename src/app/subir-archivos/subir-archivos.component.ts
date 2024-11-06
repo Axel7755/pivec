@@ -34,7 +34,7 @@ export class SubirArchivosComponent implements OnInit {
 
   ngOnInit(): void {
     // Carga la lista de archivos subidos al inicializar el componente
-    this.fileInfos = this.subirArchivosService.getFiles();
+    //this.fileInfos = this.subirArchivosService.getFiles();
   }
 
   // Método para abrir el selector de archivos
