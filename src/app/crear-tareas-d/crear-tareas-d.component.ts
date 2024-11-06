@@ -7,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute,Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TareasService } from '../servicios/tareas.service';
-import { catchError, of } from 'rxjs';
+import { catchError, of, forkJoin, tap } from 'rxjs';
+import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-tareas-d',
@@ -32,7 +34,8 @@ export class CrearTareasDComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private tareasService: TareasService,
-    private router: Router
+    private router: Router,
+    private subirArchivosService: SubirArchivosService
   ) {
 
   }
@@ -80,7 +83,51 @@ export class CrearTareasDComponent implements OnInit {
     ).subscribe({
       next: response => {
         if (response) {
-          this.router.navigate([`/menu-materia/${this.idgrupos}/${this.g_idmaterias}/listado-tareas-g`]);
+          if (this.archivosSubidos.length === 0) {
+            console.warn('No hay archivos para subir.');
+            return;
+          }
+      
+          const uploadObservables = this.archivosSubidos.map(file => {
+            const listItems = this.listContainer.nativeElement.querySelectorAll('li');
+            let li: HTMLElement | null = null;
+      
+            listItems.forEach((item: HTMLElement) => {
+              const nameElement = item.querySelector('.file-name .name');
+              if (nameElement && nameElement.textContent === file.name) {
+                li = item;
+              }
+            });
+      
+            if (!li) {
+              console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
+              return null; // Devuelve null si no se encuentra el elemento
+            }
+      
+            return this.subirArchivosService.upload(file).pipe(
+              // Manejar errores
+              catchError(err => {
+                console.error('Error al subir el archivo', err);
+                li?.remove();
+                return of(null); // Devuelve un observable nulo en caso de error
+              })
+            );
+          }).filter(obs => obs !== null); // Filtrar nulls
+      
+          // Combina todos los observables para ejecutar la subida de todos los archivos
+          if (uploadObservables.length > 0) {
+            forkJoin(uploadObservables).subscribe({
+              next: () => {
+                console.log('Todos los archivos se han subido con éxito.');
+              },
+              complete: () => {
+                // Limpiar la lista de archivos después de completar la subida
+                this.archivosSubidos = [];
+                //this.fileSelectorInput.nativeElement.value = ''; // Limpiar el input de archivos
+                //this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
+              }
+            });
+          }
         }
       },
       error: error => console.error('Error al crear tarea', error),
