@@ -11,7 +11,7 @@ export class SubirArchivosService {
   constructor(private http: HttpClient) { }
 
   // Método para cargar un archivo
-  upload(file: File, idgrupos: string, g_idmaterias: string): Observable<HttpEvent<any>> {
+  upload(file: File, idgrupos: string, g_idmaterias: string, idtarea: string): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
@@ -19,7 +19,7 @@ export class SubirArchivosService {
       'enctype': 'multipart/form-data'
     });
 
-    const req = new HttpRequest('POST', `${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}`, formData, {
+    const req = new HttpRequest('POST', `${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`, formData, {
       headers,
       reportProgress: true,
       responseType: 'json'
@@ -29,7 +29,7 @@ export class SubirArchivosService {
   }
 
   // Método para obtener la lista de archivos
-  getFiles(ruta: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/tareas/${ruta}/`);
+  getFiles(idgrupos: string, g_idmaterias: string, idtarea: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`);
   }
 }

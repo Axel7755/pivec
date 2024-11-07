@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { TareasService } from '../servicios/tareas.service';
 import { catchError, of, forkJoin, tap } from 'rxjs';
 import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-tareas-d',
@@ -74,7 +73,7 @@ export class CrearTareasDComponent implements OnInit {
       ta_idmaterias: this.g_idmaterias,
       ta_idgrupos: this.idgrupos
     }
-    console.log(tarea);
+    //console.log(tarea);
     this.tareasService.createTarea(tarea).pipe(
       catchError(error => {
         console.error('Error al crear tarea', error);
@@ -86,7 +85,8 @@ export class CrearTareasDComponent implements OnInit {
           const idtareas = response.idtareas;
           console.log(response);
           if (this.archivosSubidos.length === 0) {
-            console.warn('No hay archivos para subir.');
+            this.router.navigate(['/menu-materia',this.idgrupos,this.g_idmaterias,'listado-tareas-g']);
+            //console.warn('No hay archivos para subir.');
             return;
           }
           
@@ -106,7 +106,7 @@ export class CrearTareasDComponent implements OnInit {
               return null; // Devuelve null si no se encuentra el elemento
             }
           
-            return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!).pipe(
+            return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!,idtareas).pipe(
               catchError(err => {
                 console.error('Error al subir el archivo', err);
                 li?.remove();
@@ -120,12 +120,14 @@ export class CrearTareasDComponent implements OnInit {
               next: (responses) => {
                 responses.forEach((response: any) => {
                   if (response && response.body) {
-                    const archivoTarea = {
+                    /*const archivoTarea = {
                       dirección_DT: response.body.file.path,
                       nombre_DT:response.body.file.name,
                       dt_idtareas: idtareas
-                    }
-                    console.log('Ruta completa:', response.body.file.path);
+                    }*/
+
+                    this.router.navigate(['/menu-materia',this.idgrupos,this.g_idmaterias,'listado-tareas-g']);
+                    //console.log('Ruta completa:', response.body.file.path);
                   }
                 });
               },

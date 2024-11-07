@@ -1,5 +1,5 @@
 const db = require("../models");
-const DocumentosTareas = db.documentosTareas;
+const DocumentosTareas = db.DocumentosTareas;
 
 // Crear un nuevo documento de tarea
 exports.create = (req, res) => {
