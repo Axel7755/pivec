@@ -14,10 +14,14 @@ export class TareasService {
     return this.http.post(this.baseUrl, tarea);
   }
 
-  findTareaByIds(material: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/findByName/${material}`);
+  findTareaByGrupo(ta_idmaterias: string, ta_idgrupos: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${ta_idmaterias}/${ta_idgrupos}`);
   }
-  findMateriaById(id: string): Observable<any> {
+  findTareaById(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
+  }
+
+  deleteTarea(idtareas: string, ta_idmaterias: string, ta_idgrupos: string): Observable<any> {
+     return this.http.delete(`${this.baseUrl}/${idtareas}/${ta_idmaterias}/${ta_idgrupos}`);
   }
 }

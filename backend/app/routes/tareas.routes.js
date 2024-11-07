@@ -8,6 +8,9 @@ router.post("/", tareas.create);
 // Obtener todas las tareas
 router.get("/", tareas.findAll);
 
+// Obtener todas las tareas de un grupo
+router.get("/:ta_idmaterias/:ta_idgrupos", tareas.findAllGrupo);
+
 // Obtener una tarea por id
 router.get("/:idtareas/:ta_idmaterias/:ta_idgrupos", tareas.findOne);
 
