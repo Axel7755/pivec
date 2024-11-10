@@ -1,5 +1,7 @@
 const db = require("../models");
 const Tareas = db.Tareas;
+const fs = require('fs');
+const path = require('path');
 
 // Crear una nueva tarea
 exports.create = (req, res) => {
@@ -96,27 +98,39 @@ exports.update = (req, res) => {
         });
 };
 
-// Eliminar una tarea por id
+// Eliminar una tarea por id y su carpeta correspondiente
 exports.delete = (req, res) => {
-    const { idtareas, ta_idmaterias, ta_idgrupos } = req.params;
+  const { idtareas, ta_idmaterias, ta_idgrupos } = req.params;
 
-    Tareas.destroy({
-        where: { idtareas, ta_idmaterias, ta_idgrupos }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "La tarea fue eliminada exitosamente."
-                });
-            } else {
-                res.send({
-                    message: `No se pudo eliminar la tarea con id ${idtareas}. Quizás la tarea no fue encontrada.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Ocurrió un error al eliminar la tarea."
-            });
-        });
+  // Ruta del directorio de archivos para la tarea específica
+  const tareaFilesDir = path.join('uploads', 'tareasF', ta_idmaterias, ta_idgrupos, idtareas);
+    console.log(tareaFilesDir);
+  Tareas.destroy({
+    where: { idtareas, ta_idmaterias, ta_idgrupos }
+  })
+  .then(num => {
+    if (num == 1) {
+      // Eliminar la carpeta de idtareas y su contenido
+      fs.rm(tareaFilesDir, { recursive: true, force: true }, (err) => {
+        if (err) {
+          console.error('Error al eliminar archivos y la carpeta:', err);
+          return res.status(500).send({
+            message: `Tarea eliminada, pero ocurrió un error al eliminar los archivos y la carpeta: ${err.message}`
+          });
+        }
+
+        res.send({ message: "La tarea y su carpeta fueron eliminadas exitosamente." });
+      });
+    } else {
+      res.send({
+        message: `No se pudo eliminar la tarea con id ${idtareas}. Quizás la tarea no fue encontrada.`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Ocurrió un error al eliminar la tarea."
+    });
+  });
 };
+

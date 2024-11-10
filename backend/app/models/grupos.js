@@ -3,11 +3,11 @@ module.exports = (sequelize, Sequelize) => {
         g_idmaterias: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            allowNull: false
+            allowNull: falsez
         },
         g_doc_noTrabajador: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         idgrupos: {
             type: Sequelize.STRING(6),
@@ -41,8 +41,8 @@ module.exports = (sequelize, Sequelize) => {
                     table: 'docentes',
                     field: 'noTrabajador'
                 },
-                onDelete: 'NO ACTION',
-                onUpdate: 'NO ACTION'
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE'
             },
             {
                 name: 'fk_grupos_materias1',

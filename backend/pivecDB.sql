@@ -72,22 +72,22 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `dbPIEC`.`grupos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbPIEC`.`grupos` ;
+DROP TABLE IF EXISTS `dbPIEC`.`grupos`;
 
 CREATE TABLE IF NOT EXISTS `dbPIEC`.`grupos` (
   `g_idmaterias` INT(11) NOT NULL,
-  `g_doc_noTrabajador` INT(11) NOT NULL,
+  `g_doc_noTrabajador` INT(11),
   `idgrupos` VARCHAR(6) NOT NULL,
   `fechin` DATE NOT NULL,
   `fechfin` DATE NOT NULL,
   PRIMARY KEY (`g_idmaterias`, `idgrupos`),
-  INDEX `fk_grupos_docentes1_idx` (`g_doc_noTrabajador` ASC) ,
-  INDEX `grupos_g_doc_no_trabajador` (`g_doc_noTrabajador` ASC) ,
+  INDEX `fk_grupos_docentes1_idx` (`g_doc_noTrabajador` ASC),
+  INDEX `grupos_g_doc_no_trabajador` (`g_doc_noTrabajador` ASC),
   CONSTRAINT `fk_grupos_docentes1`
     FOREIGN KEY (`g_doc_noTrabajador`)
     REFERENCES `dbPIEC`.`docentes` (`noTrabajador`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_grupos_materias1`
     FOREIGN KEY (`g_idmaterias`)
     REFERENCES `dbPIEC`.`materias` (`idmaterias`)
