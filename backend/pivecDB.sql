@@ -68,7 +68,7 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4;
 
-
+ALTER TABLE materias MODIFY material VARCHAR(70) COLLATE utf8_general_ci;
 -- -----------------------------------------------------
 -- Table `dbPIEC`.`grupos`
 -- -----------------------------------------------------
@@ -259,13 +259,13 @@ CREATE TABLE IF NOT EXISTS `dbPIEC`.`grupos_alumnos` (
   CONSTRAINT `fk_grupos_has_alumnos_alumnos1`
     FOREIGN KEY (`ga_boleta`)
     REFERENCES `dbPIEC`.`alumnos` (`boleta`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_grupos_has_alumnos_grupos1`
     FOREIGN KEY (`ga_idmaterias` , `ga_idgrupos`)
     REFERENCES `dbPIEC`.`grupos` (`g_idmaterias` , `idgrupos`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 

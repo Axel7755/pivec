@@ -4,11 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { SubirArchivosComponent } from '../subir-archivos/subir-archivos.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TareasService } from '../servicios/tareas.service';
 import { catchError, of, forkJoin, tap } from 'rxjs';
 import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
+import { AuthService } from '../servicios/auth.service';
+import { DocentesService } from '../servicios/docentes.service';
 
 @Component({
   selector: 'app-crear-tareas-d',
@@ -22,10 +24,12 @@ import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
 })
 export class CrearTareasDComponent implements OnInit {
   idgrupos: string | null = null;
+  userId: string | null = null;
+  docente: string | null = null;
   g_idmaterias: string | null = null;
   titulo: string = "";
   descrip: string = "";
-  archivosSubidos: File[] = []; 
+  archivosSubidos: File[] = [];
 
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
@@ -34,7 +38,9 @@ export class CrearTareasDComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private tareasService: TareasService,
     private router: Router,
-    private subirArchivosService: SubirArchivosService
+    private subirArchivosService: SubirArchivosService,
+    private authService: AuthService,
+    private docentesService: DocentesService
   ) {
 
   }
@@ -43,6 +49,23 @@ export class CrearTareasDComponent implements OnInit {
     this.route.parent?.params.subscribe(params => {
       this.idgrupos = params['idgrupos'];
       this.g_idmaterias = params['g_idmaterias'];
+      this.userId = this.authService.getUserId();
+      if (this.userId) {
+          this.docentesService.obtenerDocente(this.userId)
+            .pipe(
+              catchError(error => {
+                console.error('Error al recuperar grupos', error);
+                alert('Error al recuperar grupos');
+                return of([]);
+              })
+            ).subscribe(docenteData => {
+              if (docenteData) {
+                this.docente = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
+                console.log(this.docente)
+              }
+            }
+            )
+      }
       //console.log('ID de grupo:', this.idgrupos);
       //console.log('ID de materia:', this.g_idmaterias);
     });
@@ -59,7 +82,7 @@ export class CrearTareasDComponent implements OnInit {
         console.log("Archivos subidos:", this.archivosSubidos);
         this.archivosSubidos.forEach(file => {
 
-        this.uploadFile(file);
+          this.uploadFile(file);
         });
       }
     });
@@ -85,28 +108,28 @@ export class CrearTareasDComponent implements OnInit {
           const idtareas = response.idtareas;
           console.log(response);
           if (this.archivosSubidos.length === 0) {
-            this.router.navigate(['/menu-materia',this.idgrupos,this.g_idmaterias,'listado-tareas-g']);
+            this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'listado-tareas-g']);
             //console.warn('No hay archivos para subir.');
             return;
           }
-          
+
           const uploadObservables = this.archivosSubidos.map(file => {
             const listItems = this.listContainer.nativeElement.querySelectorAll('li');
             let li: HTMLElement | null = null;
-          
+
             listItems.forEach((item: HTMLElement) => {
               const nameElement = item.querySelector('.file-name .name');
               if (nameElement && nameElement.textContent === file.name) {
                 li = item;
               }
             });
-          
+
             if (!li) {
               console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
               return null; // Devuelve null si no se encuentra el elemento
             }
-          
-            return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!,idtareas).pipe(
+
+            return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!, idtareas).pipe(
               catchError(err => {
                 console.error('Error al subir el archivo', err);
                 li?.remove();
@@ -114,7 +137,7 @@ export class CrearTareasDComponent implements OnInit {
               })
             );
           }).filter(obs => obs !== null); // Filtrar nulls
-          
+
           if (uploadObservables.length > 0) {
             forkJoin(uploadObservables).subscribe({
               next: (responses) => {
@@ -126,7 +149,7 @@ export class CrearTareasDComponent implements OnInit {
                       dt_idtareas: idtareas
                     }*/
 
-                    this.router.navigate(['/menu-materia',this.idgrupos,this.g_idmaterias,'listado-tareas-g']);
+                    this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'listado-tareas-g']);
                     //console.log('Ruta completa:', response.body.file.path);
                   }
                 });
@@ -139,7 +162,7 @@ export class CrearTareasDComponent implements OnInit {
               }
             });
           }
-          
+
         }
       },
       error: error => console.error('Error al crear tarea', error),

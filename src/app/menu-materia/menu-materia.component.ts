@@ -1,12 +1,13 @@
-import { NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink, RouterLinkActive, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../servicios/auth.service';
+import { Router } from '@angular/router';
+
 
 export interface Section {
   icon: string;
@@ -18,7 +19,7 @@ export interface Section {
   selector: 'app-menu-materia',
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule, MatIconModule, CommonModule,
-    RouterOutlet, MatListModule, RouterLink, RouterLinkActive, NgClass],
+    RouterOutlet, MatListModule, RouterLink, RouterLinkActive],
   templateUrl: './menu-materia.component.html',
   styleUrl: './menu-materia.component.css'
 })
@@ -33,7 +34,8 @@ export class MenuMateriaComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private ngZone: NgZone,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -95,5 +97,8 @@ export class MenuMateriaComponent implements OnInit {
     });
   }
   
+  irPaginaInicial(){
+    this.router.navigate([`/menu-principal/materias`]);
+  }
   
 }

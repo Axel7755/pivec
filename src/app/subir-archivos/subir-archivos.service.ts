@@ -30,6 +30,7 @@ export class SubirArchivosService {
 
   // Método para obtener la lista de archivos
   getFiles(idgrupos: string, g_idmaterias: string, idtarea: string): Observable<any> {
+    console.log(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`);
     return this.http.get(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`);
   }
 }

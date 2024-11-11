@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
         g_idmaterias: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            allowNull: falsez
+            allowNull: false
         },
         g_doc_noTrabajador: {
             type: Sequelize.INTEGER,

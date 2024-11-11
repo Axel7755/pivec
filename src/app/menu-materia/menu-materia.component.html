@@ -1,8 +1,7 @@
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [ngClass]="{ 'sidenav-collapsed': collapsed }">
-    
     <div class="sidenav-header" [ngClass]="collapsed ? 'sidenav-header-collapsed' : ''">
-      <ng-container *ngIf="!collapsed">
+      <ng-container (click)="irPaginaInicial()" *ngIf="!collapsed ">
         <h2 class="tit1">PIV</h2>
         <h2 class="tit2">EC</h2>
       </ng-container>

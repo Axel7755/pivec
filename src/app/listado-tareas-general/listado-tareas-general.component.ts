@@ -56,7 +56,7 @@ export class ListadoTareasGeneralComponent {
 
   editarTarea(tarea: any) {
     console.log('Editar tarea seleccionada');
-    // Lógica para editar la tarea
+    this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'editar-tareas-d', tarea.idtareas]);
   }
 
   eliminarTarea(tarea: any) {

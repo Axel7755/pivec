@@ -48,7 +48,15 @@ exports.create = (req, res) => {
 // Encontrar una materia por nombre
 exports.findByName = async (req, res) => {
     const material = req.params.material;
-    Materia.findOne({ where: { material: material } })
+
+    Materia.findOne({
+        where: {
+            material: {
+                [db.Sequelize.Op.like]: material
+            }
+        },
+        collate: 'utf8_general_ci'  // Ignorar acentos y mayúsculas/minúsculas
+    })
         .then(data => {
             if (data) {
                 res.send(data);
@@ -63,7 +71,7 @@ exports.findByName = async (req, res) => {
                 message: err.message || "Ocurrió un error al buscar la materia."
             });
         });
-  };
+};
 
 // Obtener todas las Materias
 exports.findAll = (req, res) => {

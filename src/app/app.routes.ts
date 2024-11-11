@@ -18,6 +18,7 @@ import { RevisarTareasDComponent } from './revisar-tareas-d/revisar-tareas-d.com
 import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-tareas-general.component';
 import { ListadoEntregasTareasComponent } from './listado-entregas-tareas/listado-entregas-tareas.component';
 import { AuthGuard, DocenteGuard } from './servicios/guards/auth.guard';
+import { EditarTareasDComponent } from './editar-tareas-d/editar-tareas-d.component';
 
 export const routes: Routes = [
 
@@ -47,6 +48,7 @@ export const routes: Routes = [
             { path: 'subir-tarea', component: SubirTareaComponent },
             { path: 'video-player', component: VideoPlayerComponent },
             { path: 'crear-tareas-d', component: CrearTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
+            { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
             { path: 'listado-entregas-tareas', component: ListadoEntregasTareasComponent },

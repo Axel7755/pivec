@@ -171,9 +171,14 @@ export class VerificarDatosComponent implements OnInit {
                     })
                   ).subscribe(async materiaEncontrada => {
                     if (materiaEncontrada) {
+                      const currentYear = new Date().getFullYear();
+                      const currentMonth = new Date().getMonth() + 1;
+                      // getMonth() is zero-based 
+                      const semester = currentMonth <= 6 ? 1 : 2;
+                      const grupoId = `${grupoData.grupo}-${semester}-${currentYear}`;
                       const grupo_alumno = {
                         ga_idmaterias: materiaEncontrada.idmaterias,
-                        ga_idgrupos: grupoData.grupo,
+                        ga_idgrupos: grupoId,
                         ga_boleta: alumno.boleta,
                       }
                       const GrupoAlumResponse = await this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno).toPromise();
@@ -320,10 +325,15 @@ export class VerificarDatosComponent implements OnInit {
   }
 
   gruposHorarios(idMaterias: number, grupoData: any) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    // getMonth() is zero-based 
+    const semester = currentMonth <= 6 ? 1 : 2;
+    const grupoId = `${grupoData.docente}-${semester}-${currentYear}`;
     const grupo = {
       g_idmaterias: idMaterias,
       g_doc_noTrabajador: this.boleta,
-      idgrupos: grupoData.docente,
+      idgrupos: grupoId,
       fechin: this.formattedDate,
       fechfin: this.futureDate
     };

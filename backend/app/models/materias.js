@@ -7,7 +7,8 @@ module.exports = (sequelize, Sequelize) => {
         },
         material: {
             type: Sequelize.STRING(70),
-            allowNull: true
+            allowNull: true,
+            collate: 'utf8_general_ci' 
         }
     });
 

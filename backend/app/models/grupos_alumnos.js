@@ -42,8 +42,8 @@ module.exports = (sequelize, Sequelize) => {
                     table: 'alumnos',
                     field: 'boleta'
                 },
-                onDelete: 'NO ACTION',
-                onUpdate: 'NO ACTION'
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             },
             {
                 name: 'fk_grupos_has_alumnos_grupos1',
@@ -52,8 +52,8 @@ module.exports = (sequelize, Sequelize) => {
                     table: 'grupos',
                     field: ['g_idmaterias', 'idgrupos']
                 },
-                onDelete: 'NO ACTION',
-                onUpdate: 'NO ACTION'
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             }
         ]
     });
