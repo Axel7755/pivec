@@ -87,17 +87,16 @@ export class EditarTareasDComponent implements OnInit {
                   .pipe(
                     catchError(error => {
                       console.error('Error al recuperar archivos', error);
-                      alert('Error al recuperar archivos');
                       return of(null);
                     })
                   ).subscribe(archivosData => {
-                    if (archivosData) {
-                      console.log(archivosData);
-                      this.archivosSubidos=archivosData.files
+                    if (archivosData && Array.isArray(archivosData.files)) {
+                      console.log('Archivos obtenidos:', archivosData.files); 
+                      this.archivosSubidos = archivosData.files;
                       this.archivosSubidos.forEach((file: any) => {
-                        console.log(file)
-                        console.log(file.name)
-                        this.uploadFile(file);
+                        console.log('Archivo:', file); // Esto imprimirá cada archivo
+                        console.log('Nombre del archivo:', file.name); 
+                        this.uploadFile(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
                       });
                     } else {
                       console.log("sin archivos");
@@ -111,10 +110,6 @@ export class EditarTareasDComponent implements OnInit {
       });
     });
   }
-  
-  
-
-
 
   openDialog() {
     const dialogRef = this.dialog.open(SubirArchivosComponent);
@@ -137,90 +132,107 @@ export class EditarTareasDComponent implements OnInit {
 }
 
 
-  guardarTarea() {
-    const tarea = {
-      fecha_Entrega: this.fechaVencimiento.nativeElement.value,
-      titulo_T: this.titulo,
-      descripción_T: this.descrip,
-      ta_idmaterias: this.g_idmaterias,
-      ta_idgrupos: this.idgrupos
-    }
-    //console.log(tarea);
-    this.tareasService.createTarea(tarea).pipe(
+async editarTarea() {
+  const tarea = {
+    fecha_Entrega: this.fechaVencimiento.nativeElement.value,
+    titulo_T: this.titulo,
+    descripción_T: this.descrip
+  };
+
+  console.log(this.idgrupos, this.idtarea, this.g_idmaterias);
+
+  try {
+    // Actualiza la tarea y espera a que la actualización se complete
+    const response = await this.tareasService.updateTarea(tarea, this.idtarea!, this.g_idmaterias!, this.idgrupos!).pipe(
       catchError(error => {
-        console.error('Error al crear tarea', error);
+        console.error('Error al editar tarea', error);
         return of(null);
       })
-    ).subscribe({
-      next: response => {
-        if (response) {
-          const idtareas = response.idtareas;
-          console.log(response);
-          if (this.archivosSubidos.length === 0) {
-            this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'listado-tareas-g']);
-            //console.warn('No hay archivos para subir.');
-            return;
-          }
+    ).toPromise();
 
-          const uploadObservables = this.archivosSubidos.map(file => {
-            const listItems = this.listContainer.nativeElement.querySelectorAll('li');
-            let li: HTMLElement | null = null;
+    if (response) {
+      console.log(response);
 
-            listItems.forEach((item: HTMLElement) => {
-              const nameElement = item.querySelector('.file-name .name');
-              if (nameElement && nameElement.textContent === file.name) {
-                li = item;
-              }
-            });
+      // Obtén la lista de archivos actuales del servidor
+      const archivosActuales = await this.subirArchivosService.getFiles(this.idgrupos!, this.g_idmaterias!, this.idtarea!).pipe(
+        catchError(error => {
+          console.error('Error al obtener archivos actuales', error);
+          return of({ files: [] });
+        })
+      ).toPromise();
 
-            if (!li) {
-              console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
-              return null; // Devuelve null si no se encuentra el elemento
-            }
+      // Filtra los archivos que deben ser eliminados en el backend
+      const archivosParaEliminar = archivosActuales.files.filter((archivo: any) => {
+        return !this.archivosSubidos.some((file: any) => file.name === archivo.name);
+      });
 
-            return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!, idtareas).pipe(
-              catchError(err => {
-                console.error('Error al subir el archivo', err);
-                li?.remove();
-                return of(null); // Devuelve un observable nulo en caso de error
-              })
-            );
-          }).filter(obs => obs !== null); // Filtrar nulls
-
-          if (uploadObservables.length > 0) {
-            forkJoin(uploadObservables).subscribe({
-              next: (responses) => {
-                responses.forEach((response: any) => {
-                  if (response && response.body) {
-                    /*const archivoTarea = {
-                      dirección_DT: response.body.file.path,
-                      nombre_DT:response.body.file.name,
-                      dt_idtareas: idtareas
-                    }*/
-
-                    this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'listado-tareas-g']);
-                    //console.log('Ruta completa:', response.body.file.path);
-                  }
-                });
-              },
-              complete: () => {
-                console.log('Todos los archivos se han subido con éxito.');
-                // Limpiar la lista de archivos después de completar la subida
-                this.archivosSubidos = [];
-                this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
-              }
-            });
-          }
-
-        }
-      },
-      error: error => console.error('Error al crear tarea', error),
-      complete: () => {
-        console.log('Solicitud de creación de tarea completada');
+      if (archivosParaEliminar.length > 0) {
+        await Promise.all(archivosParaEliminar.map(async (archivo: any) => {
+          await this.subirArchivosService.deleteFile(this.idgrupos!, this.g_idmaterias!, this.idtarea!, archivo.name).toPromise();
+          console.log(`Archivo eliminado del backend: ${archivo.name}`);
+        }));
       }
+
+      const uploadObservables = this.archivosSubidos.map(file => {
+        // Verifica si el archivo ya existe
+        const archivoExiste = archivosActuales.files.some((archivo: any) => archivo.name === file.name);
+
+        if (archivoExiste) {
+          console.log(`El archivo ya existe y no se subirá: ${file.name}`);
+          return null; // Devuelve null si el archivo ya existe
+        }
+
+        const listItems = this.listContainer.nativeElement.querySelectorAll('li');
+        let li: HTMLElement | null = null;
+
+        listItems.forEach((item: HTMLElement) => {
+          const nameElement = item.querySelector('.file-name .name');
+          if (nameElement && nameElement.textContent === file.name) {
+            li = item;
+          }
+        });
+
+        if (!li) {
+          console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
+          return null; // Devuelve null si no se encuentra el elemento
+        }
+
+        console.log("Archivo a subir", file);
+        return this.subirArchivosService.upload(file, this.idgrupos!, this.g_idmaterias!, this.idtarea!).pipe(
+          catchError(err => {
+            console.error('Error al subir el archivo', err, file);
+            li?.remove();
+            return of(null); // Devuelve un observable nulo en caso de error
+          })
+        );
+      }).filter(obs => obs !== null); // Filtrar nulls
+
+      if (uploadObservables.length > 0) {
+        const uploadResponses = await forkJoin(uploadObservables).toPromise();
+
+        if (uploadResponses) {
+          uploadResponses.forEach((response: any) => {
+            if (response && response.body) {
+              console.log('Ruta completa:', response.body.file.path);
+            }
+          });
+
+          console.log('Todos los archivos se han subido con éxito.');
+          // Limpiar la lista de archivos después de completar la subida
+          this.archivosSubidos = [];
+          this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
+        }
+      }
+
+      this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'listado-tareas-g']);
     }
-    )
+  } catch (error) {
+    console.error('Error al editar tarea', error);
   }
+}
+
+
+
 
   uploadFile(file: File): void {
     const icon = this.iconSelector(file.type);
