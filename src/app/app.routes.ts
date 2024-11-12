@@ -19,10 +19,14 @@ import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-
 import { ListadoEntregasTareasComponent } from './listado-entregas-tareas/listado-entregas-tareas.component';
 import { AuthGuard, DocenteGuard } from './servicios/guards/auth.guard';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { EditarTareasDComponent } from './editar-tareas-d/editar-tareas-d.component';
 =======
 import { ChatBotDComponent } from './chat-bot-d/chat-bot-d.component';
 >>>>>>> f60b3fd (Se completo exitosamente el chat-bot para docente)
+=======
+import { ChatBotDComponent } from './chat-bot-d/chat-bot-d.component';
+>>>>>>> ARCM-PIVEC
 
 export const routes: Routes = [
 
