@@ -18,6 +18,7 @@ import { RevisarTareasDComponent } from './revisar-tareas-d/revisar-tareas-d.com
 import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-tareas-general.component';
 import { ListadoEntregasTareasComponent } from './listado-entregas-tareas/listado-entregas-tareas.component';
 import { AuthGuard, DocenteGuard } from './servicios/guards/auth.guard';
+import { ChatBotDComponent } from './chat-bot-d/chat-bot-d.component';
 
 export const routes: Routes = [
 
@@ -36,6 +37,7 @@ export const routes: Routes = [
             { path: 'tareas', component: TareasComponent , canActivate: [AuthGuard] },
             { path: 'videos-compartidos', component: VideosCompartidosComponent , canActivate: [AuthGuard]},
             { path: 'google-academico', component: GoogleAcademicoComponent },
+            { path: 'chat-bot-d', component: ChatBotDComponent },
             { path: '', redirectTo: 'materias', pathMatch: 'full' },
         ]
     },
