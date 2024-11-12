@@ -51,6 +51,7 @@ export class EditarTareasDComponent implements OnInit {
       this.idgrupos = params['idgrupos'];
       this.g_idmaterias = params['g_idmaterias'];
       this.userId = this.authService.getUserId();
+  
       if (this.userId) {
         this.docentesService.obtenerDocente(this.userId)
           .pipe(
@@ -62,51 +63,56 @@ export class EditarTareasDComponent implements OnInit {
           ).subscribe(docenteData => {
             if (docenteData) {
               this.docente = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
-              //console.log(this.docente)
             }
-          }
-          )
+          });
       }
-
+  
       this.route.params.subscribe(paramsh => {
         this.idtarea = paramsh['idtarea'];
-        this.tareasService.findTareaById(this.g_idmaterias!, this.idgrupos!, this.idtarea!).pipe(
-          catchError(error => {
-            console.error('Error al recuperar tarea', error);
-            alert('Error al recuperar tarea');
-            return of(null);
-          })
-        ).subscribe(tareaData => {
-          if (tareaData) {
-            this.titulo = tareaData.titulo_T;
-            this.descrip = tareaData.descripción_T
-            this.fechaVencimiento.nativeElement.value = new Date(tareaData.fecha_Entrega).toISOString().slice(0, 16);
-            
-            this.subirArchivosService.getFiles(this.idgrupos!, this.idtarea!,this.g_idmaterias!).pipe(
+        if (this.g_idmaterias && this.idgrupos && this.idtarea) {
+          this.tareasService.findTareaById(this.g_idmaterias, this.idgrupos, this.idtarea)
+            .pipe(
               catchError(error => {
-                console.error('Error al recuperar archivos', error);
-                alert('Error al recuperar archivos');
+                console.error('Error al recuperar tarea', error);
+                alert('Error al recuperar tarea');
                 return of(null);
               })
-            ).subscribe(archivos => {
-              if(archivos){
-                console.log(archivos)
-              }else{
-                console.log("sin archivos")
+            ).subscribe(tareaData => {
+              if (tareaData) {
+                this.titulo = tareaData.titulo_T;
+                this.descrip = tareaData.descripción_T;
+                this.fechaVencimiento.nativeElement.value = new Date(tareaData.fecha_Entrega).toISOString().slice(0, 16);
+  
+                this.subirArchivosService.getFiles(this.idgrupos!, this.g_idmaterias!, this.idtarea!)
+                  .pipe(
+                    catchError(error => {
+                      console.error('Error al recuperar archivos', error);
+                      alert('Error al recuperar archivos');
+                      return of(null);
+                    })
+                  ).subscribe(archivosData => {
+                    if (archivosData) {
+                      console.log(archivosData);
+                      this.archivosSubidos=archivosData.files
+                      this.archivosSubidos.forEach((file: any) => {
+                        console.log(file)
+                        console.log(file.name)
+                        this.uploadFile(file);
+                      });
+                    } else {
+                      console.log("sin archivos");
+                    }
+                  });
+              } else {
+                console.error('tarea no existe');
               }
             });
-          }else{
-            console.error('tarea no existe');
-          }
         }
-        )
       });
-
-
-      //console.log('ID de grupo:', this.idgrupos);
-      //console.log('ID de materia:', this.g_idmaterias);
     });
   }
+  
+  
 
 
 
@@ -122,7 +128,7 @@ export class EditarTareasDComponent implements OnInit {
         }
 
         console.log("Archivos subidos:", this.archivosSubidos);
-
+        this.listContainer.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
         this.archivosSubidos.forEach(file => {
           this.uploadFile(file);
         });

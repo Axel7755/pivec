@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const mime = require('mime-types');
 
 // Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
@@ -56,15 +57,21 @@ const uploadFile = (req, res) => {
   });
 };
 
+// Controlador para obtener los archivos
 const getFiles = (req, res) => {
   const { idgrupos, g_idmaterias, idtarea } = req.params;
-  const uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}`;
+  const uploadDir = path.join('uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
 
   fs.readdir(uploadDir, (err, files) => {
     if (err) {
-      return res.status(500).json({ message: 'Error al leer los archivos' });
+      return res.status(500).json({ message: 'Error al leer los archivos', error: err });
     }
-    res.json({ files });
+    const fileInfo = files.map(file => ({
+      name: file,
+      path: path.join(uploadDir, file),
+      type: mime.lookup(file) || 'application/octet-stream' // Asigna un tipo MIME por defecto si no se encuentra
+    }));
+    res.json({ files: fileInfo });
   });
 };
 
