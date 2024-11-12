@@ -75,28 +75,40 @@ exports.findOne = (req, res) => {
 
 // Actualizar una tarea por id
 exports.update = (req, res) => {
-    const { idtareas, ta_idmaterias, ta_idgrupos } = req.params;
+  const { idtareas, ta_idmaterias, ta_idgrupos } = req.params;
+  const tareaFilesDir = path.join('uploads', 'tareasF', ta_idmaterias, ta_idgrupos, idtareas);
 
-    Tareas.update(req.body, {
-        where: { idtareas, ta_idmaterias, ta_idgrupos }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "La tarea fue actualizada exitosamente."
-                });
-            } else {
-                res.send({
-                    message: `No se pudo actualizar la tarea con id ${idtareas}. Quizás la tarea no fue encontrada o el cuerpo de la solicitud está vacío.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Ocurrió un error al actualizar la tarea."
-            });
+  Tareas.update(req.body, {
+    where: { idtareas, ta_idmaterias, ta_idgrupos }
+  })
+  .then(num => {
+    if (num == 1) {
+      // Eliminar la carpeta de archivos después de actualizar la tarea
+      /*fs.rm(tareaFilesDir, { recursive: true, force: true }, (err) => {
+        if (err) {
+          console.error('Error al eliminar archivos y la carpeta:', err);
+          return res.status(500).send({
+            message: `Tarea actualizada, pero ocurrió un error al eliminar los archivos y la carpeta: ${err.message}`
+          });
+        }
+    */
+        res.send({
+          message: "La tarea fue actualizada exitosamente."
         });
+      //});
+    } else {
+      res.send({
+        message: `No se pudo actualizar la tarea con id ${idtareas}. Quizás la tarea no fue encontrada o el cuerpo de la solicitud está vacío.`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Ocurrió un error al actualizar la tarea."
+    });
+  });
 };
+
 
 // Eliminar una tarea por id y su carpeta correspondiente
 exports.delete = (req, res) => {

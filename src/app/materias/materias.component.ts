@@ -37,9 +37,9 @@ export class MateriasComponent implements OnInit {
   ngOnInit() {
     this.isDocente = this.authService.getUserRole() === 'docente';
     this.userId = this.authService.getUserId();
-    if (this.userId && this.isDocente) {
+    if (this.isDocente) {
       this.gruposService
-        .getGruposByDocente(this.userId)
+        .getGruposByDocente(this.userId!)
         .pipe(
           catchError(error => {
             console.error('Error al recuperar grupos', error);
@@ -75,6 +75,8 @@ export class MateriasComponent implements OnInit {
             }
           });
         });
+    }else{
+      
     }
   }
   irGeneralMaterias(grupo: any) {

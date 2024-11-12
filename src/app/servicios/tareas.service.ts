@@ -24,4 +24,8 @@ export class TareasService {
   deleteTarea(idtareas: string, ta_idmaterias: string, ta_idgrupos: string): Observable<any> {
      return this.http.delete(`${this.baseUrl}/${idtareas}/${ta_idmaterias}/${ta_idgrupos}`);
   }
+
+  updateTarea(tarea: any, idtareas: string, ta_idmaterias: string, ta_idgrupos: string): Observable<any>{
+    return this.http.put(`${this.baseUrl}/${idtareas}/${ta_idmaterias}/${ta_idgrupos}`,tarea);
+  }
 }
