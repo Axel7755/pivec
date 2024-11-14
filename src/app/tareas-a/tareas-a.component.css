@@ -128,3 +128,41 @@ img[mat-card-image] {
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
 }
+
+
+hr {
+    border: 0;
+    height: 2px;
+    /* Grosor de la línea */
+    background-color: #6d1a42;
+    /* Color de la línea */
+}
+
+/* Estilos para los enlaces */
+.links {
+    padding-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    /* Espacio entre los enlaces */
+    margin-bottom: 10px;
+}
+
+.links a {
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.pendientes {
+    color: blue;
+    font-size: medium;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.vencidas {
+    color: red;
+    font-size: medium;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
