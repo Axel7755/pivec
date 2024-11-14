@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         ta_idgrupos: {
-            type: Sequelize.STRING(6),
+            type: Sequelize.STRING(13),
             allowNull: false
         }
     }, {

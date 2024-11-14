@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         av_idgrupos: {
-            type: Sequelize.STRING(6),
+            type: Sequelize.STRING(13),
             primaryKey: true,
             allowNull: false
         }

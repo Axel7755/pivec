@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         ga_idgrupos: {
-            type: Sequelize.STRING(6),
+            type: Sequelize.STRING(13),
             primaryKey: true,
             allowNull: false
         },

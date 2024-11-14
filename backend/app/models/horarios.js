@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         ho_idgrupos: {
-            type: Sequelize.STRING(6),
+            type: Sequelize.STRING(13),
             primaryKey: true,
             allowNull: false
         }
