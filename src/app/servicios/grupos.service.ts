@@ -16,4 +16,7 @@ export class GruposService {
   getGruposByDocente(docenteId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${docenteId}`);
   }
+  getGruposByID(g_idmaterias: string, idgrupos: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${g_idmaterias}/${idgrupos}`);
+  }
 }

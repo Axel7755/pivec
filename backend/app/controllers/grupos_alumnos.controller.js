@@ -60,6 +60,32 @@ exports.findOne = (req, res) => {
         });
 };
 
+// Obtener una relación grupo-alumno por id
+exports.findGruposAlumno = (req, res) => {
+    const { ga_boleta }  = req.params;
+    //console.log(ga_boleta)
+
+    GruposAlumnos.findAll({
+        where: {
+            ga_boleta: ga_boleta
+        }
+    })
+        .then(data => {
+            if (data.length > 0) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `No se encontró la relación grupo-alumno con boleta ${ga_boleta}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Ocurrió un error al recuperar la relación grupo-alumno."
+            });
+        });
+};
+
 // Actualizar una relación grupo-alumno por id
 exports.update = (req, res) => {
     const { ga_idmaterias, ga_idgrupos, ga_boleta } = req.params;

@@ -11,6 +11,9 @@ router.get("/", gruposAlumnos.findAll);
 // Obtener una relación grupo-alumno por id
 router.get("/:ga_idmaterias/:ga_idgrupos/:ga_boleta", gruposAlumnos.findOne);
 
+// Obtener una relaciónes de grupos que tenga un  alumno
+router.get("/:ga_boleta", gruposAlumnos.findGruposAlumno);
+
 // Actualizar una relación grupo-alumno por id
 router.put("/:ga_idmaterias/:ga_idgrupos/:ga_boleta", gruposAlumnos.update);
 

@@ -15,7 +15,7 @@ export class GruposAlumnosService {
     return this.http.post(this.baseUrl, grupo_alumno);
   }
 
-  //findMateriaByName(material: string): Observable<any> {
-    //return this.http.get(`${this.baseUrl}/findByName/${material}`);
-  //}
+  findGruposAlumno(ga_boleta: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${ga_boleta}`);
+  }
 }
