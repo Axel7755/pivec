@@ -5,6 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatListModule } from '@angular/material/list'
 import { NgClass } from '@angular/common';
+import { InReuComponent } from "../video-call/in-reu/in-reu.component";
 
 export interface Section {
   icon: string;
@@ -16,7 +17,7 @@ export interface Section {
   selector: 'app-menu-principal',
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule, MatIconModule,
-     RouterOutlet, MatListModule, RouterLink, RouterLinkActive, NgClass],
+    RouterOutlet, MatListModule, RouterLink, RouterLinkActive, NgClass, InReuComponent],
      templateUrl: './menu-principal.component.html',
   styleUrl: './menu-principal.component.css'
 })
