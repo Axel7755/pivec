@@ -1,0 +1,95 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    background-color: #F2F2F5;
+    padding: .75rem;
+    border-radius: 6px;
+}
+
+/* Efecto para la animación heartbeat */
+.in-call-button .animate__heartBeat {
+    animation: animate__heartBeat 2s ease-in-out infinite; /* 2s de duración total (1s animación + 1s pausa) */
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-delay: 0s; /* Esto hace que empiece sin retraso */
+}
+
+
+/* Estilos para el botón */
+.button-reset {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Contenedor del botón */
+.in-call-button-container {
+    position: relative;
+    display: inline-block; /* Asegura que la posición sea relativa al contenedor */
+}
+
+/* Imagen del botón */
+.in-call-button {
+    width: 35px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Efecto hover para la imagen */
+.in-call-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto activo para la imagen */
+.in-call-button:active {
+    transform: scale(0.95);
+}
+
+/* Línea punteada debajo del botón */
+.in-call-button-container::after {
+    content: "";
+    position: absolute;
+    bottom: -5px; /* Ajusta la distancia al borde inferior de la imagen */
+    left: 0;
+    height: 3.5px; /* Grosor de la línea punteada */
+    width: 65%;
+    background: repeating-linear-gradient(
+        to right,
+        #800000,
+        #800000 4px,
+        transparent 4px,
+        transparent 8px
+    ); /* Crea la línea punteada de color guinda */
+    animation: move-dotted-line 4s linear infinite;
+}
+
+/* Animación de movimiento de la nave lounch */
+@keyframes animate__heartBeat {
+    30% {
+        transform: scale(1.1);
+    }
+    60% {
+        transform: scale(1.2);
+    }
+    90% {
+        transform: scale(1.3);
+    }
+}
+
+.animate__heartBeat {
+    animation: animate__heartBeat 2s ease-in-out infinite;
+}
+
+
+/* Animación de movimiento de la línea punteada */
+@keyframes move-dotted-line {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(90%);
+    }
+}
