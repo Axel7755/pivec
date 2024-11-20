@@ -1,13 +1,13 @@
 const db = require("../models");
-const Entregas = db.entregas;
+const Entregas = db.Entregas;
 
 // Crear una nueva entrega
 exports.create = (req, res) => {
     const entrega = {
         e_idtareas: req.body.e_idtareas,
         e_boleta: req.body.e_boleta,
-        calificación: req.body.calificación,
-        e_fecha: req.body.e_fecha
+        calificación: null,
+        e_fecha: new Date()
     };
 
     Entregas.create(entrega)

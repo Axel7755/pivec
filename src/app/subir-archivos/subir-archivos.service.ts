@@ -33,6 +33,29 @@ export class SubirArchivosService {
   
     return this.http.request(req);
   }
+
+  uploadEntrega(file: File, idgrupos: string, g_idmaterias: string, idtarea: string, boletaAl: string): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('name', file.name);
+    formData.append('type', file.type);
+    formData.append('size', file.size.toString());
+    formData.append('lastModified', file.lastModified.toString());
+    
+    const headers = new HttpHeaders({
+      'enctype': 'multipart/form-data'
+    });
+  
+    const req = new HttpRequest('POST', `${this.baseUrl}/entregas/${g_idmaterias}/${idgrupos}/${idtarea}/${boletaAl}`, formData, {
+      headers,
+      reportProgress: true,
+      responseType: 'json'
+    });
+  
+    console.log('Datos del archivo enviados:', formData);
+  
+    return this.http.request(req);
+  }
   
 
   // Método para obtener la lista de archivos

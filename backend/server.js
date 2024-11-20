@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require('morgan');
 const db = require("./app/models");
 const app = express();
+const path = require('path');
 
 // Configuración de CORS
 const corsOptions = {
@@ -91,6 +92,9 @@ app.use("/api/documentosTareas", documentosTareasRouter);
 app.use("/api/documentosAvisos", documentosAvisosRouter);
 app.use("/api/auth", AuthRouter);
 app.use("/api/upload", UploadRouter);
+
+// Configurar express para servir archivos estáticos desde la carpeta 'uploads' 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ruta base
 app.get("/", (req, res) => {

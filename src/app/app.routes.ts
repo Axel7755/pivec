@@ -52,9 +52,10 @@ export const routes: Routes = [
         children: [
             { path: 'general-a', component: GeneralAComponent },
             { path: 'tareas-a', component: TareasAComponent },
-            { path: 'subir-tarea', component: SubirTareaComponent },
-            { path: 'crear-tareas-d', component: CrearTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
-            { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
+            { path: 'subir-tarea/:idtarea', component: SubirTareaComponent },
+            { path: 'video-player', component: VideoPlayerComponent },
+            { path: 'crear-tareas-d', component: CrearTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
+            { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
             { path: 'listado-entregas-tareas', component: ListadoEntregasTareasComponent },
