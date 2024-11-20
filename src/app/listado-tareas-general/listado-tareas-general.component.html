@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado tareas general</title>
-</head>
-
-<body>
-    <!-- Enlaces de "Pendientes" y "Vencidas" -->
 
     <div class="crear-tareas">
         <button mat-button class="crear-tareas-btn" mat-raised-button color="accent" (click)="navigateToCrearTareas()">
@@ -44,7 +33,7 @@
     
                 <div class="seccion-abajo">
                     <!-- Formato de fecha ajustado -->
-                    <p class="vence">{{ tarea.fecha_Entrega | date:'yyyy-MM-dd HH:mm' }}</p>
+                    <p class="vence">Vence: {{ tarea.fecha_Entrega | date:'dd-MM-yyyy HH:mm' }}</p>
                 </div>
     
             </div>
@@ -53,6 +42,4 @@
     <ng-template #noTareas>
         <p>No tienes tareas creadas.</p>
     </ng-template>
-</body>
 
-</html>

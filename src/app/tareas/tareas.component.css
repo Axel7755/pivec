@@ -38,7 +38,7 @@ img[mat-card-image] {
 .informacion-materia h1 {
     margin-top: 10px;
     padding: 5px 0;
-    font-family: "Girassol", cursive;
+    font-family: "Cambria";
     color: #1854fa;
 }
 
@@ -58,7 +58,7 @@ hr {
 
 .vence {
     color: red;
-    font-family: "Girassol";
+    font-family: "Cambria";
     font-size: 20px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
@@ -74,9 +74,16 @@ hr {
     margin-bottom: 10px;
 }
 
-.links a {
-    text-decoration: none;
+.links button {
     font-size: 22px;
+    background-color: transparent;
+    border: none;
+}
+
+.links button:active {
+    color:white;
+    border-radius: 20px;
+    background-color: #6d1a42;
 }
 
 .pendientes {

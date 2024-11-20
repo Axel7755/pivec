@@ -17,6 +17,10 @@ export class TareasService {
   findTareaByGrupo(ta_idmaterias: string, ta_idgrupos: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${ta_idmaterias}/${ta_idgrupos}`);
   }
+
+  findTareaByGrupoP(ta_idmaterias: string, ta_idgrupos: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/P/${ta_idmaterias}/${ta_idgrupos}`);
+  }
   findTareaById(ta_idmaterias: string, ta_idgrupos: string, idtareas: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${idtareas}/${ta_idmaterias}/${ta_idgrupos}`);
   }

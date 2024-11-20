@@ -6,8 +6,15 @@ const mime = require('mime-types');
 // Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const { idgrupos, g_idmaterias, idtarea } = req.params;
-    const uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}`;
+    const { idgrupos, g_idmaterias, idtarea, boletaAl } = req.params;
+    let uploadDir;
+
+    // Verifica si es una entrega (si la boleta está en los parámetros)
+    if (boletaAl) {
+      uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}/entregas/${boletaAl}`;
+    } else {
+      uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}`;
+    }
 
     console.log('Destino de almacenamiento:', uploadDir);
 
@@ -15,14 +22,15 @@ const storage = multer.diskStorage({
       fs.mkdirSync(uploadDir, { recursive: true }); // Crear la carpeta si no existe
       console.log('Carpeta creada:', uploadDir);
     }
+
+    req.uploadDir = uploadDir; // Asignar uploadDir a req.uploadDir para usarlo en el filename
     cb(null, uploadDir); // Carpeta de almacenamiento
   },
   filename: function (req, file, cb) {
-    const { idgrupos, g_idmaterias, idtarea } = req.params;
     const baseName = file.originalname.split('.')[0];
     const extension = path.extname(file.originalname);
     let newFileName = `${baseName}${extension}`;
-    let filePath = path.join(`uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}`, newFileName);
+    let filePath = path.join(req.uploadDir, newFileName);
     let version = 1;
 
     console.log('Nombre de archivo inicial:', newFileName);
@@ -30,7 +38,7 @@ const storage = multer.diskStorage({
     while (fs.existsSync(filePath)) {
       version++;
       newFileName = `${baseName}-v${version}${extension}`;
-      filePath = path.join(`uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}`, newFileName);
+      filePath = path.join(req.uploadDir, newFileName);
     }
 
     console.log('Nombre de archivo final:', newFileName);
@@ -93,24 +101,28 @@ const getFiles = (req, res) => {
       console.error('Error al leer los archivos:', err);
       return res.status(500).json({ message: 'Error al leer los archivos', error: err });
     }
-    const fileInfo = files.map(file => {
-      const stats = fs.statSync(path.join(uploadDir, file));
-      return {
-        lastModified: stats.mtimeMs,
-        lastModifiedDate: stats.mtime,
-        name: file,
-        size: stats.size,
-        type: mime.lookup(file) || 'application/octet-stream',
-        webkitRelativePath: '',
-        originalName: file,
-        path: path.join(uploadDir, file)
-      };
-    });
+
+    const fileInfo = files
+      .filter(file => fs.statSync(path.join(uploadDir, file)).isFile()) // Filtra solo archivos
+      .map(file => {
+        const stats = fs.statSync(path.join(uploadDir, file));
+        return {
+          lastModified: stats.mtimeMs,
+          lastModifiedDate: stats.mtime,
+          name: file,
+          size: stats.size,
+          type: mime.lookup(file) || 'application/octet-stream',
+          webkitRelativePath: '',
+          originalName: file,
+          path: path.join(uploadDir, file)
+        };
+      });
 
     console.log('Archivos encontrados:', fileInfo);
     res.json({ files: fileInfo });
   });
 };
+
 
 // Controlador para eliminar archivos
 const deleteFile = (req, res) => {

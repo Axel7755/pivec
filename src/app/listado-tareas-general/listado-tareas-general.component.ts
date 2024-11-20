@@ -37,8 +37,8 @@ export class ListadoTareasGeneralComponent {
 
       this.tareasService.findTareaByGrupo(this.g_idmaterias!, this.idgrupos!).pipe(
         catchError(error => {
-          console.error('Error al recuperar grupos', error);
-          alert('Error al recuperar grupos');
+          console.error('Error al recuperar tareas', error);
+          alert('Error al recuperar tareas');
           return of(null);
         })
       ).subscribe(tareasData => {
