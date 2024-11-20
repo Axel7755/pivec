@@ -12,7 +12,6 @@ import { MenuMateriaComponent } from './menu-materia/menu-materia.component';
 import { GeneralAComponent } from './general-a/general-a.component';
 import { TareasAComponent } from './tareas-a/tareas-a.component';
 import { SubirTareaComponent } from './subir-tarea/subir-tarea.component';
-import { VideoPlayerComponent } from './video-player/video-player.component';
 import { CrearTareasDComponent } from './crear-tareas-d/crear-tareas-d.component';
 import { RevisarTareasDComponent } from './revisar-tareas-d/revisar-tareas-d.component';
 import { ListadoTareasGeneralComponent } from './listado-tareas-general/listado-tareas-general.component';
@@ -22,6 +21,7 @@ import { EditarTareasDComponent } from './editar-tareas-d/editar-tareas-d.compon
 import { ChatBotDComponent } from './chat-bot-d/chat-bot-d.component';
 import { RoomComponent } from './video-call/room/room.component';
 import { InReuComponent } from './video-call/in-reu/in-reu.component';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
 
 export const routes: Routes = [
 
@@ -53,7 +53,6 @@ export const routes: Routes = [
             { path: 'general-a', component: GeneralAComponent },
             { path: 'tareas-a', component: TareasAComponent },
             { path: 'subir-tarea', component: SubirTareaComponent },
-            { path: 'video-player', component: VideoPlayerComponent },
             { path: 'crear-tareas-d', component: CrearTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
@@ -64,7 +63,10 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'hola/:id', component: RoomComponent,
+        path: ':id', component: RoomComponent,
+    },
+    {
+        path: 'video-play', component: VideoPlayerComponent,
     },
 
     { path: '', redirectTo: '/login/login-component', pathMatch: 'full' },

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { v4 as uuidv4 } from 'uuid';
+
 
 @Component({
   selector: 'app-in-reu',
@@ -7,11 +10,18 @@ import { Component } from '@angular/core';
   templateUrl: './in-reu.component.html',
   styleUrl: './in-reu.component.css'
 })
-export class InReuComponent {
+export class InReuComponent implements OnInit {
 
-  navigateToPage(): void {
-    window.location.href = 'https://example.com'; // Reemplaza con la URL a la que quieres redirigir
+  constructor(private router: Router) {
+
   }
 
+  ngOnInit(): void {
+
+  }
+
+  goToRoom = () => {
+    this.router.navigate(['/', uuidv4()]);
+  }
 
 }
