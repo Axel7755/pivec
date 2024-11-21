@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
@@ -7,6 +7,10 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+
+const config: SocketIoConfig = {url: 'http://localhost:3000', options: {withCredentials: true}};
+
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withComponentInputBinding()), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(withFetch())]
+  providers: [provideRouter(routes, withComponentInputBinding()),  importProvidersFrom(SocketIoModule.forRoot(config)), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(withFetch())]
 };

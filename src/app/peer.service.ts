@@ -8,6 +8,7 @@ export class PeerService {
   peer: any;
 
   constructor() {
+    // Aqui se puede establecer un id en especifico,
     this.peer = new Peer('', {
       host: 'localhost',
       port: 3001

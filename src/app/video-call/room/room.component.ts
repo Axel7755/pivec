@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuBottomComponent } from "../../components/menu-bottom/menu-bottom.component";
-import { ActivatedRoute } from '@angular/router';
-import { PeerService } from '../../peer.service';
+import { ActivatedRoute } from "@angular/router";
+import { WebSocketService } from "../../web-socket.service";
+import { PeerService } from "../../peer.service";
+
 import { CommonModule } from '@angular/common';
 import { VideoPlayerComponent } from '../../components/video-player/video-player.component';
 
@@ -13,19 +15,54 @@ import { VideoPlayerComponent } from '../../components/video-player/video-player
   styleUrl: './room.component.css'
 })
 export class RoomComponent implements OnInit {
-
+  roomName: string;
   currentStream: any;
   listUser: Array<any> = [];
 
-  constructor() {
+  constructor(private route: ActivatedRoute, private webSocketService: WebSocketService,
+    private peerService: PeerService) {
+    this.roomName = route.snapshot.paramMap.get('id')!;
+    console.log('---> ',this.roomName);
   }
 
   ngOnInit(): void {
     this.checkMediaDevices();
+    // this.initPeer();
+    // this.initSocket();
   }
 
+  // initPeer = () => {
+  //   const { peer } = this.peerService;
+  //   peer.on('open', (id) => {
+  //     const body = {
+  //       idPeer: id,
+  //       roomName: this.roomName
+  //     };
+
+  //     this.webSocketService.joinRoom(body);
+  //   });
+
+  //   peer.on('call', callEnter => {
+  //     callEnter.answer(this.currentStream);
+  //     callEnter.on('stream', (streamRemote) => {
+  //       this.addVideoUser(streamRemote);
+  //     });
+  //   }, err => {
+  //     console.log('*** ERROR *** Peer call ', err);
+  //   });
+  // }
+
+  // initSocket = () => {
+  //   this.webSocketService.cbEvent.subscribe(res => {
+  //     if (res.name === 'new-user') {
+  //       const { idPeer } = res.data;
+  //       this.sendCall(idPeer, this.currentStream);
+  //     }
+  //   });
+  // }
+
   checkMediaDevices = () => {
-    if (typeof window !== 'undefined' && navigator && navigator.mediaDevices) {
+    if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices.getUserMedia({
         audio: false,
         video: true
@@ -33,17 +70,25 @@ export class RoomComponent implements OnInit {
         this.currentStream = stream;
         this.addVideoUser(stream);
       }).catch(() => {
-        console.error('*** ERROR *** Sin permisos para acceder a dispositivos multimedia');
+        console.log('*** ERROR *** Not permissions');
       });
     } else {
-      console.error('*** ERROR *** No son dispositivos multimedia o no se ejecuta en el cliente');
+      console.log('*** ERROR *** Not media devices');
     }
   }
 
-
   addVideoUser = (stream: any) => {
     this.listUser.push(stream);
+    const unique = new Set(this.listUser);
+    this.listUser = [...unique];
   }
 
-
+  // sendCall = (idPeer, stream) => {
+  //   const newUserCall = this.peerService.peer.call(idPeer, stream);
+  //   if (!!newUserCall) {
+  //     newUserCall.on('stream', (userStream) => {
+  //       this.addVideoUser(userStream);
+  //     });
+  //   }
+  // }
 }

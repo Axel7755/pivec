@@ -21,7 +21,7 @@ export class InReuComponent implements OnInit {
   }
 
   goToRoom = () => {
-    this.router.navigate(['/', uuidv4()]);
+    this.router.navigate(['room/', uuidv4()]);
   }
 
 }

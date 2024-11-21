@@ -64,7 +64,7 @@ export const routes: Routes = [
         ]
     },
     {
-        path: ':id', component: RoomComponent,
+        path: 'room/:id', component: RoomComponent,
     },
     {
         path: 'video-play', component: VideoPlayerComponent,
