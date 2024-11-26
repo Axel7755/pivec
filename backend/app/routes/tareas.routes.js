@@ -14,6 +14,9 @@ router.get("/:ta_idmaterias/:ta_idgrupos", tareas.findAllGrupo);
 // Obtener todas las tareas de un grupo que no esten vencidas
 router.get("/P/:ta_idmaterias/:ta_idgrupos", tareas.findAllPGrupo);
 
+// Obtener todas las tareas de un grupo que esten vencidas
+router.get("/V/:ta_idmaterias/:ta_idgrupos", tareas.findAllVGrupo);
+
 // Obtener una tarea por id
 router.get("/:idtareas/:ta_idmaterias/:ta_idgrupos", tareas.findOne);
 
