@@ -22,35 +22,48 @@ export class RoomComponent implements OnInit {
   constructor(private route: ActivatedRoute, private webSocketService: WebSocketService,
     private peerService: PeerService) {
     this.roomName = route.snapshot.paramMap.get('id')!;
-    console.log('---> ',this.roomName);
+    //console.log('---> ',this.roomName);
   }
 
   ngOnInit(): void {
     this.checkMediaDevices();
-    // this.initPeer();
-    // this.initSocket();
+    this.initPeer();
+    this.initSocket();
   }
 
-  // initPeer = () => {
-  //   const { peer } = this.peerService;
-  //   peer.on('open', (id) => {
-  //     const body = {
-  //       idPeer: id,
-  //       roomName: this.roomName
-  //     };
+  initPeer = () => {
+    const { peer } = this.peerService;
+    //Cuando el servidor esta totalmente 'activo' y cuando tengamos un id por el lado de peer
+    //Le decimos a socket que nos una con los demás dispositivos
+    peer.on('open', (id: any) => {
+      console.log('ID PEER:', id);
 
-  //     this.webSocketService.joinRoom(body);
-  //   });
+      const body = {
+        idPeer: id,
+        roomName: this.roomName
+      };
+      //this.webSocketService.joinRoom(body);
+    });
 
-  //   peer.on('call', callEnter => {
-  //     callEnter.answer(this.currentStream);
-  //     callEnter.on('stream', (streamRemote) => {
-  //       this.addVideoUser(streamRemote);
-  //     });
-  //   }, err => {
-  //     console.log('*** ERROR *** Peer call ', err);
-  //   });
-  // }
+
+    peer.on('call', (callEnter: any) => {
+      callEnter.answer(this.currentStream);
+      callEnter.on('stream', (streamRemote: any) => {
+        //this.addVideoUser(streamRemote);
+      });
+    }, (err: any) => {
+      console.log('*** ERROR *** Peer call ', err);
+    });
+
+  }
+
+  initSocket = () => {
+    this.webSocketService.cbEvent.subscribe(res => {
+      console.log('SOCKET', res);
+    });
+  }
+
+
 
   // initSocket = () => {
   //   this.webSocketService.cbEvent.subscribe(res => {
@@ -79,8 +92,8 @@ export class RoomComponent implements OnInit {
 
   addVideoUser = (stream: any) => {
     this.listUser.push(stream);
-    const unique = new Set(this.listUser);
-    this.listUser = [...unique];
+    // const unique = new Set(this.listUser);
+    // this.listUser = [...unique];
   }
 
   // sendCall = (idPeer, stream) => {
@@ -91,4 +104,4 @@ export class RoomComponent implements OnInit {
   //     });
   //   }
   // }
-}
+} 
