@@ -78,6 +78,29 @@ exports.findAllPGrupo = (req, res) => {
     });
 };
 
+// Obtener todas las tareas de un grupo con fecha_Entrega mayor a la fecha y hora actual
+exports.findAllVGrupo = (req, res) => {
+  const { ta_idmaterias, ta_idgrupos } = req.params;
+  const now = new Date();
+
+  Tareas.findAll({
+    where: {
+      ta_idmaterias,
+      ta_idgrupos,
+      fecha_Entrega: {
+        [Op.lt]: now // Fecha de entrega mayor a la fecha y hora actual
+      }
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Ocurrió un error al recuperar las tareas del grupo."
+      });
+    });
+};
 
 // Obtener una tarea por id
 exports.findOne = (req, res) => {

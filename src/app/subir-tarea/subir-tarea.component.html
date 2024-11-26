@@ -17,7 +17,7 @@
         </div>
         <div class="contenido-principal">
             <div class="informacion-materia">
-                <p class="vence">Vence: 12/08/2024</p>
+                <p class="vence">{{ fechaVencimiento | date:'dd-MM-yyyy HH:mm' }}</p>
             </div>
 
             <div class="img-materia">
@@ -27,11 +27,11 @@
 
         <div class="info-tarea">
             <div class="nombre-tarea">
-                <strong>Nombre de tarea:</strong> Tarea 1
+                <strong>Nombre de tarea:</strong> {{ titulo }}
             </div>
 
             <div class="desc-tarea">
-                <strong>Descripción de la tarea:</strong> Realizar un FODA de uno mismo
+                <strong>Descripción de la tarea:</strong> {{ descrip }}
                 <div class="buton-download">
                     <a href="./assets/download/materia1.pdf" download class="download-icon">
                         <i class="fas fa-download"></i>
