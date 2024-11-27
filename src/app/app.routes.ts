@@ -22,6 +22,7 @@ import { ChatBotDComponent } from './chat-bot-d/chat-bot-d.component';
 import { RoomComponent } from './video-call/room/room.component';
 import { InReuComponent } from './video-call/in-reu/in-reu.component';
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { TranslatorComponent } from './translator/translator.component';
 
 export const routes: Routes = [
 
@@ -42,6 +43,7 @@ export const routes: Routes = [
             { path: 'materias', component: MateriasComponent, canActivate: [AuthGuard] },
             { path: 'tareas', component: TareasComponent, canActivate: [AuthGuard] },
             { path: 'videos-compartidos', component: VideosCompartidosComponent, canActivate: [AuthGuard] },
+            { path: 'traductor', component: TranslatorComponent, canActivate: [AuthGuard] },
             { path: 'google-academico', component: GoogleAcademicoComponent },
             { path: 'chat-bot-d', component: ChatBotDComponent },
             { path: '', redirectTo: 'materias', pathMatch: 'full' },

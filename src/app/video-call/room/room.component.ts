@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuBottomComponent } from "../../components/menu-bottom/menu-bottom.component";
-import { ActivatedRoute } from "@angular/router";
-import { WebSocketService } from "../../web-socket.service";
-import { PeerService } from "../../peer.service";
+import { ActivatedRoute } from '@angular/router';
+import { WebSocketService } from '../../web-socket.service';
+import { PeerService } from '../../peer.service';
 
 import { CommonModule } from '@angular/common';
+import { MenuBottomComponent } from "../../components/menu-bottom/menu-bottom.component";
 import { VideoPlayerComponent } from '../../components/video-player/video-player.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { VideoPlayerComponent } from '../../components/video-player/video-player
   standalone: true,
   imports: [MenuBottomComponent, CommonModule, VideoPlayerComponent],
   templateUrl: './room.component.html',
-  styleUrl: './room.component.css'
+  styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
   roomName: string;
@@ -21,8 +21,8 @@ export class RoomComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private webSocketService: WebSocketService,
     private peerService: PeerService) {
-    this.roomName = route.snapshot.paramMap.get('id')!;
-    //console.log('---> ',this.roomName);
+    this.roomName = this.route.snapshot.paramMap.get('id')!;
+    console.log('---> Room name: ', this.roomName);
   }
 
   ngOnInit(): void {
@@ -33,28 +33,26 @@ export class RoomComponent implements OnInit {
 
   initPeer = () => {
     const { peer } = this.peerService;
-    //Cuando el servidor esta totalmente 'activo' y cuando tengamos un id por el lado de peer
-    //Le decimos a socket que nos una con los demás dispositivos
-    peer.on('open', (id: any) => {
+    peer.on('open', (id: string) => {
       console.log('ID PEER:', id);
 
       const body = {
         idPeer: id,
         roomName: this.roomName
       };
-      //this.webSocketService.joinRoom(body);
+      this.webSocketService.joinRoom(body);
     });
-
 
     peer.on('call', (callEnter: any) => {
       callEnter.answer(this.currentStream);
       callEnter.on('stream', (streamRemote: any) => {
-        //this.addVideoUser(streamRemote);
+        // this.addVideoUser(streamRemote);
       });
-    }, (err: any) => {
-      console.log('*** ERROR *** Peer call ', err);
     });
 
+    peer.on('error', (err: any) => {
+      console.error('*** ERROR *** Peer call ', err);
+    });
   }
 
   initSocket = () => {
@@ -62,17 +60,6 @@ export class RoomComponent implements OnInit {
       console.log('SOCKET', res);
     });
   }
-
-
-
-  // initSocket = () => {
-  //   this.webSocketService.cbEvent.subscribe(res => {
-  //     if (res.name === 'new-user') {
-  //       const { idPeer } = res.data;
-  //       this.sendCall(idPeer, this.currentStream);
-  //     }
-  //   });
-  // }
 
   checkMediaDevices = () => {
     if (navigator && navigator.mediaDevices) {
@@ -92,16 +79,5 @@ export class RoomComponent implements OnInit {
 
   addVideoUser = (stream: any) => {
     this.listUser.push(stream);
-    // const unique = new Set(this.listUser);
-    // this.listUser = [...unique];
   }
-
-  // sendCall = (idPeer, stream) => {
-  //   const newUserCall = this.peerService.peer.call(idPeer, stream);
-  //   if (!!newUserCall) {
-  //     newUserCall.on('stream', (userStream) => {
-  //       this.addVideoUser(userStream);
-  //     });
-  //   }
-  // }
-} 
+}

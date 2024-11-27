@@ -43,6 +43,11 @@ export class MenuPrincipalComponent {
       route: '/menu-principal/videos-compartidos'
     },
     {
+      icon:'translate',
+      name: ' Traductor ',
+      route: '/menu-principal/traductor'
+    },
+    {
       icon:'school',
       name: 'Google Académico',
       route: '/menu-principal/google-academico'

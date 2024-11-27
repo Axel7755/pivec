@@ -1,13 +1,25 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require('morgan');
-const db = require("./app/models");
-const app = express();
+const http = require('http');
+const socketIO = require('socket.io');
 const path = require('path');
+const db = require("./app/models");
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:8081", // Especifica la URL exacta del origen permitido
+    methods: ["GET", "POST"],
+    credentials: true // Permite el envío de credenciales
+  }
+});
 
 // Configuración de CORS
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || "http://localhost:8081",
+  origin: "http://localhost:8081", // Especifica la URL exacta del origen permitido
+  credentials: true, // Permite el envío de credenciales
   optionsSuccessStatus: 200
 };
 
@@ -27,6 +39,8 @@ const connectWithRetry = () => {
       setTimeout(connectWithRetry, 5000);
     });
 };
+
+connectWithRetry();
 
 // Función para reiniciar la base de datos (si es necesario)
 const resetDatabase = async () => {
@@ -51,9 +65,6 @@ const resetDatabase = async () => {
     await sequelize.sync();
   })
 };
-
-//resetDatabase();
-connectWithRetry();
 
 // Importar rutas
 const alumnosRouter = require("./app/routes/alumnos.routes.js");
@@ -93,7 +104,7 @@ app.use("/api/documentosAvisos", documentosAvisosRouter);
 app.use("/api/auth", AuthRouter);
 app.use("/api/upload", UploadRouter);
 
-// Configurar express para servir archivos estáticos desde la carpeta 'uploads' 
+// Configurar express para servir archivos estáticos desde la carpeta 'uploads'
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ruta base
@@ -101,8 +112,33 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the application." });
 });
 
+// Configuración de Socket.IO
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  
+  socket.on('join', (data) => {
+    const roomName = data.roomName;
+    
+    if (!roomName) {
+      console.error('Room name is undefined');
+      return;
+    }
+
+    socket.join(roomName);
+    socket.to(roomName).emit('new-user', data);
+
+    socket.on('disconnect', () => {
+      socket.to(roomName).emit('bye-user', data);
+    });
+  });
+
+  socket.on('error', (err) => {
+    console.error('Socket error:', err);
+  });
+});
+
 // Iniciar servidor
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

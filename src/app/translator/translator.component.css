@@ -1,0 +1,68 @@
+body {
+    background-color: #f7f9fc;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .translator-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    color: #800020; /* Color guindo */
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  textarea, select, .btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    resize: none;
+    min-height: 100px;
+  }
+  
+  .btn {
+    background-color: #800020; /* Color guindo */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #5e0015; /* Un tono más oscuro de guindo para el hover */
+  }
+  
+  .translated-text-container {
+    margin-top: 20px;
+    background: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .translated-text-container p {
+    margin: 0;
+  }
+  

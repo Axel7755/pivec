@@ -9,7 +9,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 
-const config: SocketIoConfig = {url: 'http://localhost:3000', options: {withCredentials: true}};
+const config: SocketIoConfig = {url: 'http://localhost:8080', options: {withCredentials: true}};
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes, withComponentInputBinding()),  importProvidersFrom(SocketIoModule.forRoot(config)), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(withFetch())]

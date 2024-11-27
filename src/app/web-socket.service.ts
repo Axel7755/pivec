@@ -1,11 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 
-interface RoomData {
-  roomId: any;
-  userId: any;
-}
-
 @Injectable({
   providedIn: 'root'
 })
