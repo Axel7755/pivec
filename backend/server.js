@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:8081", // Especifica la URL exacta del origen permitido
+    origin: (origin, callback) => { callback(null, true); }, // Especifica la URL exacta del origen permitido
     methods: ["GET", "POST"],
     credentials: true // Permite el envío de credenciales
   }
@@ -18,7 +18,7 @@ const io = socketIO(server, {
 
 // Configuración de CORS
 const corsOptions = {
-  origin: "http://localhost:8081", // Especifica la URL exacta del origen permitido
+  origin: "*", // Especifica la URL exacta del origen permitido
   credentials: true, // Permite el envío de credenciales
   optionsSuccessStatus: 200
 };
@@ -114,28 +114,19 @@ app.get("/", (req, res) => {
 
 // Configuración de Socket.IO
 io.on('connection', (socket) => {
-  console.log('New client connected');
-  
   socket.on('join', (data) => {
-    const roomName = data.roomName;
-    
-    if (!roomName) {
-      console.error('Room name is undefined');
-      return;
-    }
+      const roomName = data.roomName;
+      socket.join(roomName);
+      // Emite el evento 'new-user' a todos en la sala excepto el que se une
+      socket.to(roomName).emit('new-user', data);
 
-    socket.join(roomName);
-    socket.to(roomName).emit('new-user', data);
-
-    socket.on('disconnect', () => {
-      socket.to(roomName).emit('bye-user', data);
-    });
-  });
-
-  socket.on('error', (err) => {
-    console.error('Socket error:', err);
+      socket.on('disconnect', () => {
+          // Emite el evento 'bye-user' a todos en la sala excepto el que se desconecta
+          socket.to(roomName).emit('bye-user', data);
+      });
   });
 });
+
 
 // Iniciar servidor
 const PORT = process.env.PORT || 8080;

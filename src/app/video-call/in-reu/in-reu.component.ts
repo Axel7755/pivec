@@ -21,7 +21,9 @@ export class InReuComponent implements OnInit {
   }
 
   goToRoom = () => {
-    this.router.navigate(['room/', uuidv4()]);
+    //aqui deve de ir el id de el grupo que tendra la clase
+    //this.router.navigate(['room/', uuidv4()]);
+    this.router.navigate(['room/', "3cm2-2-2023"]);
   }
 
 }
