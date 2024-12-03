@@ -26,58 +26,69 @@ export class RoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkMediaDevices();
+    //this.checkMediaDevices()
     this.initPeer();
-    this.initSocket();
+    this.sendCall();
+    //this.initSocket();
   }
 
   initPeer = () => {
     const { peer } = this.peerService;
-    peer.on('open', (id: string) => {
-      console.log('ID PEER:', id);
-
+    peer.on('open', (id: any) => {
       const body = {
         idPeer: id,
         roomName: this.roomName
       };
+      console.log("se inicializa peer")
       this.webSocketService.joinRoom(body);
     });
 
-    peer.on('call', (callEnter: any) => {
-      callEnter.answer(this.currentStream);
-      callEnter.on('stream', (streamRemote: any) => {
-        // this.addVideoUser(streamRemote);
-      });
-    });
 
-    peer.on('error', (err: any) => {
-      console.error('*** ERROR *** Peer call ', err);
+    peer.on("call", (call: any) => {
+      console.log("en caso de llamada answer")
+      navigator.mediaDevices.getUserMedia(
+        { video: true, audio: true },
+      ).then((stream: any,) => {
+        call.answer(stream); // Answer the call with an A/V stream.
+        call.on("stream", (remoteStream: any) => {
+          this.currentStream = stream;
+          this.addVideoUser(remoteStream);
+        });
+      },
+        (err) => {
+          console.error("Failed to get local stream", err);
+        },)
     });
-  }
-
-  initSocket = () => {
-    this.webSocketService.cbEvent.subscribe(res => {
-      console.log('SOCKET', res);
-    });
-  }
-
-  checkMediaDevices = () => {
-    if (navigator && navigator.mediaDevices) {
-      navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true
-      }).then(stream => {
-        this.currentStream = stream;
-        this.addVideoUser(stream);
-      }).catch(() => {
-        console.log('*** ERROR *** Not permissions');
-      });
-    } else {
-      console.log('*** ERROR *** Not media devices');
-    }
   }
 
   addVideoUser = (stream: any) => {
     this.listUser.push(stream);
+    const unique = new Set(this.listUser);
+    this.listUser = [...unique];
+  }
+
+  sendCall = () => {
+    console.log("sendcallprimero")
+    navigator.mediaDevices.getUserMedia(
+      { video: true, audio: true },
+    ).then(
+      (stream) => {
+        this.addVideoUser(stream);
+        this.webSocketService.cbEvent.subscribe(res => {
+          console.log('SOCKET', res);
+          if (res.name === 'new-user') {
+            const { idPeer } = res.data;
+            console.log('current stream', stream);
+            const call = this.peerService.peer.call(idPeer, stream);
+            call.on("stream", (remoteStream: any) => {
+              this.addVideoUser(remoteStream);
+            });
+          }
+        });
+      },
+      (err) => {
+        console.error("Failed to get local stream", err);
+      }
+    )
   }
 }

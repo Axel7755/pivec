@@ -14,14 +14,14 @@ export class WebSocketService {
 
   listener = () => {
     this.events.forEach(evenName => {
-      this.socket.on(evenName, (data:any) => this.cbEvent.emit({
+      this.socket.on(evenName, (data: any) => this.cbEvent.emit({
         name: evenName,
         data
       }));
     });
   };
 
-  joinRoom = (data:any) => {
+  joinRoom = (data: any) => {
     this.socket.emit('join', data);
   }
 }
