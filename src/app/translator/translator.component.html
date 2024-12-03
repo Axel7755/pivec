@@ -17,8 +17,17 @@
     </div>
     <button type="submit" class="btn">Traducir</button>
   </form>
-  <div *ngIf="translatedText" class="translated-text-container">
+
+  <div *ngIf="translatedText" class="contenedor-traducido">
     <h2>Texto Traducido:</h2>
-    <p>{{ translatedText }}</p>
+    <div class="translated-text-container">
+      <p>{{ translatedText }}</p>
+    </div>
+    <button (click)="speakText()" class="btn-speaker" aria-label="Leer texto traducido">
+      🔊 Escuchar
+    </button>
   </div>
+
+
+
 </div>
