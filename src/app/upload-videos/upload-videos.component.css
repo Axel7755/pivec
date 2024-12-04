@@ -1,0 +1,416 @@
+.container {
+    text-align: center;
+    width: 100%;
+    overflow-y: scroll;
+    max-width: 500px;
+    min-height: 435px;
+    max-height: 650px;
+    margin: auto;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.header-section {
+    padding: 25px 0px;
+}
+
+.header-section h1 {
+    font-weight: 500;
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    color: #707EA0;
+    margin: 0px;
+    margin-bottom: 8px;
+}
+
+.header-section p {
+    margin: 5px;
+    font-size: 0.95rem;
+    color: #707EA0;
+}
+
+.drop-section {
+    min-height: 250px;
+    border: 1px dashed #A8B3E3;
+    background-image: linear-gradient(180deg, white, #F1F6FF);
+    margin: 5px 35px 35px 35px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.drop-section div.col:first-child {
+    opacity: 1;
+    visibility: visible;
+    transition-duration: 0.2s;
+    transform: scale(1);
+    width: 200px;
+    margin: auto;
+}
+
+.drop-section div.col:last-child {
+    font-size: 40px;
+    font-weight: 700;
+    color: #c0cae1;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    width: 200px;
+    height: 55px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.6);
+    transition-duration: 0.2s;
+}
+
+/* we will use "drag-over-effect" class in js */
+/* Efectos cuando el archivo se arrastra sobre el área */
+.drag-over-effect div.col:first-child {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(1.1);
+}
+
+.drag-over-effect div.col:last-child {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.drop-section .cloud-icon {
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+.drop-section span,
+.drop-section button {
+    display: block;
+    margin: auto;
+    color: #707EA0;
+    margin-bottom: 10px;
+}
+
+.drop-section button {
+    color: white;
+    background-color: #ff9933;
+    border: none;
+    outline: none;
+    padding: 7px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.drop-section input {
+    display: none;
+}
+
+.list-section {
+    display: none;
+    text-align: left;
+    margin: 0px 35px;
+    padding-bottom: 20px;
+    margin-top: 15px;
+}
+
+.list-section .list-title {
+    font-size: 0.95rem;
+    color: #707EA0;
+    text-transform: uppercase;
+}
+
+.list-section li {
+    display: flex;
+    margin: 15px 0px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    border-radius: 8px;
+    transition-duration: 0.2s;
+}
+
+.list-section li:hover {
+    box-shadow: #E3EAF9 0px 0px 4px 0px, #E3EAF9 0px 12px 16px 0px;
+}
+
+.list-section li .col {
+    flex: .1;
+}
+
+.list-section li .col:nth-child(1) {
+    flex: .15;
+    text-align: center;
+}
+
+.list-section li .col:nth-child(2) {
+    flex: .78;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #3e4046;
+    padding: 8px 10px;
+}
+
+.list-section li .col .file-name span {
+    color: #707EA0;
+    float: right;
+    margin-top: -16px;
+}
+
+.list-section li .file-progress {
+    width: 100%;
+    height: 5px;
+    margin-top: 8px;
+    border-radius: 8px;
+    background-color: #dee6fd;
+}
+
+.list-section li .file-progress span {
+    display: block;
+    width: 50%;
+    height: 100%;
+    border-radius: 8px;
+    background-image: linear-gradient(120deg, #6b99fd, #9385ff);
+    transition-duration: 0.4s;
+}
+
+.list-section li .col .file-size {
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: #707EA0;
+}
+
+.list-section li .col svg.cross,
+.list-section li .col svg.tick {
+    fill: #8694d2;
+    background-color: #dee6fd;
+    position: relative;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.list-section li .col svg.tick {
+    fill: #50a156;
+    background-color: transparent;
+}
+
+.list-section li.complete span,
+.list-section li.complete .file-progress,
+.list-section li.complete svg.cross {
+    display: none;
+}
+
+.list-section li.in-prog .file-size,
+.list-section li.in-prog svg.tick {
+    display: none;
+}
+
+.list-section {
+    display: block;
+}
+
+/* Tamaño para las img 'iconos' de los archivos que se suban' */
+/* crear-tareas-d.component.css */
+img {
+    width: 40px;
+    height: 50px;
+    object-fit: cover;
+    /* Asegura que la imagen se ajuste al espacio dado */
+}
+
+img {
+    width: 40px;
+    height: 50px;
+    object-fit: contain;
+    /* Mantiene la proporción de la imagen dentro de 40x50 */
+}
+
+/* Informacion extra después del texto de mi header */
+.file-info-container {
+    display: flex;
+    align-items: center;
+    padding-left: 45px;
+}
+
+.info-icon {
+    margin-left: 3px;
+    /* Espacio entre el texto y la imagen */
+    cursor: pointer;
+    /* Cambiar el cursor al pasar sobre la imagen */
+}
+
+.info-icon:hover::after {
+    content: attr(title);
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    top: 100%;
+    /* Justo debajo de la imagen */
+    left: 0;
+    white-space: pre;
+    /* Para mantener los saltos de línea en el tooltip */
+}
+
+/* Boton para subir archivos */
+.upload-btn {
+    display: block;
+    margin: 10px auto;
+    background-color: #921f4c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+/* otra seccion */
+.hidden {
+    display: none;
+}
+
+/* barra de progreso */
+.file-progress span {
+    display: block;
+    height: 100%;
+    border-radius: 8px;
+    background-image: linear-gradient(120deg, #6b99fd, #9385ff);
+    transition: width 0.4s ease;
+    /* Transición suave */
+}
+
+/* boton de subir archivos actualizado */
+.upload-button-container {
+    display: flex;
+    /* Usar flexbox para centrar */
+    justify-content: center;
+    /* Centra horizontalmente */
+    margin: 10px;
+    /* Margen superior e inferior */
+}
+
+.upload-button {
+    background-color: #900;
+    color: white;
+    border: 2px solid #700;
+    border-radius: 8px;
+    padding: 10px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 150px;
+    height: auto;
+    /* Ancho específico del botón */
+}
+
+.upload-button:hover {
+    background-color: #b00;
+    transform: scale(1.05);
+}
+
+.upload-button:disabled {
+    background-color: #d9d9d9;
+    color: #a6a6a6;
+    border: 2px solid #ccc;
+    cursor: not-allowed;
+}
+
+/* Estilos para el titulo del video y selección de materia */
+/* Contenedor general de los campos */
+div#video-title-container,
+div#video-subject-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    /* Ajusta el ancho máximo */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilo del label */
+div#video-title-container label,
+div#video-subject-container label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+    color: #4a4a4a;
+}
+
+/* Estilo del input */
+#video-title,
+#video-subject {
+    width: 85%;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: #333;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+.cont-video-titulo{
+    margin-top: -27px;
+}
+
+.cont-video-materia{
+    margin-top: 8px;
+}
+
+.titulo-video{
+    font-size: 17px;
+}
+
+/* Efecto hover y focus */
+#video-title:hover,
+#video-subject:hover {
+    border-color: #4a90e2;
+    background-color: #fff;
+}
+
+#video-title:focus,
+#video-subject:focus {
+    border-color: #b50084;
+    box-shadow: 0 0 8px rgba(248, 1, 145, 0.759);
+    outline: none;
+}
+
+/* Estilo adicional para select */
+#video-subject option {
+    font-size: 16px;
+    padding: 6px;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 768px) {
+
+    #video-title,
+    #video-subject {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    div#video-title-container,
+    div#video-subject-container {
+        max-width: 90%;
+        /* Ocupa el 90% de la pantalla */
+        padding: 8px;
+    }
+}

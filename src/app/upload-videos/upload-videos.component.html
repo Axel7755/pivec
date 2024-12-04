@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="header-section">
+        <h1>Publicar Videos</h1>
+        <p>Sube los videos que quieras compartir con tus compañeros</p>
+        <div class="file-info-container">
+            <p>Se permiten archivos: Videos</p>
+            <img src="../../assets/images/information.ico" alt="Información" class="info-icon"
+                title="Se permiten archivos de video: .mp4, .wmv, .mpeg, .ogv">
+        </div>
+    </div>
+
+    <div class="drop-section" #dropArea (dragover)="onDragOver($event)" (dragleave)="onDragLeave()"
+        (drop)="onDrop($event)">
+        <div class="col">
+            <div class="cloud-icon">
+                <img src="../../assets/icons/cloud2.png" alt="cloud">
+            </div>
+            <span>Arrastra y suelta tu video aquí</span>
+            <span>O</span>
+            <button class="file-selector" (click)="onFileSelectorClick()">Buscar archivos</button>
+            <input #fileSelectorInput type="file" (change)="onFileChange()" style="display: none;" multiple />
+        </div>
+        <div class="col">
+            <div class="drop-here">Soltar aquí</div>
+        </div>
+    </div>
+
+    <!-- Campo para titulo del video -->
+    <div class="cont-video-titulo">
+        <label for="video-title">Titulo del Video</label>
+        <input id="video-title" type="text" [(ngModel)]="videoTitle">
+    </div>
+
+    <!-- Campo para seleccionar la materia -->
+    <div class="cont-video-materia">
+        <label class="titulo-video" for="video-subject">Selecciona una Materia</label>
+        <select id="video-subject" [(ngModel)]="videoSubject">
+            <option value="math">Matemáticas</option>
+            <option value="science">Ciencias</option>
+            <option value="history">Historia</option>
+        </select>
+    </div>
+
+    <div class="list-section">
+        <div class="list-title">Video Subido</div>
+        <div class="list">
+            <ul #listContainer>
+                <!-- Aquí se mostrarán los archivos cargados -->
+            </ul>
+        </div>
+        <div class="upload-button-container">
+            <button class="upload-button" [disabled]="archivosSubidos.length === 0" (click)="uploadFiles()">Subir
+                Video</button>
+        </div>
+    </div>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close
+            style="background-color: #0033ffe2; color: white; border-radius: 8px; padding: 10px;">Cancelar</button>
+    </mat-dialog-actions>
+</div>

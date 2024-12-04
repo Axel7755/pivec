@@ -1,43 +1,37 @@
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videos Compartidos</title>
-</head>
 
-<body>
+<!-- Botón para subir video -->
+<div class="upload-video">
+    <button mat-button class="upload-btn" mat-raised-button color="accent" (click)="openDialog()">
+        <span class="texto-btn">Subir Documentos</span>
+        <img src="../../assets/images/video-uploads.png" alt="Icono Tarea" class="icono-tarea">
+    </button>
+    <input type="file" id="documento" name="documento" multiple style="display: none;">
+</div>
 
-    <!-- Contenedor principal para todas las tarjetas de video -->
-    <div class="card-container">
-        <!-- Recorre todas las tarjetas de video usando *ngFor -->
-        <mat-card class="example-card" appearance="outlined" *ngFor="let card of videoCards; let i = index">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image"></div>
-                <mat-card-title>{{ card.title }}</mat-card-title>
-                <mat-card-subtitle>{{ card.subtitle }}</mat-card-subtitle>
-            </mat-card-header>
 
-            <div class="video-container">
-                <!-- Mostrar imagen si el video no está visible en esta tarjeta específica -->
-                <img *ngIf="!card.isVideoVisible" mat-card-image src="./assets/images/videosShare.png" alt="materia1"
-                    (click)="playVideo(i)">
+<div class="card-container">
+    <mat-card class="example-card" appearance="outlined" *ngFor="let card of videoCards; let i = index">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{ card.title }}</mat-card-title>
+            <mat-card-subtitle>{{ card.subtitle }}</mat-card-subtitle>
+        </mat-card-header>
 
-                <!-- Mostrar video si está visible en esta tarjeta específica -->
-                <video *ngIf="card.isVideoVisible" #videoPlayer class="video-player" controls>
-                    <source [src]="card.videoSrc" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>                
+        <div class="video-container" [ngClass]="{'initial': !card.isVideoVisible, 'expanded': card.isVideoVisible}">
+            <!-- Mostrar imagen si el video no está visible -->
+            <img *ngIf="!card.isVideoVisible" mat-card-image src="./assets/images/videosShare.png" alt="materia1"
+                (click)="playVideo(i)">
 
-            </div>
+            <!-- Mostrar video si está visible -->
+            <video *ngIf="card.isVideoVisible" #videoPlayer class="video-player" controls autoplay>
+                <source [src]="card.videoSrc" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
 
-            <mat-card-content>
-                <p>{{ truncatedContent }}</p>
-            </mat-card-content>
-        </mat-card>
-    </div>
-
-</body>
-
-</html>
+        <mat-card-content>
+            <p>{{ truncatedContent }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -7,6 +7,8 @@
     margin-top: 35px;
     justify-content: center;
     /* Centra las tarjetas horizontalmente */
+    align-items: flex-start;
+    /* Asegura que las tarjetas comiencen desde arriba */
 }
 
 .example-card {
@@ -32,32 +34,95 @@
 }
 
 /* video player */
+
+
+/* new */
+/* video player */
 .video-container {
+    width: 90%;
+    /* El video ocupará el 85% del ancho disponible */
+    height: 300px;
+    /* Puedes ajustar la altura como desees */
     position: relative;
-    width: 100%; /* Usa todo el ancho de la tarjeta */
-    height: 0; /* Inicialmente, la altura es 0 */
-    padding-bottom: 56.25%; /* Mantener relación de aspecto 16:9 */
+    /* Esto permite que el video se superponga correctamente */
+    margin: 0 auto;
+    /* Esto centrará el contenedor horizontalmente */
 }
 
 .video-player {
-    position: absolute; /* Posicionar el video dentro del contenedor */
+    width: 100%;
+    /* El video se ajustará al tamaño del contenedor */
+    height: 100%;
+    /* Asegura que el video ocupe todo el espacio del contenedor */
+    position: absolute;
+    /* El video se superpone sobre la imagen */
     top: 0;
     left: 0;
-    width: 100%; /* Asegura que el video ocupe todo el ancho */
-    height: 100%; /* Asegura que el video ocupe toda la altura del contenedor */
-    object-fit: cover; /* Mantiene la relación de aspecto y cubre todo el contenedor */
+    z-index: 1;
+    /* Asegura que el video esté encima de la imagen */
 }
 
-/* Otros estilos */
+.video-container.initial {
+    padding-bottom: 0;
+    height: 250px;
+    /* Un valor fijo para la altura de la imagen */
+    overflow: hidden;
+    /* Ocultar el video cuando no esté visible */
+}
+
+.video-container.expanded {
+    padding-bottom: 56.25%;
+    /* Relación de aspecto 16:9 */
+    height: auto;
+}
+
+.video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 img[mat-card-image] {
     width: 100%;
-    height: 250px; /* Puedes ajustar esta altura si es necesario */
-    object-fit: contain; /* Mantiene la relación de aspecto de la imagen */
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    /* Cambia el cursor para indicar que es clickeable */
+}
+
+.video-player {
+    width: 100%;
+    /* O un tamaño específico, como 600px */
+    height: 400px;
+    /* O cualquier valor que se adapte */
+}
+
+.video-player {
+    position: absolute;
+    /* Posicionar el video dentro del contenedor */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Asegura que el video ocupe todo el ancho */
+    height: 100%;
+    /* Asegura que el video ocupe toda la altura del contenedor */
+    object-fit: cover;
+    /* Mantiene la relación de aspecto y cubre todo el contenedor */
+}
+
+/* Otros estilos */
+img[mat-card-image] {
+    width: 100%;
+    height: 250px;
+    /* Puedes ajustar esta altura si es necesario */
+    object-fit: contain;
+    /* Mantiene la relación de aspecto de la imagen */
 }
 
 /* fin video player */
-
 .example-header-image {
     background-image: url('../../assets/images/mat1.png');
     background-size: contain;
@@ -103,7 +168,6 @@ mat-card-header mat-card-subtitle {
 
 mat-card-content p {
     display: -webkit-box;
-    -webkit-line-clamp: 5;
     /* Número de líneas que quieres mostrar, ajusta si es necesario */
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -112,4 +176,48 @@ mat-card-content p {
     /* Ajusta según la altura de las líneas */
     line-height: 1.4em;
     /* Altura de cada línea */
+}
+
+/* Estilos para el contenedor del botón de subir video */
+/* --------------------- Estilos para el boton de crear tarea --------------------- */
+.upload-video {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.texto-btn {
+    display: inline-block;
+    text-align: center; /* Asegura que el texto esté centrado dentro de su contenedor */
+    margin-top: -13px;
+}
+
+.icono-tarea {
+    width: 30px; /* Ajusta el tamaño del icono */
+    height: 30px;
+    margin-bottom: -7px;
+    cursor: pointer;
+    margin-left: 8px; /* Agrega espacio entre el texto y el icono */
+
+}
+
+.titulo-icono {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.upload-btn {
+    display: inline-flex;
+    justify-content: center; /* Centra el contenido del botón horizontalmente */
+    align-items: center; /* Alinea el icono y el texto verticalmente */
+    padding: 10px 20px;
+    background: linear-gradient(to right, #FF9933, #FFC545) !important;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 18px;
+    font: bold;
+    text-align: center;
 }
