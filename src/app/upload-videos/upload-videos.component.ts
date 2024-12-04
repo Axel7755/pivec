@@ -68,6 +68,7 @@ export class UploadVideosComponent implements OnInit {
           console.log('Archivo subido:', file); // Log para verificar
         } else {
           console.error('Tipo de archivo no permitido:', file.type);
+          alert('Por favor, selecciona únicamente archivos de video.');
         }
       });
 
