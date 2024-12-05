@@ -115,15 +115,25 @@ app.get("/", (req, res) => {
 // Configuración de Socket.IO
 io.on('connection', (socket) => {
   socket.on('join', (data) => {
-      const roomName = data.roomName;
-      socket.join(roomName);
-      // Emite el evento 'new-user' a todos en la sala excepto el que se une
-      socket.to(roomName).emit('new-user', data);
+    const roomName = data.roomName;
+    socket.join(roomName);
+    // Emite el evento 'new-user' a todos en la sala excepto el que se une
+    socket.to(roomName).emit('new-user', data);
 
-      socket.on('disconnect', () => {
-          // Emite el evento 'bye-user' a todos en la sala excepto el que se desconecta
-          socket.to(roomName).emit('bye-user', data);
-      });
+    socket.on("messagesend", (message) => {
+      console.log(message);
+      io.to(roomName).emit("createMessage", message);
+    });
+
+    socket.on("tellName", (myname) => {
+      console.log(myname);
+      socket.to(roomName).emit("AddName", myname);
+    });
+
+    socket.on('disconnect', () => {
+      // Emite el evento 'bye-user' a todos en la sala excepto el que se desconecta
+      socket.to(roomName).emit('bye-user', data);
+    });
   });
 });
 

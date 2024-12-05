@@ -120,7 +120,7 @@ export class TareasAComponent implements OnInit {
         forkJoin(tareasConEntregas$).subscribe((results: TareaConEntrega[]) => {
           results.forEach(({ tarea, entrega }) => {
             if (entrega) {
-              //this.entregas.push(tarea);
+              this.entregas.push(tarea);
             } else {
               this.vencidas.push(tarea);
             }

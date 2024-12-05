@@ -8,7 +8,7 @@ export class WebSocketService {
   events = ['new-user', 'bye-user'];
   cbEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private socket: Socket) {
+  constructor(public socket: Socket) {
     this.listener();
   }
 
@@ -21,7 +21,18 @@ export class WebSocketService {
     });
   };
 
+  sendMesage = (myName:string, text:string) => {
+
+    this.socket.emit("messagesend", `${myName} : ${text}`);
+    //console.log("en socket service",text)
+  }
+
   joinRoom = (data: any) => {
     this.socket.emit('join', data);
+  }
+  onCreateMessage(callback: (message: string) => void) { 
+    this.socket.on("createMessage", (message: string) => { 
+      callback(message); 
+    }); 
   }
 }

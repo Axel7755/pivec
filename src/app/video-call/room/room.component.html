@@ -1,5 +1,65 @@
-<div class="wrapper-room">
+<!--<div class="wrapper-room">
     <app-video-player [stream]="user" *ngFor="let user of listUser"></app-video-player>
 </div>
 
-<app-menu-bottom></app-menu-bottom>
+<app-menu-bottom></app-menu-bottom>-->
+
+<div class="mainclone">
+    <div class="main_left">
+        <div class="main_videos">
+            <div id="video-grids">
+                <app-video-player [stream]="user" *ngFor="let user of listUser"></app-video-player>
+            </div>
+        </div>
+        <div class="main_controls">
+            <div class="main_controls_block">
+                <div class="main_controls_button" id="mic" (click)="muteUnmute()">
+                    <i class="fas fa-microphone-slash"></i>
+                    <span>Mute</span>
+                </div>
+
+                <div class="main_controls_button" id="video" (click)="VideomuteUnmute()">
+                    <i class="fas fa-video-slash"></i>
+                    <span>Stop Video</span>
+                </div>
+                <div class="main_controls_button" (click)="showchat()">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Chat</span>
+                </div>
+            </div>
+            <div class="main_controls_block">
+                <div class="main_controls_button" (click)="toggleRecording()">
+                    <i class="fas fa-record-vinyl"></i>
+                    <span>{{ isRecording ? 'Parar Grabación' : 'Grabar' }}</span>
+                </div>
+                <div class="main_controls_button" (click)="shareDisplay()">
+                    <mat-icon matListItemIcon  class="blanco">
+                        screen_share
+                    </mat-icon>
+                    <span>Compartir</span>
+                </div>
+            </div>
+            <div class="main_controls_block">
+                <div class="main_controls_button leave_red">
+                    <span class="leave_meeting"><a href="">Salir de la reunion</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main_right" id="chat">
+        <div class="main_right_header">
+            <h6>Chat Area</h6>
+        </div>
+        <div class="main__chat_window" id="main__chat_window">
+            <ul class="messages" id="messageadd">
+
+            </ul>
+
+        </div>
+        <div>
+            <div class="main__message_container">
+                <input type="text" id="chat_message" placeholder="Type message here..." />
+              </div>              
+        </div>
+    </div>
+</div>
