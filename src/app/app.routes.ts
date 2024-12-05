@@ -23,6 +23,7 @@ import { RoomComponent } from './video-call/room/room.component';
 import { InReuComponent } from './video-call/in-reu/in-reu.component';
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
 import { TranslatorComponent } from './translator/translator.component';
+import { EditarEntregaComponent } from './editar-entrega/editar-entrega.component';
 
 export const routes: Routes = [
 
@@ -56,8 +57,9 @@ export const routes: Routes = [
             { path: 'tareas-a', component: TareasAComponent },
             { path: 'subir-tarea/:idtarea', component: SubirTareaComponent },
             { path: 'video-player', component: VideoPlayerComponent },
-            { path: 'crear-tareas-d', component: CrearTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
-            { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent , canActivate: [AuthGuard, DocenteGuard]},
+            { path: 'crear-tareas-d', component: CrearTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
+            { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
+            { path: 'editar-entrega-a', component: EditarEntregaComponent },
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
             { path: 'listado-entregas-tareas', component: ListadoEntregasTareasComponent },
