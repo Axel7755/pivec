@@ -1,0 +1,84 @@
+<div class="contenedor-tarea">
+    <h1>Editar Entrega</h1>
+    <div class="encabezado-materia">
+        <h1>{{ docente }}</h1>
+        <button class="entregar-button acciones" (click)="guardarEntrega()" mat-raised-button color="primary">
+            Guardar</button>
+
+    </div>
+    <div class="contenido-principal">
+        <div class="informacion-materia">
+            <p class="vence">{{ fechaVencimiento | date:'dd-MM-yyyy HH:mm' }}</p>
+        </div>
+
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+        </div>
+    </div>
+
+    <div class="info-tarea">
+        <div class="nombre-tarea">
+            <strong>Nombre de tarea:</strong> {{ titulo }}
+        </div>
+
+        <div class="desc-tarea">
+            <strong>Descripción de la tarea:</strong> {{ descrip }}
+            <div class="buton-download">
+                <a href="./assets/download/materia1.pdf" download class="download-icon">
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <div class="list-section">
+        <div class="list-title">Material de apoyo</div>
+        <div class="list">
+            <ul #listContainer>
+                <!-- Aquí se mostrarán los archivos cargados -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="list-section">
+        <div class="list-title">Archivos Subidos</div>
+        <div class="list">
+            <ul #listContainer2>
+                <!-- Aquí se mostrarán los archivos cargados -->
+            </ul>
+        </div>
+    </div>
+    <div class="subir-documentos">
+        <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button
+            color="accent">Subir Documentos</button>
+        <input type="file" id="documento" name="documento" multiple style="display: none;">
+    </div>
+
+    <!-- Sección de mensajeria new -->
+    <div class="comentarios">
+        <h2>Comentarios</h2>
+
+        <!-- Contenedor para los mensajes -->
+        <div class="lista-mensajes">
+            <!-- Mensajes dinámicos -->
+            <div *ngFor="let mensaje of mensajes"
+                [ngClass]="{'mensaje': true, 'alumno': mensaje.emisor === 'alumno', 'docente': mensaje.emisor === 'docente'}">
+                <p>
+                    <strong>{{ mensaje.emisor | titlecase }}: {{ mensaje.nombre }}</strong>
+                    <span class="fecha-mensaje">({{ mensaje.fecha }})</span>
+                    <!-- Mostrar la fecha junto al nombre -->
+                </p>
+                <p>{{ mensaje.texto }}</p> <!-- Mostrar el mensaje -->
+            </div>
+        </div>
+
+        <!-- Campo para enviar un nuevo mensaje -->
+        <div class="nuevo-comentario">
+            <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un comentario..."
+                class="input-comentario" (keyup.enter)="enviarMensaje()">
+            <button (click)="enviarMensaje()" class="btn-comentar" mat-raised-button color="primary">Comentar</button>
+        </div>
+
+    </div>
+
+</div>
