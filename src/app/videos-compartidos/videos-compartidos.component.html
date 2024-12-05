@@ -1,17 +1,23 @@
-
-
-<!-- Botón para subir video -->
-<div class="upload-video">
-    <button mat-button class="upload-btn" mat-raised-button color="accent" (click)="openDialog()">
-        <span class="texto-btn">Subir Documentos</span>
-        <img src="../../assets/images/video-uploads.png" alt="Icono Tarea" class="icono-tarea">
+<div class="eliminar-tareas">
+    <button mat-button class="seleccionar-video-btn" mat-raised-button color="accent" (click)="toggleCheckboxes()" [disabled]="hayTareasSeleccionadas()">
+        <img src="../../assets/images/check-all-white.ico" alt="Icono Tarea" class="icono-tarea">
+        Seleccionar Video
     </button>
-    <input type="file" id="documento" name="documento" multiple style="display: none;">
-</div>
 
+    <!-- Muestra el botón de eliminar solo si hay tareas seleccionadas -->
+    <button mat-button class="eliminar-tareas-btn" mat-raised-button color="accent" (click)="eliminarEntregas()"
+        *ngIf="hayTareasSeleccionadas()">
+        <img src="../../assets/images/delete.ico" alt="Icono Tarea" class="icono-tarea">
+        Eliminar Video
+    </button>
+</div>
+<hr>
 
 <div class="card-container">
-    <mat-card class="example-card" appearance="outlined" *ngFor="let card of videoCards; let i = index">
+    <mat-card class="example-card" appearance="outlined" *ngFor="let card of videoCards; let i = index" [ngClass]="{'selected': card.seleccionada, 'mat-card-header-adjusted': isButtonClicked}">
+        <div class="checkbox-container" *ngIf="showCheckboxes">
+            <input type="checkbox" class="tarea-checkbox" [(ngModel)]="card.seleccionada">
+        </div>
         <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>{{ card.title }}</mat-card-title>

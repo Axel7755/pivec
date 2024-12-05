@@ -4,22 +4,35 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadVideosComponent } from '../upload-videos/upload-videos.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-videos-compartidos',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule],
+  imports: [MatCardModule, MatButtonModule, CommonModule, CommonModule, FormsModule],
   templateUrl: './videos-compartidos.component.html',
   styleUrls: ['./videos-compartidos.component.css'],
   host: { 'ngSkipHydration': '' }
 })
 export class VideosCompartidosComponent {
   truncatedContent = 'Aquí va el contenido recortado o el texto que desees mostrar';
+  showCheckboxes = false;
+  isButtonClicked = false; // Esta propiedad controlará si el botón ha sido presionado
 
   // Lista de tarjetas de video
   videoCards = [
-    { title: 'Liderazgo Personal', subtitle: 'Luis Francisco', isVideoVisible: false, videoSrc: '../../assets/images/Cancion2.mp4' },
-    { title: 'Programación', subtitle: 'Alan Ricardo', isVideoVisible: false, videoSrc: '' }
+    {
+      title: 'Liderazgo Personal',
+      subtitle: 'Luis Francisco',
+      isVideoVisible: false,
+      videoSrc: '../../assets/images/Cancion2.mp4', seleccionada: false
+    },
+    {
+      title: 'Programación',
+      subtitle: 'Alan Ricardo',
+      isVideoVisible: false,
+      videoSrc: '', seleccionada: false
+    },
   ];
 
   @ViewChildren('videoPlayer') videoPlayers!: QueryList<ElementRef<HTMLVideoElement>>;
@@ -165,5 +178,21 @@ export class VideosCompartidosComponent {
     return iconPath;
   }
 
+  // Programación para seleccionar videos y eliminarlos
+
+  toggleCheckboxes() {
+    this.isButtonClicked = !this.isButtonClicked;  // Cambiar el estado al hacer clic
+    if (!this.hayTareasSeleccionadas()) {
+      this.showCheckboxes = !this.showCheckboxes;
+    }
+  }
+
+  hayTareasSeleccionadas(): boolean {
+    return this.videoCards.some(video => video.seleccionada);
+  }
+
+  eliminarEntregas() {
+    this.videoCards = this.videoCards.filter(video => !video.seleccionada);
+  }
 
 }
