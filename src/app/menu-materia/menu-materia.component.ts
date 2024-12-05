@@ -64,7 +64,7 @@ export class MenuMateriaComponent implements OnInit {
         {
           icon: 'theaters',
           name: 'Clases Grabadas',
-          route: `/menu-materia/${this.idgrupos}/${this.g_idmaterias}/video-player`
+          route: `/menu-materia/${this.idgrupos}/${this.g_idmaterias}/clases-grabadas`
         },
       ];
     }else{
@@ -83,7 +83,7 @@ export class MenuMateriaComponent implements OnInit {
       {
         icon: 'theaters',
         name: 'Clases Grabadas',
-        route: `/menu-materia/${this.idgrupos}/${this.g_idmaterias}/video-player`
+        route: `/menu-materia/${this.idgrupos}/${this.g_idmaterias}/clases-grabadas`
       },
     ];
   }
