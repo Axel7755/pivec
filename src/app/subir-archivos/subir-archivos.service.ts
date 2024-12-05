@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubirArchivosService {
-  private baseUrl = 'http://localhost:8080/api/upload';  // URL base de tu API
+  private baseUrl = `${environment.apiUrl}:8080/api/upload`;
 
   constructor(private http: HttpClient) { }
 

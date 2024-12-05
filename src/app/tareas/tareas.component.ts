@@ -90,9 +90,8 @@ export class TareasComponent implements OnInit {
       if (tareas && tareas.length > 0) {
         console.log(`Tareas PENDIENTES encontradas para el grupo ${grupoId}:`, tareas);
         // Combinar las nuevas tareas con las existentes en el arreglo tareasp
-        tareas.forEach(tarea => {
           // >>ENTREGADAS
-          if (tareas) {
+          
             const tareasG = tareas.filter((tarea: any) => tarea !== null);
             const tareasConEntregas$: Observable<TareaConEntrega>[] = tareasG.map((tarea: any) =>
               this.entregasService.obtenerEntregasByTareaAlumno(tarea.idtareas, this.userId!).pipe(
@@ -111,9 +110,6 @@ export class TareasComponent implements OnInit {
               });
               this.visualizar = this.tareasp;
             });
-          }
-
-        });
 
         this.visualizar = this.tareasp;
         console.log('tareaaaa:', this.tareasp);
@@ -137,9 +133,9 @@ export class TareasComponent implements OnInit {
       if (tareas && tareas.length > 0) {
         console.log(`Tareas Vencidas encontradas para el grupo ${grupoId}:`, tareas);
         // Combinar las nuevas tareas con las existentes en el arreglo tareasp
-        tareas.forEach(tarea => {
+        
           // >>Vencidas 
-          if (tareas) {
+          
             const tareasG = tareas.filter((tarea: any) => tarea !== null);
             const tareasConEntregas$: Observable<TareaConEntrega>[] = tareasG.map((tarea: any) =>
               this.entregasService.obtenerEntregasByTareaAlumno(tarea.idtareas, this.userId!).pipe(
@@ -156,12 +152,12 @@ export class TareasComponent implements OnInit {
                   this.vencidas.push(tarea);
                 }
               });
-              this.visualizar = this.tareasp;
+              //this.visualizar = this.tareasp;
             });
-          }
-        });
+          
+        
 
-        this.visualizar = this.vencidas;
+        //this.visualizar = this.vencidas;
       } else {
         console.log(`No se encontraron tareas para el grupo ${grupoId}.`);
       }
