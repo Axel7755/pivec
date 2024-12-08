@@ -89,7 +89,6 @@ img[mat-card-image] {
 
 /* ----- Configuración para mostrar la lista de archivos (descargar ------ */
 .list-section {
-    display: none;
     text-align: left;
     margin: 0px 35px;
     margin-left: 60px;
@@ -311,3 +310,34 @@ img[mat-card-image] {
     color: #9b111e; /* Color guinda */
     transform: translateY(-5px); /* Mueve el ícono hacia arriba 5px */
 }
+
+/* Seccion: section-up-comentario  */
+
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end; /* Alinea los elementos al final del eje vertical */
+
+    gap: 20px; /* Espacio entre los elementos */
+    position: relative;
+    margin: 20px -18px;
+    width: 90%; /* Ajusta el tamaño si es necesario */
+    min-height: 58vh; /* Asegura que el contenedor ocupe al menos el 80% de la altura de la pantalla */
+}
+
+.list-section{
+    width: 80%;
+}
+
+/* Sección de archivos cargados */
+.section-up-comentario {
+    position: absolute; /* Posiciona el contenedor de archivos de manera absoluta */
+    top: -40px; /* Ajusta el valor según necesites */
+    left: 0;
+    width: 100%;
+}
+
+/* Contenedor de nuevo comentario */
+

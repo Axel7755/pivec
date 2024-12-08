@@ -25,14 +25,24 @@
     </div>
 </div>
 
-<!-- Campo para enviar un nuevo mensaje -->
-<div class="nuevo-comentario">
-    <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un comentario..." class="input-comentario"
-        (keyup.enter)="enviarMensaje()">
-    <div class="clic">
+<!--------------- Campo para enviar un nuevo mensaje -------------->
+<div class="contenedor">
+    <!-- Mostrar la lista de archivos -->
+    <div id="section-up-comentario" class="list-section">
+        <div class="list-title">Archivos Subidos</div>
+        <div class="list">
+            <ul #listContainer>
+                <!-- Aquí se mostrarán los archivos cargados -->
+            </ul>
+        </div>
     </div>
-    <div class="comentar">
-        <i class="uis uis-paperclip"></i>
-        <button (click)="enviarMensaje()" class="btn-comentar" mat-raised-button color="primary">Comentar</button>
+    
+    <!-- Enviar comentario y documento -->
+    <div class="nuevo-comentario">
+        <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un comentario..." class="input-comentario">
+        <div class="comentar">
+            <i (click)="openDialog()" class="uis uis-paperclip"></i>
+            <button class="btn-comentar" mat-raised-button color="primary">Comentar</button>
+        </div>
     </div>
 </div>
