@@ -92,6 +92,7 @@ img[mat-card-image] {
     display: none;
     text-align: left;
     margin: 0px 35px;
+    margin-left: 60px;
     padding-bottom: 20px;
 }
 
@@ -172,11 +173,12 @@ img[mat-card-image] {
     .list-section .list .col.file-name {
         font-size: 19px;
         /* Valor por defecto */
-        margin-left: -15px;
+        margin-left: 15px;
         /* Valor por defecto */
     }
 }
 
+/* Estos colores son para los iconos de los archivos subidos */
 .text-danger {
     color: #dc3545;
     /* Rojo */
@@ -205,4 +207,107 @@ img[mat-card-image] {
 .text-secondary {
     color: #62b6ff;
     /* Color secundario */
+}
+
+/********* Estilos para el input de comentar y publicar aviso */
+
+/* Contenedor general del campo de comentarios */
+.nuevo-comentario {
+    position: fixed;
+    bottom: 2%;
+    left: 50%;
+    /* Establece la posición izquierda en el 50% de la pantalla */
+    transform: translateX(-34%);
+    /* Ajusta el contenedor hacia la izquierda para centrarlo */
+    width: 68%;
+    /* Ocupa el 70% del ancho de la pantalla */
+
+    margin: 0;
+    /* Elimina el margen horizontal */
+    border: 1px solid rgb(208, 208, 208);
+
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente los elementos */
+    gap: 10px;
+    /* Espacio entre los elementos */
+
+    justify-content: space-between;
+    /* Distribuye el espacio entre el input y el botón */
+    z-index: 1000;
+    /* Asegura que quede encima de otros elementos */
+
+    padding: 7px;
+    /* Espaciado interno */
+    background-color: #f5f5f4da;
+    border-radius: 10px;
+}
+
+/* Campo de texto para comentarios */
+.input-comentario {
+    flex-grow: 1;
+    /* Hace que el input ocupe el espacio disponible */
+    min-height: 20px;
+    /* Altura mínima más cómoda */
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    resize: vertical;
+    /* Permite al usuario ajustar la altura */
+    margin-right: 10px;
+    /* Espacio entre el input y el botón */
+}
+
+.input-comentario:focus {
+    border-color: #800000; /* Guinda */
+    border-width: 2px; /* Aumenta el grosor del borde */
+    outline: none; /* Elimina el borde de enfoque predeterminado */
+}
+
+.comentar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Ajusta el valor según el espacio deseado */
+}
+
+
+/* Botón para enviar comentario */
+.btn-comentar {
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 15px;
+    border: none;
+    /* Color de fondo por defecto */
+    color: white;
+    /* Color del texto */
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    /* Evita que el botón se encoja */
+    margin-right: 5%;
+}
+
+/* Cambio de color al pasar el mouse */
+.btn-comentar:hover {
+    background-color: #ff1818e8;
+    /* Cambio de color cuando se pasa el mouse */
+}
+
+.uis-paperclip {
+    font-size: 35px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    color: #5e5e5e;
+    margin-right: 10px;
+    /* Ajusta el valor según el espacio deseado */
+}
+
+/* Efecto cuando el cursor pasa por encima */
+.uis-paperclip:hover {
+    color: #9b111e; /* Color guinda */
+    transform: translateY(-5px); /* Mueve el ícono hacia arriba 5px */
 }

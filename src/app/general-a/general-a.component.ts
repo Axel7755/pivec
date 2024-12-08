@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-general-a',
   standalone: true,
-  imports: [CommonModule],
+  imports: [MatButtonModule, CommonModule, FormsModule],
   templateUrl: './general-a.component.html',
   styleUrl: './general-a.component.css',
   host: { 'ngSkipHydration': '' }
@@ -22,6 +24,8 @@ export class GeneralAComponent {
     { name: 'presenación 1.ppt', size: '650 KB' },
     // Añade más archivos si es necesario
   ];
+
+  nuevoMensaje = '';
 
   // En tu archivo TypeScript
   getFileIcon(fileName: string): string {
@@ -46,10 +50,25 @@ export class GeneralAComponent {
     }
   }
 
-
   onDownloadClick(event: Event): void {
     event.preventDefault(); // Evita cualquier acción predeterminada del enlace
     this.showFileList = !this.showFileList; // Alterna la visibilidad de la lista de archivos
+  }
+
+  enviarMensaje() {
+    if (this.nuevoMensaje.trim()) {
+      // Simular que el emisor es el alumno
+      const nuevo = {
+        emisor: 'alumno',
+        texto: this.nuevoMensaje,
+        nombre: 'Alan Ricardo', // Cambia esto si es necesario
+        fecha: new Date().toLocaleString() // Fecha actual
+      };
+
+      //this.mensajes.push(nuevo); // Agregar el nuevo mensaje
+      console.log("mensaje new: ",)
+      this.nuevoMensaje = ''; // Limpiar el campo
+    }
   }
 
 
