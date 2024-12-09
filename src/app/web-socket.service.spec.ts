@@ -1,16 +1,19 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { io } from 'socket.io-client';
+import { environment } from '../environments/environments';
 
-import { WebSocketService } from './web-socket.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class WebSocketService {
+  private socket: any;
 
-describe('WebSocketService', () => {
-  let service: WebSocketService;
+  constructor() {
+    this.socket = io(`${environment.apiUrl}:8080`, {  // Aquí estaba el error, el apóstrofo de cierre debería ser después de la coma
+      secure: true,
+      transports: ['websocket', 'polling']
+    });
+  }
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(WebSocketService);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  // Métodos para manejar eventos del socket
+}
