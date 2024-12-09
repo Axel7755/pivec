@@ -11,9 +11,9 @@ const storage = multer.diskStorage({
 
     // Verifica si es una entrega (si la boleta está en los parámetros)
     if (boletaAl) {
-      uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}/entregas/${boletaAl}`;
+      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, 'entregas', boletaAl);
     } else {
-      uploadDir = `uploads/tareasF/${g_idmaterias}/${idgrupos}/${idtarea}`;
+      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
     }
 
     console.log('Destino de almacenamiento:', uploadDir);
@@ -92,9 +92,15 @@ const uploadFile = (req, res) => {
 // Controlador para obtener los archivos
 const getFiles = (req, res) => {
   const { idgrupos, g_idmaterias, idtarea } = req.params;
-  const uploadDir = path.join('uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
+  const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
 
   console.log('Leyendo archivos del directorio:', uploadDir);
+
+  // Verificar si el directorio existe antes de intentar leerlo
+  if (!fs.existsSync(uploadDir)) {
+    console.error('Directorio no encontrado:', uploadDir);
+    return res.status(404).json({ message: 'Directorio no encontrado' });
+  }
 
   fs.readdir(uploadDir, (err, files) => {
     if (err) {
@@ -124,10 +130,11 @@ const getFiles = (req, res) => {
 };
 
 
+
 // Controlador para eliminar archivos
 const deleteFile = (req, res) => {
   const { idgrupos, g_idmaterias, idtarea, filename } = req.params;
-  const filePath = path.join('uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, filename);
+  const filePath = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, filename);
 
   console.log('Intentando eliminar archivo:', filePath);
 
