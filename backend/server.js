@@ -4,9 +4,27 @@ const morgan = require('morgan');
 const http = require('http');
 const socketIO = require('socket.io');
 const path = require('path');
+const { PeerServer } = require('peer');
 const db = require("./app/models");
 
 const app = express();
+
+const peerServer = PeerServer({
+  port: 3001,
+  path: '/peer'
+});
+
+peerServer.use(cors());
+
+peerServer.on('connection', (client) => {
+  console.log(`Cliente conectado: ${client.getId()}`);
+});
+
+peerServer.on('disconnect', (client) => {
+  console.log(`Cliente desconectado: ${client.getId()}`);
+});
+
+
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
