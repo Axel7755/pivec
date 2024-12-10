@@ -84,6 +84,33 @@ export class TareasAComponent implements OnInit {
           }
         });
       });
+
+
+
+      this.tareasService.findTareaByGrupoV(this.g_idmaterias!, this.idgrupos!).pipe(
+        catchError(this.handleError)
+      ).subscribe(vencidas => {
+        if(vencidas){
+          const vencidasG = vencidas.filter((tarea: any) => tarea !== null);
+          const tareasConEntregas$: Observable<TareaConEntrega>[] = vencidasG.map((tarea: any) =>
+            this.entregasService.obtenerEntregasByTareaAlumno(tarea.idtareas, this.userId!).pipe(
+              catchError(this.handleError),
+              map(entrega => ({ tarea, entrega }))
+            )
+          );
+          
+          forkJoin(tareasConEntregas$).subscribe((results: TareaConEntrega[]) => {
+            results.forEach(({ tarea, entrega }) => {
+              if (entrega) {
+                this.entregas.push(tarea);
+              } else {
+                this.vencidas.push(tarea);
+              }
+            });
+            //this.visualizar = this.vencidas;
+          });
+        }
+      })
     });
   }
 
@@ -104,31 +131,7 @@ export class TareasAComponent implements OnInit {
 
   verVencidas() {
     this.estado = 2;
-    this.vencidas = [];
-    this.tareasService.findTareaByGrupoV(this.g_idmaterias!, this.idgrupos!).pipe(
-      catchError(this.handleError)
-    ).subscribe(vencidas => {
-      if(vencidas){
-        const vencidasG = vencidas.filter((tarea: any) => tarea !== null);
-        const tareasConEntregas$: Observable<TareaConEntrega>[] = vencidasG.map((tarea: any) =>
-          this.entregasService.obtenerEntregasByTareaAlumno(tarea.idtareas, this.userId!).pipe(
-            catchError(this.handleError),
-            map(entrega => ({ tarea, entrega }))
-          )
-        );
-        
-        forkJoin(tareasConEntregas$).subscribe((results: TareaConEntrega[]) => {
-          results.forEach(({ tarea, entrega }) => {
-            if (entrega) {
-              this.entregas.push(tarea);
-            } else {
-              this.vencidas.push(tarea);
-            }
-          });
-          this.visualizar = this.vencidas;
-        });
-      }
-    })
+    this.visualizar = this.vencidas;
 
   }
 

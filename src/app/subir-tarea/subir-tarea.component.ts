@@ -11,7 +11,12 @@ import { AuthService } from '../servicios/auth.service';
 import { DocentesService } from '../servicios/docentes.service';
 import { catchError, of, forkJoin, tap } from 'rxjs';
 import { GruposService } from '../servicios/grupos.service';
-import { EntregasService } from '../servicios/entregas.service';
+import { EntregasService } from '../servicios/entregas.service';  // Importa CommonModule para las funcionalidades comunes de Angular
+import { GoogleDriveService } from '../servicios/google-drive.service';
+import { GoogleDriveFileService } from '../servicios/google-drive-file.service';
+
+// Declara la variable global 'google' para usar los servicios de Google
+declare var google: any;
 
 @Component({
   selector: 'app-subir-tarea',
@@ -45,6 +50,8 @@ export class SubirTareaComponent {
     private authService: AuthService,
     private docentesService: DocentesService,
     private gruposService: GruposService,
+    private googleDriveService: GoogleDriveService,
+    private googleDriveFileService: GoogleDriveFileService,
     private entregasService: EntregasService
   ) {
 
@@ -169,7 +176,7 @@ export class SubirTareaComponent {
 
   uploadFile(file: any): void {
     const icon = this.iconSelector(file.type);
-    const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`;  // Asegúrate de que esta ruta sea correcta
+    const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`; 
 
     const li = document.createElement('li');
     li.classList.add('list-section', 'in-prog');
@@ -191,16 +198,22 @@ export class SubirTareaComponent {
     `;
 
     li.onclick = () => {
-      if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'application/pdf') {
-        window.open(fileURL, '_blank');
+      if (
+        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+        file.type === 'application/msword' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+        file.type === 'application/vnd.ms-excel' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || 
+        file.type === 'application/vnd.ms-powerpoint' 
+      ) {
+        this.googleDriveService.signInAndUpload(fileURL, file.type);
       } else {
-        alert('Este tipo de archivo no se puede abrir en una nueva pestaña');
+        window.open(fileURL, '_blank'); 
       }
     };
 
     this.listContainer.nativeElement.prepend(li);
-}
-
+  }
 
 uploadFile2(file: File): void {
   const icon = this.iconSelector(file.type);
@@ -250,6 +263,20 @@ uploadFile2(file: File): void {
   const crossIcon = li.querySelector('.cross') as HTMLElement;
   const progressBar = li.querySelector('.progress-bar') as HTMLElement;
   const progressText = li.querySelector('.progress-text') as HTMLElement;
+  li.onclick = () => { 
+    if ( file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+      file.type === 'application/msword' || 
+      file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+      file.type === 'application/vnd.ms-excel' || 
+      file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || 
+      file.type === 'application/vnd.ms-powerpoint' 
+    ) { 
+      this.googleDriveFileService.signIn(() => { 
+        this.googleDriveFileService.uploadAndOpenDocument(file); }); 
+    } else { 
+      window.open(URL.createObjectURL(file), '_blank'); 
+    } 
+  };
 
   // Simular el progreso de carga (cambiar esto si tienes una lógica de progreso real)
   let progress = 0;

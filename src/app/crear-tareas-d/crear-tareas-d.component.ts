@@ -11,6 +11,7 @@ import { catchError, of, forkJoin, tap } from 'rxjs';
 import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
 import { AuthService } from '../servicios/auth.service';
 import { DocentesService } from '../servicios/docentes.service';
+import { GoogleDriveFileService } from '../servicios/google-drive-file.service';
 
 @Component({
   selector: 'app-crear-tareas-d',
@@ -40,6 +41,7 @@ export class CrearTareasDComponent implements OnInit {
     private router: Router,
     private subirArchivosService: SubirArchivosService,
     private authService: AuthService,
+    private googleDriveFileService: GoogleDriveFileService,
     private docentesService: DocentesService
   ) {
 
@@ -221,6 +223,20 @@ export class CrearTareasDComponent implements OnInit {
     const crossIcon = li.querySelector('.cross') as HTMLElement;
     const progressBar = li.querySelector('.progress-bar') as HTMLElement;
     const progressText = li.querySelector('.progress-text') as HTMLElement;
+    li.onclick = () => { 
+      if ( file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+        file.type === 'application/msword' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+        file.type === 'application/vnd.ms-excel' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || 
+        file.type === 'application/vnd.ms-powerpoint' 
+      ) { 
+        this.googleDriveFileService.signIn(() => { 
+          this.googleDriveFileService.uploadAndOpenDocument(file); }); 
+      } else { 
+        window.open(URL.createObjectURL(file), '_blank'); 
+      } 
+    };
 
     // Simular el progreso de carga (cambiar esto si tienes una lógica de progreso real)
     let progress = 0;
