@@ -66,7 +66,7 @@ export const routes: Routes = [
             { path: 'editar-entrega-a', component: EditarEntregaComponent },
             { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
-            { path: 'listado-entregas-tareas', component: ListadoEntregasTareasComponent },
+            { path: 'listado-entregas-tareas/:idtarea', component: ListadoEntregasTareasComponent },
             { path: '', redirectTo: 'general-a', pathMatch: 'full' },
 
         ]

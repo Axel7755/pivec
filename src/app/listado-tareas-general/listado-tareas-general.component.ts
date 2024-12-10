@@ -74,7 +74,7 @@ export class ListadoTareasGeneralComponent {
     // Lógica para eliminar la tarea
   }
   irListadoEntregas(tarea: any) {
-    //this.router.navigate([`/menu-materia`, grupo.idgrupos, grupo.g_idmaterias]);
+    this.router.navigate([`/menu-materia`, this.idgrupos, this.g_idmaterias,'listado-entregas-tareas',tarea.idtareas]);
   }
 
 }
