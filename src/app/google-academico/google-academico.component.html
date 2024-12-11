@@ -1,32 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Google Académico</title>
-    <link rel="stylesheet" href="google-academico.component.css">
-</head>
-
-<body>
-    <div>
-        <h1>Resultados de Google Académico</h1>
-        <input type="text" [(ngModel)]="query" placeholder="Buscar...">
-        <button (click)="searchScholar()">Buscar</button>
-
-        <div *ngIf="isLoading">Cargando...</div>
-        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-
-        <ul>
-            <li *ngFor="let result of results">
-                {{ result | json }}
-            </li>
-        </ul>
+<div class="search-container">
+    <!-- Letras de Google Academico -->
+    <div class="google-academico-container">
+        <div class="google-academico">
+            <span class="g">G</span>
+            <span class="o1">o</span>
+            <span class="o2">o</span>
+            <span class="g2">g</span>
+            <span class="l">l</span>
+            <span class="e">e</span>
+        </div>
+        <div class="academic">
+            <span class="academico"> Académico</span>
+        </div>
     </div>
 
-    <hr>
+    <!-- Formulario para la búsqueda -->
+    <form (ngSubmit)="searchScholar()">
+        <input type="text" [(ngModel)]="query" name="query" placeholder="Buscar..." required />
+        <button type="submit" [disabled]="isLoading">
+            <i class="uil uil-search-alt"></i> Buscar
+        </button>
+    </form>
 
-    <pre>{{ results | json }}</pre>
-</body>
 
-</html>
+    <!-- Indicador de carga -->
+    <div *ngIf="isLoading">Cargando...</div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <!-- Mensaje inicial si no se ha realizado la búsqueda -->
+    <div *ngIf="noSearchDone">
+        <p>Por favor, realiza un término de búsqueda.</p>
+    </div>
+
+    <!-- Resultados de búsqueda -->
+    <div *ngIf="results.length > 0">
+        <div *ngFor="let result of results">
+            <h3>
+                <a [href]="result.link" target="_blank">{{ result.title }}</a>
+            </h3>
+            <p>{{ result.snippet }}</p>
+        </div>
+    </div>
+
+    <!-- Si no hay resultados después de la búsqueda -->
+    <div *ngIf="results.length === 0 && !isLoading && !errorMessage && !noSearchDone">
+        <p>No se encontraron resultados para tu búsqueda.</p>
+    </div>
+</div>

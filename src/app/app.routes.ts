@@ -25,6 +25,7 @@ import { VideoPlayerComponent } from './components/video-player/video-player.com
 import { TranslatorComponent } from './translator/translator.component';
 import { EditarEntregaComponent } from './editar-entrega/editar-entrega.component';
 import { ClasesGrabadasComponent } from './clases-grabadas/clases-grabadas.component';
+import { ChatBotAComponent } from './chat-bot-a/chat-bot-a.component';
 
 export const routes: Routes = [
 
@@ -48,6 +49,7 @@ export const routes: Routes = [
             { path: 'traductor', component: TranslatorComponent, canActivate: [AuthGuard] },
             { path: 'google-academico', component: GoogleAcademicoComponent },
             { path: 'chat-bot-d', component: ChatBotDComponent },
+            { path: 'chat-bot-a', component: ChatBotAComponent },
             { path: '', redirectTo: 'materias', pathMatch: 'full' },
         ]
     },

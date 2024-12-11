@@ -1,35 +1,3 @@
-/* Estilos básicos para el componente */
-h1 {
-    font-size: 24px;
-    color: #333;
-    text-align: center; /* Centra el título */
-    margin-bottom: 20px; /* Añade espacio debajo del título */
-}
-
-input {
-    margin-right: 10px;
-    padding: 10px;
-    font-size: 16px;
-    width: 300px; /* Ajusta el tamaño del input */
-    border: 1px solid #ccc;
-    border-radius: 5px; /* Bordes redondeados */
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px; /* Bordes redondeados */
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #45a049; /* Efecto hover para el botón */
-}
-
 ul {
     list-style-type: none;
     padding: 0;
@@ -46,25 +14,159 @@ li {
     border-radius: 5px;
 }
 
-h2 {
-    margin: 0 0 5px 0;
-    font-size: 20px;
-    color: #2c3e50;
+/* Estilos para los resultados de la busqueda */
+li {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
 }
 
-p {
-    margin: 5px 0;
+li p {
     color: #555;
+    margin: 5px 0;
+}
+
+li a {
+    text-decoration: none;
+    color: #1e88e5;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+/* Decoración del texto Google Academico */
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+}
+
+.google-academico-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    font-size: 85px;
+    font-weight: bold;
+}
+
+.google-academico span, .academic span {
+    font-weight: normal;
+    font-size: 36px;
+}
+
+/* Estilos de color para cada letra del texto 'Google' */
+.google-academico .g {
+    color: #4285F4;
+}
+
+.google-academico .o1 {
+    color: #EA4335;
+}
+
+.google-academico .o2 {
+    color: #FBBC05;
+}
+
+.google-academico .g2 {
+    color: #34A853;
+}
+
+.google-academico .l {
+    color: #FF6D01;
+}
+
+.google-academico .e {
+    color: #EA4335;
+}
+
+/* Estilo para 'Académico' */
+.academic .academico {
+    color: #80868b; /* Gris claro similar a Google Académico */
+    margin-left: 10px; /* Espacio pequeño entre 'Google' y 'Académico' */
+}
+
+/* Tipo de input parecido para google academico */
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;  /* Limita el tamaño máximo del formulario */
+    margin: 20px auto; /* Centra el formulario en la pantalla */
+}
+
+input[type="text"] {
+    font-size: 16px;
+    padding: 10px 20px; /* Añade relleno al campo de texto */
+    width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+    max-width: 400px; /* Limita el ancho máximo del campo de texto */
+    border-radius: 25px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde gris claro */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    outline: none; /* Elimina el borde de enfoque predeterminado */
+    transition: all 0.3s ease; /* Transición suave para el borde al hacer focus */
+}
+
+/* Efecto cuando el input recibe foco */
+input[type="text"]:focus {
+    border-color: #9E2A2F; /* Color de borde similar al de Google */
+    box-shadow: 0 0 5px #ff545d; /* Sombra cuando el campo está en foco */
+}
+
+/* Estilo del botón */
+button {
+    background-color: #4285F4; /* Color similar al de Google */
+    color: #fff; /* Texto blanco */
+    border: none;
+    padding: 10px 20px;
+    margin-left: 15px; /* Espacio entre el input y el botón */
+    border-radius: 25px; /* Bordes redondeados */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Efecto de transición para el color de fondo */
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button i {
+    font-size: 25px;
+    margin-right: 8px; /* espacio entre el ícono y el texto */
+}
+
+/* Efecto cuando el botón recibe hover */
+button:hover {
+    background-color: #9E2A2F; /* Color guinda para el hover */
+}
+
+/* Estilo cuando el botón está deshabilitado */
+button:disabled {
+    background-color: #ccc; /* Fondo gris cuando el botón está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor para indicar que no se puede hacer clic */
 }
 
 /* Mejoras para pantallas pequeñas */
 @media (max-width: 600px) {
-    input {
-        width: 100%;
+    ul {
+        max-width: 100%; /* Ajusta el ancho de la lista */
+        padding: 0 10px; /* Añade un poco de relleno para evitar que los elementos se peguen a los bordes */
+    }
+
+    input[type="text"] {
+        max-width: 100%; /* El campo de texto se adapta al 100% del ancho disponible */
     }
 
     button {
-        width: 100%;
+        width: 100%; /* El botón ocupa todo el ancho disponible */
         margin-top: 10px;
+        padding: 12px 20px; /* Aumenta el tamaño del botón para pantallas pequeñas */
     }
 }
