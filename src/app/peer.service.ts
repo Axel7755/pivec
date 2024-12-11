@@ -11,7 +11,8 @@ export class PeerService {
   constructor() {
     this.peer = new Peer({
       host: environment.apiUrl.replace(/^https?:\/\//, ''), // Remover 'http://' si está presente
-      port: 3001,
+      port: 8080,
+      path: '/peer',
       secure: false  // Asegúrate de que está configurado para HTTPS
     });
   }
