@@ -8,6 +8,9 @@ router.post("/", entregas.create);
 // Obtener todas las entregas
 router.get("/", entregas.findAll);
 
+// Obtener todas las entregas por tarea
+router.get("/:e_idtareas", entregas.findAllporTarea);
+
 // Obtener una entrega por id
 router.get("/:e_idtareas/:e_boleta", entregas.findOne);
 

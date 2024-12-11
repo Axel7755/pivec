@@ -33,6 +33,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   recordedChunks:any = [];
   isRecording: boolean = false;
   private socketSub: Subscription = new Subscription();
+  isChatHidden: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -269,6 +270,9 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  toggleChat(): void {
+    this.isChatHidden = !this.isChatHidden;
+  }
   sendMessage = (event: KeyboardEvent) => {
     if (this.chatInput && this.main__chat__window) {
       const text = this.chatInput.value;

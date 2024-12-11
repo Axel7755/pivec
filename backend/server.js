@@ -10,9 +10,9 @@ const db = require("./app/models");
 const app = express();
 
 const peerServer = PeerServer({
-  port: 3001,
-  path: '/peer'
 });
+
+app.use('/peer', peerServer);
 
 peerServer.use(cors());
 

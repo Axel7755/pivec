@@ -13,7 +13,7 @@ export class PeerService {
       host: environment.apiUrl.replace(/^https?:\/\//, ''), // Remover 'http://' si está presente
       port: 8080,
       path: '/peer',
-      secure: true  // Asegúrate de que está configurado para HTTPS
+      secure: false  // Asegúrate de que está configurado para HTTPS
     });
   }
 }

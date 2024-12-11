@@ -23,22 +23,22 @@
     
     <hr>
     
-    <div *ngFor="let tarea of tareas" class="contenedor-tarea" (click)="irACalificarTarea()">
+    <div *ngFor="let entrega of entregas" class="contenedor-tarea" (click)="irACalificarTarea(entrega)">
         <div class="checkbox-container" *ngIf="showCheckboxes">
-            <input type="checkbox" class="tarea-checkbox" [(ngModel)]="tarea.seleccionada">
+            <input type="checkbox" class="tarea-checkbox" [(ngModel)]="entrega.seleccionada">
         </div>
         <div class="img-materia">
             <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
         </div>
         <div class="informacion-materia">
             <div class="titulo-icono">
-                <h1>{{ tarea.nombre }}</h1>
+                <h1>{{ entrega.nombre }}</h1>
             </div>
             <div class="seccion-medio">
-                <p>{{ tarea.descripcion }}</p>
+                <p>{{ entrega.descripcion }}</p>
             </div>
             <div class="seccion-abajo">
-                <p class="entregado">Entregado: {{ tarea.fecha }} - {{ tarea.hora }}</p>
+                <p class="entregado">Entregado: {{ entrega.fecha }} - {{ entrega.hora }}</p>
             </div>
         </div>
     </div>

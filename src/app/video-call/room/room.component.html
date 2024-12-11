@@ -22,7 +22,7 @@
                     <i class="fas fa-video-slash"></i>
                     <span>Stop Video</span>
                 </div>
-                <div class="main_controls_button" (click)="showchat()">
+                <div class="main_controls_button" (click)="toggleChat()">
                     <i class="fas fa-comment-alt"></i>
                     <span>Chat</span>
                 </div>
@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="main_right" id="chat">
+    <div class="main_right" id="chat" [class.hidden]="isChatHidden">
         <div class="main_right_header">
             <h6>Chat Area</h6>
         </div>
@@ -58,7 +58,7 @@
         </div>
         <div>
             <div class="main__message_container">
-                <input type="text" id="chat_message" placeholder="Type message here..." />
+                <input type="text" id="chat_message" placeholder="Escribe un mensaje" />
               </div>              
         </div>
     </div>

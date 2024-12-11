@@ -18,4 +18,8 @@ export class EntregasService {
   obtenerEntregasByTareaAlumno(e_idtareas: string, e_boleta: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${e_idtareas}/${e_boleta}`);
   }
+
+  obtenerEntregasByTarea(e_idtareas: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${e_idtareas}`);
+  }
 }

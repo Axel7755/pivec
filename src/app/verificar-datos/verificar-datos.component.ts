@@ -41,8 +41,6 @@ export interface Horario {
   standalone: true,
   imports: [MatSidenavModule,
     MatTableModule,
-    LateralLogin,
-    LoginFormComponent,
     MatButtonModule,
     FormsModule,
     MatFormFieldModule,
