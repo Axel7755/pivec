@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GoogleAcademicoService {
-  private apiUrl = 'https://serpapi.com/search.json?engine=google_scholar&api_key=285f0000d24c1d580fa2ac8c40d920ecb2e3e4eaa2846de0594a04885a0de593';
+  private apiUrl = 'https://serpapi.com/search.json?engine=google_scholar&api_key=d968a88a4a3215da3da618e6836d8e9b6721255dc6f9e4bed38aa332ee118b9e';
 
   constructor(private http: HttpClient) { }
 
