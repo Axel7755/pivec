@@ -48,8 +48,6 @@ export const routes: Routes = [
             { path: 'videos-compartidos', component: VideosCompartidosComponent, canActivate: [AuthGuard] },
             { path: 'traductor', component: TranslatorComponent, canActivate: [AuthGuard] },
             { path: 'google-academico', component: GoogleAcademicoComponent },
-            { path: 'chat-bot-d', component: ChatBotDComponent },
-            { path: 'chat-bot-a', component: ChatBotAComponent },
             { path: '', redirectTo: 'materias', pathMatch: 'full' },
         ]
     },
@@ -73,6 +71,8 @@ export const routes: Routes = [
 
         ]
     },
+    { path: 'chat-bot-d', component: ChatBotDComponent },
+    { path: 'chat-bot-a', component: ChatBotAComponent },
     {
         path: 'room/:id', component: RoomComponent,
     },
