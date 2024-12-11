@@ -34,6 +34,30 @@ exports.findAll = (req, res) => {
         });
 };
 
+// Obtener todas las entregas para una tarea
+exports.findAllporTarea = (req, res) => {
+    const { e_idtareas } = req.params;
+    Entregas.findAll({
+        where: {
+            e_idtareas: e_idtareas,
+        }
+    })
+        .then(data => {
+            if (data.length > 0) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `No se encontraron entregas para la tarea ${e_idtareas}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Ocurrió un error al recuperar las entregas."
+            });
+        });
+};
+
 // Obtener una entrega por id
 exports.findOne = (req, res) => {
     const { e_idtareas, e_boleta } = req.params;
