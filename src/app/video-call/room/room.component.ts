@@ -22,6 +22,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStream: any;
   displayStream: any;
   listUser: Array<any> = [];
+  listUser2: Array<{ idPeer: string, stream: MediaStream, nombre: string }> = [];
   userId: string | null = null;
   isDocente: boolean = false;
   myname: string = 'usuario';
@@ -137,6 +138,12 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listUser = [...unique];
   }
 
+  removeVideoUser = (idpeer: any) => { 
+    this.listUser = this.listUser.filter(userStream => userStream.id !== idpeer);
+    const unique = new Set(this.listUser);
+    this.listUser = [...unique];
+  }
+
   sendCall = () => {
     console.log("sendcallprimero");
   
@@ -154,6 +161,13 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
               call.on("stream", (remoteStream: any) => {
                 this.addVideoUser(remoteStream);
               });
+            }
+            if (res.name === 'bye-user') {
+              const { idPeer } = res.data; 
+              console.log('User disconnected', idPeer); 
+              // Encontrar el stream del usuario desconectado y eliminarlo 
+              
+                this.removeVideoUser(idPeer); 
             }
           });
         })

@@ -9,12 +9,17 @@ export class PeerService {
   peer: any;
 
   constructor() {
-    this.peer = new Peer({
+    const peerOptions = {
       host: environment.apiUrl.replace(/^https?:\/\//, ''), // Remover 'http://' si está presente
-      port: 8080,
-      path: '/peer',
-      secure: false  // Asegúrate de que está configurado para HTTPS
-    });
+      port: 3001,
+      path: '/',
+      secure: true,  // Asegúrate de que esté configurado para HTTPS
+      ssl: {
+        key: '/home/axel1021/Escritorio/PIVEC/pivec//key.pem',
+        cert: '/home/axel1021/Escritorio/PIVEC/pivec//cert.pem'
+      }
+    };
+
+    this.peer = new Peer(peerOptions);
   }
 }
-

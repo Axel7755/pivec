@@ -5,8 +5,9 @@ const https = require('https');
 const fs = require('fs');
 const socketIO = require('socket.io');
 const path = require('path');
-const { PeerServer } = require('peer');
 const db = require("./app/models");
+
+const { PeerServer } = require('peer');
 
 const app = express();
 
@@ -19,24 +20,6 @@ const options = {
 };
 
 const server = https.createServer(options, app);
-
-const peerServer = PeerServer({
-  debug: true,
-  ssl: { 
-    key: fs.readFileSync(path.join(__dirname, keyPath)), 
-    cert: fs.readFileSync(path.join(__dirname, certPath)) 
-  }
-});
-
-peerServer.use(cors());
-
-peerServer.on('connection', (client) => {
-  console.log(`Cliente conectado: ${client.getId()}`);
-});
-
-peerServer.on('disconnect', (client) => {
-  console.log(`Cliente desconectado: ${client.getId()}`);
-});
 
 const io = socketIO(server, {
   cors: {
@@ -53,7 +36,30 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-app.use('/peer', peerServer); // Adjunta PeerServer a Express (opcional)
+const keyPathp = path.join(__dirname, '/key.pem'); 
+const certPathp = path.join(__dirname, '/cert.pem');
+var privateKey = fs.readFileSync(keyPathp, 'utf8');
+var certificate = fs.readFileSync(certPathp, 'utf8');
+
+const peerServer = PeerServer({
+  port: 3001,
+  path: '/',
+  ssl: {
+    key: privateKey,
+    cert: certificate
+  }
+});
+
+peerServer.use(cors());
+
+peerServer.on('connection', (client) => {
+  console.log(`Cliente conectado: ${client.getId()}`);
+});
+
+peerServer.on('disconnect', (client) => {
+  console.log(`Cliente desconectado: ${client.getId()}`);
+});
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

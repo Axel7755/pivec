@@ -10,6 +10,8 @@ const db = require("./app/models");
 const app = express();
 
 const peerServer = PeerServer({
+  port: 9000,    // Cambia el puerto a 9000
+  path: '/peer'
 });
 
 app.use('/peer', peerServer);
