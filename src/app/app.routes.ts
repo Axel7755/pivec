@@ -64,7 +64,7 @@ export const routes: Routes = [
             { path: 'crear-tareas-d', component: CrearTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'editar-entrega-a', component: EditarEntregaComponent },
-            { path: 'revisar-tareas-d', component: RevisarTareasDComponent },
+            { path: 'revisar-tareas-d/:e_idtareas/:e_boleta', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
             { path: 'listado-entregas-tareas/:idtarea', component: ListadoEntregasTareasComponent },
             { path: '', redirectTo: 'general-a', pathMatch: 'full' },

@@ -29,21 +29,7 @@ export class ListadoEntregasTareasComponent {
   titulo: string = "";
   descrip: string = "";
   idtarea: string | null = null;
-  entregas = [
-    {
-      nombre: 'Alan Ricardo',
-      descripcion: 'El desarrollo del liderazgo personal es crucial para el crecimiento individual y profesional ambiciosas, superando obstáculos con mayor claridad y dirección...',
-      fecha: '12/08/2024', hora: '14:30', 
-      seleccionada: false
-    },
-
-    {
-      nombre: 'Luis Francisco',
-      descripcion: 'El desarrollo del liderazgo personal es crucial para el crecimiento individual y profesional ambiciosas, superando obstáculos con mayor claridad y dirección...',
-      fecha: '22/11/2024', hora: '15:45', 
-      seleccionada: false
-    },
-  ];
+  entregas: any[] = [];
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -56,61 +42,64 @@ export class ListadoEntregasTareasComponent {
     this.route.parent?.params.subscribe(params => {
       this.idgrupos = params['idgrupos'];
       this.g_idmaterias = params['g_idmaterias'];
-
-      //
-      
-    })
+    });
+  
     this.route.params.subscribe(paramsh => {
       this.idtarea = paramsh['idtarea'];
-      //
-      this.tareasService.findTareaById(this.idtarea!,this.descrip!,this.idtarea!).pipe(
-        catchError(error => {
-          console.error('Error al recuperar tarea', error);
-          alert('Error al recuperar tarea');
-          return of(null);
-        })
-      ).subscribe(tareaData => {
-        if (tareaData) {
-          this.titulo = tareaData.titulo_T;
-          this.descrip = tareaData.descripción_T;
-        } else {
-          console.error('tarea no existe');
-        }
-      });
-      //
-      this.entregasService.obtenerEntregasByTarea(this.idtarea!).pipe(
-        catchError(error => {
-          console.error('Error al recuperar entregas', error);
-          //alert('Error al recuperar entregas');
-          //this.entregas=[]
-          return of(null);
-        })
-      ).subscribe(entregasData => {
-        if (entregasData) {
-          const entregasSimples = entregasData.filter((entrega: any) => entrega !== null);
-          const EntregaAlumno$: Observable<EntregaAlumno>[] = entregasSimples.map((entrega: any) =>
-            this.alumnosService.obtenerAlumno(entrega.e_boleta).pipe(
-              catchError(this.handleError),
-              map(alumno => ({ entrega, alumno }))
-            )
-          );
-          forkJoin(EntregaAlumno$).subscribe((results: EntregaAlumno[]) => {
-            results.forEach(({ entrega, alumno }) => {
-             
-            });
-            //this.visualizar = this.vencidas;
-          });
-        }
+      console.log("tarea:", this.idtarea);
+      console.log("g_idmaterias:", this.g_idmaterias);
+      console.log("idgrupos:", this.idgrupos);
+  
+      if (this.idtarea && this.g_idmaterias && this.idgrupos) {
+        this.tareasService.findTareaById(this.g_idmaterias, this.idgrupos, this.idtarea).pipe(
+          catchError(error => {
+            console.error('Error al recuperar tarea', error);
+            alert('Error al recuperar tarea');
+            return of(null);
+          })
+        ).subscribe(tareaData => {
+          if (tareaData) {
+            this.titulo = tareaData.titulo_T;
+            this.descrip = tareaData.descripción_T;
+          } else {
+            console.error('tarea no existe');
+          }
+        });
+      } else {
+        console.error('Algunos parámetros son null:', { idtarea: this.idtarea, g_idmaterias: this.g_idmaterias, idgrupos: this.idgrupos });
       }
-      )
-    })
-    
+    });
+  
+    this.entregasService.obtenerEntregasByTarea(this.idtarea!).pipe(
+      catchError(error => {
+        console.error('Error al recuperar entregas', error);
+        return of(null);
+      })
+    ).subscribe(entregasData => {
+      if (entregasData) {
+        const entregasSimples = entregasData.filter((entrega: any) => entrega !== null);
+        const EntregaAlumno$: Observable<EntregaAlumno>[] = entregasSimples.map((entrega: any) =>
+          this.alumnosService.obtenerAlumno(entrega.e_boleta).pipe(
+            catchError(this.handleError),
+            map(alumno => ({ entrega, alumno }))
+          )
+        );
+        forkJoin(EntregaAlumno$).subscribe((results: EntregaAlumno[]) => {
+          results.forEach(({ entrega, alumno }) => {
+            const entregaAlumnoConSeleccionada = { ...entrega, alnombre: `${alumno.apellidoP_Al} ${alumno.apellidoM_Al} ${alumno.nombres_Al}`, boleta: alumno.boleta , seleccionada: false };
+            this.entregas.push(entregaAlumnoConSeleccionada);
+            console.log(this.entregas);
+          });
+        });
+      }
+    });
   }
+  
 
   irACalificarTarea(entrega: any) {
     // Navegas a la página de calificar tarea, pasando el id de la tarea
     //this.router.navigate(['/menu-materia/crear-tareas-d', tareaId]);
-    this.router.navigate(['/menu-materia/revisar-tareas-d']);
+    this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias,'revisar-tareas-d', this.idtarea, entrega.boleta, ]);
 
   }
 

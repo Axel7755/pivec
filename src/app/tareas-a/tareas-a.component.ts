@@ -80,7 +80,7 @@ export class TareasAComponent implements OnInit {
           catchError(this.handleError)
         ).subscribe(docenteData => {
           if (docenteData) {
-            this.docente = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
+            this.docente = `${docenteData.apellidoP_Do} ${docenteData.apellidoM_Do} ${docenteData.nombres_Do} `;
           }
         });
       });

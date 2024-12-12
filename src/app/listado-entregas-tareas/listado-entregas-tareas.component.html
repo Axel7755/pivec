@@ -13,37 +13,44 @@
             <img src="../../assets/images/check-all-white.ico" alt="Icono Tarea" class="icono-tarea">
             Seleccionar Entrega
         </button>
-    
+
         <!-- Muestra el botón de eliminar solo si hay tareas seleccionadas -->
-        <button mat-button class="eliminar-tareas-btn" mat-raised-button color="accent" (click)="eliminarEntregas()" *ngIf="hayTareasSeleccionadas()">
+        <button mat-button class="eliminar-tareas-btn" mat-raised-button color="accent" (click)="eliminarEntregas()"
+            *ngIf="hayTareasSeleccionadas()">
             <img src="../../assets/images/delete.ico" alt="Icono Tarea" class="icono-tarea">
             Eliminar Entrega
         </button>
     </div>
-    
+
     <hr>
-    
-    <div *ngFor="let entrega of entregas" class="contenedor-tarea" (click)="irACalificarTarea(entrega)">
-        <div class="checkbox-container" *ngIf="showCheckboxes">
-            <input type="checkbox" class="tarea-checkbox" [(ngModel)]="entrega.seleccionada">
-        </div>
-        <div class="img-materia">
-            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
-        </div>
-        <div class="informacion-materia">
-            <div class="titulo-icono">
-                <h1>{{ entrega.nombre }}</h1>
+    <div class="entregas-container" *ngIf="entregas.length > 0; else noEntregas">
+        <div *ngFor="let entrega of entregas" class="contenedor-tarea">
+            <div class="checkbox-container" *ngIf="showCheckboxes">
+                <input type="checkbox" class="tarea-checkbox" [(ngModel)]="entrega.seleccionada">
             </div>
-            <div class="seccion-medio">
-                <p>{{ entrega.descripcion }}</p>
-            </div>
-            <div class="seccion-abajo">
-                <p class="entregado">Entregado: {{ entrega.fecha }} - {{ entrega.hora }}</p>
+            <div class="info_tarea" (click)="irACalificarTarea(entrega)">
+                <div class="img-materia">
+                    <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+                </div>
+                <div class="informacion-materia">
+                    <div class="titulo-icono">
+                        <h1>{{ entrega.alnombre }}</h1>
+                    </div>
+                    <div class="seccion-medio">
+                        <p>{{ descrip }}</p>
+                    </div>
+                    <div class="seccion-abajo">
+                        <p class="entregado">Entregado: {{ entrega.e_fecha | date:'dd-MM-yyyy HH:mm' }} </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    
+    <ng-template #noEntregas>
+        <p>Aun no hay entregas de esta tarea.</p>
+    </ng-template>
+
+
 
 </body>
 

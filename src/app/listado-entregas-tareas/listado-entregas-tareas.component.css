@@ -16,6 +16,10 @@
     border: 1px solid transparent;
     /* La propiedad border ya es transparente */
 }
+.info_tarea{
+    display: flex;
+    width: 100%;
+}
 
 /* Ajustes para la imagen */
 .img-materia {
@@ -77,7 +81,7 @@ img[mat-card-image] {
     margin-top: 10px;
     padding: 5px 0;
     font-family: "Girassol", cursive;
-    color: #1854fa;
+    color: #ffa936;
 }
 
 .informacion-materia p {
