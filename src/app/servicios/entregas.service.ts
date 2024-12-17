@@ -22,4 +22,11 @@ export class EntregasService {
   obtenerEntregasByTarea(e_idtareas: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${e_idtareas}`);
   }
+
+  editarEntrega(e_idtareas: string, e_boleta: string, entrega: any): Observable<any>{
+    return this.http.put(`${this.baseUrl}/${e_idtareas}/${e_boleta}`, entrega);
+  }
+  deleteEntrega(e_idtareas: string, e_boleta: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${e_idtareas}/${e_boleta}`);
+ }
 }

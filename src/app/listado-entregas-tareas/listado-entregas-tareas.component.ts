@@ -114,7 +114,23 @@ export class ListadoEntregasTareasComponent {
   }
 
   eliminarEntregas() {
-    this.entregas = this.entregas.filter(entregas => !entregas.seleccionada);
+    const selecciondas = this.entregas.filter(entrega => entrega.seleccionada);
+
+    selecciondas.forEach(entregadel => {
+
+      this.entregasService.deleteEntrega(entregadel.e_idtareas, entregadel.boleta).pipe(
+        catchError(error => { console.error('Error al eliminar la tarea', error);
+          alert('Error al eliminar la tarea'); return of(null); }) 
+         ).subscribe(response => {
+            if (response) {
+              console.log('Tarea eliminada exitosamente');
+               this.entregas = this.entregas.filter(entrega => !entrega.seleccionada);
+             } 
+           }
+         );
+      
+    });
+    
   }
 
   private handleError(error: any) {

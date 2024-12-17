@@ -130,6 +130,46 @@ const getFiles = (req, res) => {
 };
 
 
+// Controlador para obtener los archivos
+const getFilesEntregas = (req, res) => {
+  const { idgrupos, g_idmaterias, idtarea, boleta } = req.params;
+  const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, 'entregas', boleta);
+
+  console.log('Leyendo archivos del directorio:', uploadDir);
+
+  // Verificar si el directorio existe antes de intentar leerlo
+  if (!fs.existsSync(uploadDir)) {
+    console.error('Directorio no encontrado:', uploadDir);
+    return res.status(404).json({ message: 'Directorio no encontrado' });
+  }
+
+  fs.readdir(uploadDir, (err, files) => {
+    if (err) {
+      console.error('Error al leer los archivos:', err);
+      return res.status(500).json({ message: 'Error al leer los archivos', error: err });
+    }
+
+    const fileInfo = files
+      .filter(file => fs.statSync(path.join(uploadDir, file)).isFile()) // Filtra solo archivos
+      .map(file => {
+        const stats = fs.statSync(path.join(uploadDir, file));
+        return {
+          lastModified: stats.mtimeMs,
+          lastModifiedDate: stats.mtime,
+          name: file,
+          size: stats.size,
+          type: mime.lookup(file) || 'application/octet-stream',
+          webkitRelativePath: '',
+          originalName: file,
+          path: path.join(uploadDir, file)
+        };
+      });
+
+    console.log('Archivos encontrados:', fileInfo);
+    res.json({ files: fileInfo });
+  });
+};
+
 
 // Controlador para eliminar archivos
 const deleteFile = (req, res) => {
@@ -153,5 +193,6 @@ module.exports = {
   uploadT,
   uploadFile,
   getFiles,
-  deleteFile
+  deleteFile,
+  getFilesEntregas
 };

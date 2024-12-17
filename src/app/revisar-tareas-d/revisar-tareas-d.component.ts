@@ -1,7 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
+import { AuthService } from '../servicios/auth.service';
+import { GoogleDriveService } from '../servicios/google-drive.service';
+import { EntregasService } from '../servicios/entregas.service';
+import { AlumnosService } from '../servicios/alumnos.service';
+import { catchError, of, forkJoin, tap } from 'rxjs';
+import { TareasService } from '../servicios/tareas.service';
+import { DocentesService } from '../servicios/docentes.service';
 
 @Component({
   selector: 'app-revisar-tareas-d',
@@ -12,11 +21,24 @@ import { MatButtonModule } from '@angular/material/button';
   host: { 'ngSkipHydration': '' }
 
 })
-export class RevisarTareasDComponent {
+export class RevisarTareasDComponent implements OnInit {
+
+  alumno: string = "";
+  docente: string = "";
+  boleta: string | null = null;
+  idtarea: string | null = null;
+  entrega: any;
+  g_idmaterias: string | null = null;
+  idgrupos: string | null = null;
+  tarea: any;
+  idDocente: string = "";
+  archivosSubidos: File[] = [];
+
+  @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
   mensajes = [
-    { emisor: 'docente', nombre: 'Docente', fecha: '2024-10-16', texto: 'Mensaje del docente.' },
-    { emisor: 'alumno', nombre: 'Alumno', fecha: '2024-10-16', texto: 'Mensaje del alumno.' },
+    { emisor: 'docente', nombre: 'Docente', fecha: '2024-12-16T16:39:08.000Z', texto: 'Mensaje del docente.' },
+    { emisor: 'alumno', nombre: 'Alumno', fecha: '2024-12-16T16:39:09.000Z', texto: 'Mensaje del alumno.' },
   ];
 
   nuevoMensaje = '';
@@ -24,6 +46,100 @@ export class RevisarTareasDComponent {
   calificacionFueraDeRango: boolean = false;  // Agregar propiedad
   decimalesInvalidos: boolean = false;        // Agregar propiedad
 
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private subirArchivosService: SubirArchivosService,
+    private alumnosService: AlumnosService,
+    private docentesService: DocentesService,
+    private authService: AuthService,
+    private googleDriveService: GoogleDriveService,
+    private entregasService: EntregasService,
+    private tareasService: TareasService
+  ) {
+
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.idtarea = params['e_idtareas'];
+      this.boleta = params['e_boleta'];
+
+      this.authService.getUserId;
+
+      this.docentesService.obtenerDocente(this.idDocente).pipe(
+        catchError(error => {
+          console.error('Error al recuperar docente', error);
+          alert('Error al recuperar docente');
+          return of(null);
+        })
+      ).subscribe(docenteData => {
+        if(docenteData){
+          this.docente = `${docenteData.apellidoP_Do} ${docenteData.apellidoM_Do} ${docenteData.nombres_Do}`;
+        }
+      })
+      this.alumnosService.obtenerAlumno(this.boleta).pipe(
+        catchError(error => {
+          console.error('Error al recuperar alumno', error);
+          alert('Error al recuperar alumno');
+          return of(null);
+        })
+      ).subscribe(alumnoData => {
+        if (alumnoData) {
+          this.alumno = `${alumnoData.apellidoP_Al} ${alumnoData.apellidoM_Al} ${alumnoData.nombres_Al}`;
+        }
+      })
+
+      this.entregasService.obtenerEntregasByTareaAlumno(this.idtarea!, this.boleta!).pipe(
+        catchError(error => {
+          console.error('Error al recuperar entrega', error);
+          alert('Error al recuperar entrega');
+          return of(null);
+        })
+      ).subscribe(entregaData => {
+        if (entregaData) {
+          this.entrega = entregaData;
+
+          this.subirArchivosService.getFilesEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.boleta!).pipe(
+            catchError(error => {
+              console.error('Error al recuperar archivos', error);
+              return of(null);
+            })
+          ).subscribe(archivosData => {
+            if (archivosData && Array.isArray(archivosData.files)) {
+              console.log('Archivos obtenidos:', archivosData.files);
+              this.archivosSubidos = archivosData.files;
+              this.archivosSubidos.forEach((file: any) => {
+                console.log('Archivo:', file); // Esto imprimirá cada archivo
+                console.log('Nombre del archivo:', file.name);
+                this.uploadFile(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
+              });
+            } else {
+              console.log("sin archivos");
+            }
+          });
+        }
+      })
+    })
+
+    this.route.parent?.params.subscribe(params => {
+      this.idgrupos = params['idgrupos'];
+      this.g_idmaterias = params['g_idmaterias'];
+
+
+      this.tareasService.findTareaById(this.g_idmaterias!, this.idgrupos!, this.idtarea!)
+        .pipe(
+          catchError(error => {
+            console.error('Error al recuperar tarea', error);
+            alert('Error al recuperar tarea');
+            return of(null);
+          })
+        ).subscribe(tareaData => {
+          if (tareaData) {
+            this.tarea = tareaData
+          }
+        })
+    })
+  }
   // Ordena los mensajes de manera que los del docente aparezcan primero
   getMensajesOrdenados() {
     return this.mensajes.sort((a, b) => {
@@ -93,6 +209,88 @@ export class RevisarTareasDComponent {
       }
     }
   }
+  uploadFile(file: any): void {
+    const icon = this.iconSelector(file.type);
+    const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/entregas/${this.boleta}/${file.name}`; 
 
+    const li = document.createElement('li');
+    li.classList.add('list-section', 'in-prog');
+    li.style.display = 'flex';
+    li.style.margin = '15px 0';
+    li.style.paddingTop = '4px';
+    li.style.paddingBottom = '2px';
+    li.style.borderRadius = '8px';
+    li.style.transitionDuration = '0.3s';
+
+    li.innerHTML = `
+    <div class="col" style="flex: .15; text-align: center;">
+      <img src="${icon}" alt="file-icon" width="40" height="50"> <!-- Tamaño fijo -->
+    </div>
+    <div class="col" style="flex: .78; text-align: left; font-size: 0.9rem; color: #3e4046; padding: 8px 10px;">
+      <div class="file-name" style="font-size: 15px; color: blue; font-weight: bold; cursor: pointer;">${file.name}</div>
+      <div class="file-size" style="margin-top: 5px; font-size: 0.75rem; color: #707EA0;">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+    </div>
+    `;
+
+    li.onclick = () => {
+      if (
+        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+        file.type === 'application/msword' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+        file.type === 'application/vnd.ms-excel' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || 
+        file.type === 'application/vnd.ms-powerpoint' 
+      ) {
+        this.googleDriveService.signInAndUpload(fileURL, file.type);
+      } else {
+        window.open(fileURL, '_blank'); 
+      }
+    };
+
+    this.listContainer.nativeElement.prepend(li);
+  }
+
+  iconSelector(fileType: string): string {
+    switch (fileType) {
+      case 'image/png':
+      case 'image/jpeg':
+        return '../../assets/icons/image1.png';
+      case 'application/pdf':
+        return '../../assets/icons/pdf.png';
+      case 'video/mp4':
+        return '../../assets/icons/video.png';
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': // .docx
+      case 'application/msword': // .doc
+        return '../../assets/icons/word.ico'; // Ícono para documentos de Word
+      case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': // .xlsx
+      case 'application/vnd.ms-excel': // .xls
+        return '../../assets/icons/excel.ico'; // Ícono para hojas de cálculo de Excel
+      case 'application/vnd.openxmlformats-officedocument.presentationml.presentation': // .pptx
+      case 'application/vnd.ms-powerpoint': // .ppt
+        return '../../assets/icons/ppt.ico'; // Ícono para presentaciones de PowerPoint
+      case 'application/zip': // .zip
+      case 'application/x-rar-compressed': // .rar
+        return '../../assets/icons/zip.ico'; // Ícono para archivos comprimidos
+      default:
+        return '../../assets/icons/default.png'; // Ícono por defecto
+    }
+  }
+
+  calificar(){
+    const entrega = {
+      calificación: this.calificacion
+    };
+
+    this.entregasService.editarEntrega(this.idtarea!, this.boleta!, entrega).pipe(
+      catchError(error => {
+        console.error('Error al guardar entrega', error);
+        return of(null);
+      })
+    ).subscribe(entregaData =>{
+      if (entregaData) {
+        this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'listado-entregas-tareas', this.idtarea]);
+      }
+    })
+  }
 
 }

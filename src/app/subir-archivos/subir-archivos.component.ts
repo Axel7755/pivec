@@ -335,6 +335,7 @@ export class SubirArchivosComponent implements OnInit {
     if (files) {
       Array.from(files).forEach(file => {
         if (this.typeValidation(file.type)) {
+          this.archivosSubidos.push(file); 
           this.uploadFile(file);
           this.logFileDetails(file); // Loguear los detalles del archivo
         } else {

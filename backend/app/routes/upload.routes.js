@@ -11,6 +11,9 @@ router.post('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boletaAl', uploadContro
 // Ruta para obtener archivos
 router.get('/tareas/:g_idmaterias/:idgrupos/:idtarea', uploadController.getFiles);
 
+// Ruta para obtener archivos de entregas
+router.get('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boleta', uploadController.getFilesEntregas);
+
 // Ruta para eliminar archivos
 router.delete('/tareas/:g_idmaterias/:idgrupos/:idtarea/:filename', uploadController.deleteFile);
 

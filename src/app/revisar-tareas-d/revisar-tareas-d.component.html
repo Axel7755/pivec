@@ -9,28 +9,28 @@
 
 <body>
     <div class="contenedor-tarea">
+        <div class="encabezado-materia">
+            <h1>{{alumno}}</h1>
+            <button class="entregar-button acciones" mat-raised-button color="primary" (click)="calificar()">Revisar</button>
+    
+        </div>
         <div class="contenido-principal">
-            <div class="informacion-materia">
-                <h1>Uriel Alejandro</h1>
-                <p class="vence">Vence: 12/08/2024</p>
+            <div class="informacion-materia">                
+                <p class="vence">Entregada: {{entrega.e_fecha | date:'dd-MM-yyyy HH:mm'}}</p>
             </div>
 
             <div class="img-materia">
                 <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
             </div>
-
-            <div class="acciones">
-                <button class="entregar-button" mat-raised-button color="primary"> Revisar</button>
-            </div>
         </div>
 
         <div class="info-tarea">
             <div class="nombre-tarea">
-                <strong>Nombre de tarea:</strong> Tarea 1
+                <strong>Nombre de tarea:</strong> {{ tarea.titulo_T }}
             </div>
 
             <div class="desc-tarea">
-                <strong>Descripción de la tarea:</strong> Realizar un FODA de uno mismo
+                <strong>Descripción de la tarea:</strong> {{ tarea['descripción_T'] }}
                 <div class="buton-download">
                     <a href="./assets/download/materia1.pdf" download class="download-icon">
                         <i class="fas fa-download"></i>
@@ -39,11 +39,20 @@
             </div>
         </div>
 
+        <div class="list-section">
+            <div class="list-title">Archivos entregados</div>
+            <div class="list">
+                <ul #listContainer>
+                    <!-- Aquí se mostrarán los archivos cargados -->
+                </ul>
+            </div>
+        </div>
+
         <!-- Apartado de calificación -->
         <div class="calificacion">
             <label for="calificacionInput"><strong>Ingrese la calificación:</strong></label>
-            <input type="number" id="calificacionInput" [(ngModel)]="calificacion" placeholder="0.00" min="0" max="10"
-                step="0.01" class="input-calificacion" (input)="validarDecimales()" />
+            <input type="number" id="calificacionInput" [(ngModel)]="calificacion" [placeholder]="entrega['calificación']" min="0" max="10"
+                step="0.01" class="input-calificacion" (input)="validarDecimales()" [value]="entrega['calificación']" />
             <div *ngIf="calificacionFueraDeRango" class="error-msg">La calificación debe estar entre 0 y 10</div>
             <div *ngIf="decimalesInvalidos" class="error-msg">Solo se permiten hasta dos decimales</div>
         </div>
@@ -55,7 +64,7 @@
             <!-- Contenedor para los mensajes -->
             <div class="lista-mensajes">
                 <!-- Mensajes dinámicos -->
-                <div *ngFor="let mensaje of getMensajesOrdenados()"
+                <div *ngFor="let mensaje of mensajes"
                     [ngClass]="{'mensaje': true, 'docente': mensaje.emisor === 'docente', 'alumno': mensaje.emisor === 'alumno'}">
                     <p>
                         <strong>{{ mensaje.emisor | titlecase }}: {{ mensaje.nombre }}</strong>

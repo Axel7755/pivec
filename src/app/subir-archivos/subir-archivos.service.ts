@@ -65,6 +65,11 @@ export class SubirArchivosService {
     return this.http.get(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`);
   }
 
+  getFilesEntrega(idgrupos: string, g_idmaterias: string, idtarea: string, boleta:string): Observable<any> {
+    console.log(`${this.baseUrl}/entregas/${g_idmaterias}/${idgrupos}/${idtarea}/${boleta}`);
+    return this.http.get(`${this.baseUrl}/entregas/${g_idmaterias}/${idgrupos}/${idtarea}/${boleta}`);
+  }
+
   // Método para eliminar un archivo 
   deleteFile(idgrupos: string, g_idmaterias: string, idtarea: string, fileName: string): Observable<any> { 
     return this.http.delete(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}/${fileName}`

@@ -1,4 +1,4 @@
-import { Component, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { SubirArchivosComponent } from '../subir-archivos/subir-archivos.component';
@@ -27,7 +27,7 @@ declare var google: any;
   host: { 'ngSkipHydration': '' }
 
 })
-export class SubirTareaComponent {
+export class SubirTareaComponent implements OnInit{
   idgrupos: string | null = null;
   userId: string | null = null;
   docente: string | null = "Uriel Alejandro";
@@ -106,7 +106,7 @@ export class SubirTareaComponent {
             })
           ).subscribe(docenteData => {
             if (docenteData) {
-              this.docente = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
+              this.docente = `${docenteData.apellidoP_Do} ${docenteData.apellidoM_Do} ${docenteData.nombres_Do}`;
             }
           });
         }
