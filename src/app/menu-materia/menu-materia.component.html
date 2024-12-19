@@ -1,9 +1,12 @@
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [ngClass]="{ 'sidenav-collapsed': collapsed }">
     <div class="sidenav-header" [ngClass]="collapsed ? 'sidenav-header-collapsed' : ''">
-      <ng-container (click)="irPaginaInicial()" *ngIf="!collapsed ">
-        <h2 class="tit1">PIV</h2>
-        <h2 class="tit2">EC</h2>
+      <ng-container *ngIf="!collapsed ">
+        <div class="pageTitle" (click)="irPaginaInicial()">
+          <h2 class="tit1">PIV</h2>
+          <h2 class="tit2">EC</h2>
+        </div>
+       
       </ng-container>
       
       <button mat-icon-button (click)="collapse()" color="warn" class="desplegable">
@@ -32,5 +35,6 @@
 
   <mat-sidenav-content [class.adjusted-width]="collapsed">
     <router-outlet></router-outlet>
+    <app-chat-bot-d></app-chat-bot-d>
   </mat-sidenav-content>
 </mat-sidenav-container>

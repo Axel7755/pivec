@@ -56,3 +56,6 @@
     margin-left: 5px;
   }
   
+  .pageTitle{
+    display: flex;
+  }

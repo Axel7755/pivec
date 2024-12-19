@@ -75,4 +75,10 @@ export class SubirArchivosService {
     return this.http.delete(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}/${fileName}`
       
     ); }
+
+     // Método para eliminar un archivo 
+  deleteFileEntrega(idgrupos: string, g_idmaterias: string, idtarea: string, boleta: string, fileName: string,): Observable<any> { 
+    return this.http.delete(`${this.baseUrl}/entregas/${g_idmaterias}/${idgrupos}/${idtarea}/${boleta}/${fileName}`
+      
+    ); }
 }

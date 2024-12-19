@@ -12,6 +12,9 @@ import { DocentesService } from '../servicios/docentes.service';
 import { catchError, of, forkJoin, tap } from 'rxjs';
 import { GruposService } from '../servicios/grupos.service';
 import { EntregasService } from '../servicios/entregas.service';
+import { GoogleDriveService } from '../servicios/google-drive.service';
+import { GoogleDriveFileService } from '../servicios/google-drive-file.service';
+import { environment } from '../../environments/environments';
 
 @Component({
   selector: 'app-editar-entrega',
@@ -34,6 +37,8 @@ export class EditarEntregaComponent {
   archivosSubidos: File[] = [];
   archivosSubidos2: File[] = [];
   fechaVencimiento: string = '';
+  BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
   @ViewChild('listContainer2') listContainer2!: ElementRef<HTMLUListElement>;
@@ -44,6 +49,8 @@ export class EditarEntregaComponent {
     private router: Router,
     private subirArchivosService: SubirArchivosService,
     private authService: AuthService,
+    private googleDriveService: GoogleDriveService,
+    private googleDriveFileService: GoogleDriveFileService,
     private docentesService: DocentesService,
     private gruposService: GruposService,
     private entregasService: EntregasService
@@ -125,30 +132,49 @@ export class EditarEntregaComponent {
               this.titulo = tareaData.titulo_T;
               this.descrip = tareaData.descripción_T;
               this.fechaVencimiento = new Date(tareaData.fecha_Entrega).toISOString().slice(0, 16);
-
-              this.subirArchivosService.getFiles(this.idgrupos!, this.g_idmaterias!, this.idtarea!)
-                .pipe(
-                  catchError(error => {
-                    console.error('Error al recuperar archivos', error);
-                    return of(null);
-                  })
-                ).subscribe(archivosData => {
-                  if (archivosData && Array.isArray(archivosData.files)) {
-                    console.log('Archivos obtenidos:', archivosData.files);
-                    this.archivosSubidos = archivosData.files;
-                    this.archivosSubidos.forEach((file: any) => {
-                      console.log('Archivo:', file); // Esto imprimirá cada archivo
-                      console.log('Nombre del archivo:', file.name);
-                      this.uploadFile(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
-                    });
-                  } else {
-                    console.log("sin archivos");
-                  }
-                });
             } else {
               console.error('tarea no existe');
             }
           });
+
+        this.subirArchivosService.getFiles(this.idgrupos!, this.g_idmaterias!, this.idtarea!)
+          .pipe(
+            catchError(error => {
+              console.error('Error al recuperar archivos', error);
+              return of(null);
+            })
+          ).subscribe(archivosData => {
+            if (archivosData && Array.isArray(archivosData.files)) {
+              console.log('Archivos obtenidos:', archivosData.files);
+              this.archivosSubidos = archivosData.files;
+              this.archivosSubidos.forEach((file: any) => {
+                console.log('Archivo:', file); // Esto imprimirá cada archivo
+                console.log('Nombre del archivo:', file.name);
+                this.uploadFile(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
+              });
+            } else {
+              console.log("sin archivos");
+            }
+          });
+
+        this.subirArchivosService.getFilesEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!).pipe(
+          catchError(error => {
+            console.error('Error al recuperar archivos', error);
+            return of(null);
+          })
+        ).subscribe(archivosData => {
+          if (archivosData && Array.isArray(archivosData.files)) {
+            console.log('Archivos obtenidos:', archivosData.files);
+            this.archivosSubidos2 = archivosData.files;
+            this.archivosSubidos2.forEach((file: any) => {
+              console.log('Archivo:', file); // Esto imprimirá cada archivo
+              console.log('Nombre del archivo:', file.name);
+              this.uploadFile2(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
+            });
+          } else {
+            console.log("sin archivos");
+          }
+        });
       }
     });
   }
@@ -170,8 +196,8 @@ export class EditarEntregaComponent {
 
   uploadFile(file: any): void {
     const icon = this.iconSelector(file.type);
-    const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`;  // Asegúrate de que esta ruta sea correcta
-
+    //const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`;  // Asegúrate de que esta ruta sea correcta
+    const fileURL = `${this.BACKEND_BASE_URL}/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`;
     const li = document.createElement('li');
     li.classList.add('list-section', 'in-prog');
     li.style.display = 'flex';
@@ -192,10 +218,17 @@ export class EditarEntregaComponent {
     `;
 
     li.onclick = () => {
-      if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'application/pdf') {
-        window.open(fileURL, '_blank');
+      if (
+        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        file.type === 'application/msword' ||
+        file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        file.type === 'application/vnd.ms-excel' ||
+        file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+        file.type === 'application/vnd.ms-powerpoint'
+      ) {
+        this.googleDriveService.signInAndUpload(fileURL, file.type);
       } else {
-        alert('Este tipo de archivo no se puede abrir en una nueva pestaña');
+        window.open(fileURL, '_blank');
       }
     };
 
@@ -301,91 +334,93 @@ export class EditarEntregaComponent {
     }
   }
 
-  guardarEntrega() {
-    if (this.archivosSubidos2.length > 0) {
-      const entrega = {
-        e_idtareas: this.idtarea,
-        e_boleta: this.userId
-      }
-      //console.log(tarea);
-      this.entregasService.createEntrega(entrega).pipe(
+  async guardarEntrega() {
+    const entrega = {
+      e_fecha: new Date()
+    };
+
+    try {
+      // Edita la entrega y espera a que la actualización se complete
+      const response = await this.entregasService.editarEntrega(this.idtarea!, this.userId!, entrega).pipe(
         catchError(error => {
           console.error('Error al guardar entrega', error);
           return of(null);
         })
-      ).subscribe({
-        next: response => {
-          if (response) {
-            const idtareas = response.e_idtareas;
-            const boletaAl = response.e_boleta;
-            console.log(response);
-            if (this.archivosSubidos2.length === 0) {
-              this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'tareas-a']);
-              //console.warn('No hay archivos para subir.');
-              return;
-            }
+      ).toPromise();
 
-            const uploadObservables = this.archivosSubidos2.map(file => {
-              const listItems = this.listContainer2.nativeElement.querySelectorAll('li');
-              let li: HTMLElement | null = null;
+      if (response) {
+        
+        const archivosActuales = await this.subirArchivosService.getFilesEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!).pipe(
+          catchError(error => {
+            console.error('Error al obtener archivos actuales', error);
+            return of({ files: [] });
+          })
+        ).toPromise();
+        console.log('archivos del servver', archivosActuales)
+        const archivosParaEliminar = archivosActuales.files.filter((archivo: any) => {
+          return !this.archivosSubidos2.some((file: any) => file.name === archivo.name);
+        });
 
-              listItems.forEach((item: HTMLElement) => {
-                const nameElement = item.querySelector('.file-name .name');
-                if (nameElement && nameElement.textContent === file.name) {
-                  li = item;
-                }
-              });
-
-              if (!li) {
-                console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
-                return null; // Devuelve null si no se encuentra el elemento
-              }
-
-              return this.subirArchivosService.uploadEntrega(file, this.idgrupos!, this.g_idmaterias!, idtareas, boletaAl).pipe(
-                catchError(err => {
-                  console.error('Error al subir el archivo', err);
-                  li?.remove();
-                  return of(null); // Devuelve un observable nulo en caso de error
-                })
-              );
-            }).filter(obs => obs !== null); // Filtrar nulls
-
-            if (uploadObservables.length > 0) {
-              forkJoin(uploadObservables).subscribe({
-                next: (responses) => {
-                  responses.forEach((response: any) => {
-                    if (response && response.body) {
-                      /*const archivoTarea = {
-                        dirección_DT: response.body.file.path,
-                        nombre_DT:response.body.file.name,
-                        dt_idtareas: idtareas
-                      }*/
-
-                      this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'tareas-a']);
-                      //console.log('Ruta completa:', response.body.file.path);
-                    }
-                  });
-                },
-                complete: () => {
-                  console.log('Todos los archivos se han subido con éxito.');
-                  // Limpiar la lista de archivos después de completar la subida
-                  this.archivosSubidos2 = [];
-                  this.listContainer2.nativeElement.innerHTML = ''; // Limpiar la lista en la interfaz
-                }
-              });
-            }
-
-          }
-        },
-        error: error => console.error('Error al crear tarea', error),
-        complete: () => {
-          console.log('Solicitud de creación de tarea completada');
+        if (archivosParaEliminar.length > 0) {
+          await Promise.all(archivosParaEliminar.map(async (archivo: any) => {
+            await this.subirArchivosService.deleteFileEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!, archivo.name).toPromise();
+            console.log(`Archivo eliminado del backend: ${archivo.name}`);
+          }));
         }
+
+        const uploadObservables = this.archivosSubidos2.map(file => {
+          const archivoExiste = archivosActuales.files.some((archivo: any) => archivo.name === file.name);
+
+          if (archivoExiste) {
+            console.log(`El archivo ya existe y no se subirá: ${file.name}`);
+            return null; // Devuelve null si el archivo ya existe
+          }
+          const listItems = this.listContainer2.nativeElement.querySelectorAll('li');
+          let li: HTMLElement | null = null;
+
+          listItems.forEach((item: HTMLElement) => {
+            const nameElement = item.querySelector('.file-name .name');
+            if (nameElement && nameElement.textContent === file.name) {
+              li = item;
+            }
+          });
+
+          if (!li) {
+            console.error(`Elemento <li> no encontrado para el archivo: ${file.name}`);
+            return null;
+          }
+
+          return this.subirArchivosService.uploadEntrega(file, this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!).pipe(
+            catchError(err => {
+              console.error('Error al subir el archivo', err);
+              li?.remove();
+              return of(null);
+            })
+          );
+        }).filter(obs => obs !== null);
+
+        if (uploadObservables.length > 0) {
+          const uploadResponses = await forkJoin(uploadObservables).toPromise();
+
+          if (uploadResponses) {
+            uploadResponses.forEach((response: any) => {
+              if (response && response.body) {
+                console.log('Ruta completa:', response.body.file.path);
+              }
+            });
+
+            console.log('Todos los archivos se han subido con éxito.');
+            this.archivosSubidos2 = [];
+            this.listContainer2.nativeElement.innerHTML = '';
+          }
+        }
+
+        //this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'tareas-a']);
       }
-      )
-    } else {
-      alert("no puede entregar una tarea vacia")
+    } catch (error) {
+      console.error('Error al guardar entrega', error);
     }
   }
+
 
 }

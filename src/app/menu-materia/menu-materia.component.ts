@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink, RouterLinkActive, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../servicios/auth.service';
 import { Router } from '@angular/router';
+import { ChatBotDComponent } from "../chat-bot-d/chat-bot-d.component";
 
 
 export interface Section {
@@ -19,7 +20,7 @@ export interface Section {
   selector: 'app-menu-materia',
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule, MatIconModule, CommonModule,
-    RouterOutlet, MatListModule, RouterLink, RouterLinkActive],
+    RouterOutlet, MatListModule, RouterLink, RouterLinkActive, ChatBotDComponent],
   templateUrl: './menu-materia.component.html',
   styleUrl: './menu-materia.component.css'
 })

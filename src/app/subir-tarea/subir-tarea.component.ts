@@ -14,6 +14,7 @@ import { GruposService } from '../servicios/grupos.service';
 import { EntregasService } from '../servicios/entregas.service';  // Importa CommonModule para las funcionalidades comunes de Angular
 import { GoogleDriveService } from '../servicios/google-drive.service';
 import { GoogleDriveFileService } from '../servicios/google-drive-file.service';
+import { environment } from '../../environments/environments';
 
 // Declara la variable global 'google' para usar los servicios de Google
 declare var google: any;
@@ -38,6 +39,8 @@ export class SubirTareaComponent implements OnInit{
   archivosSubidos: File[] = [];
   archivosSubidos2: File[] = [];
   fechaVencimiento: string = '';
+  BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+  
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
   @ViewChild('listContainer2') listContainer2!: ElementRef<HTMLUListElement>;
@@ -176,8 +179,9 @@ export class SubirTareaComponent implements OnInit{
 
   uploadFile(file: any): void {
     const icon = this.iconSelector(file.type);
-    const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`; 
-
+    const fileURL = `${this.BACKEND_BASE_URL}/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/${file.name}`; 
+    //const fileURL = file.path; 
+    console.log('URL generada para el archivo:', fileURL);
     const li = document.createElement('li');
     li.classList.add('list-section', 'in-prog');
     li.style.display = 'flex';

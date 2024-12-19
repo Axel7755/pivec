@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from '../../web-socket.service';
 import { PeerService } from '../../peer.service';
 import { CommonModule } from '@angular/common';
@@ -42,7 +42,8 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     private peerService: PeerService,
     private authService: AuthService,
     private docentesService: DocentesService,
-    private alumnosService: AlumnosService
+    private alumnosService: AlumnosService,
+    private router: Router
   ) {
     this.roomName = this.route.snapshot.paramMap.get('id')!;
     console.log('---> Room name: ', this.roomName);
@@ -179,6 +180,19 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   
+  irPaginaInicial() {
+    // Detener todas las pistas de video y audio
+    if (this.currentStream) {
+      this.currentStream.getTracks().forEach((track: MediaStreamTrack) => {
+        track.stop();
+      });
+    }
+  
+    // Navegar a la página principal
+    this.router.navigate(['/menu-principal/materias']);
+  }
+  
+
   shareDisplay = () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
       navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })

@@ -1,11 +1,11 @@
 const db = require("../models");
-const Comentarios = db.comentarios;
+const Comentarios = db.Comentarios;
 
 // Crear un nuevo comentario
 exports.create = (req, res) => {
     const comentario = {
         Comentario: req.body.Comentario,
-        c_fecha: req.body.c_fecha,
+        c_fecha: new Date(),
         doc_al: req.body.doc_al,
         c_idtareas: req.body.c_idtareas,
         c_boleta: req.body.c_boleta
@@ -31,6 +31,32 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Ocurrió un error al recuperar los comentarios."
+            });
+        });
+};
+
+//Obtener los comentarios de una entrega
+exports.findEntrega = (req, res) => {
+    const { c_idtareas, c_boleta } = req.params;
+
+    Comentarios.findAll({
+        where: {
+            c_idtareas: c_idtareas,
+            c_boleta: c_boleta
+        }
+    })
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `No se encontro el comentario con id ${idComentarios}, tarea ${c_idtareas}, y boleta ${c_boleta}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Ocurrió un error al recuperar el comentario."
             });
         });
 };

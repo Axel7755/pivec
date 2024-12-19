@@ -63,7 +63,7 @@ export const routes: Routes = [
             { path: 'clases-grabadas', component: ClasesGrabadasComponent },
             { path: 'crear-tareas-d', component: CrearTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
-            { path: 'editar-entrega-a', component: EditarEntregaComponent },
+            { path: 'editar-entrega-a/:idtarea', component: EditarEntregaComponent },
             { path: 'revisar-tareas-d/:e_idtareas/:e_boleta', component: RevisarTareasDComponent },
             { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
             { path: 'listado-entregas-tareas/:idtarea', component: ListadoEntregasTareasComponent },

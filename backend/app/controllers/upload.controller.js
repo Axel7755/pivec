@@ -189,10 +189,29 @@ const deleteFile = (req, res) => {
   });
 };
 
+// Controlador para eliminar archivos
+const deleteFileEntrega = (req, res) => {
+  const { idgrupos, g_idmaterias, idtarea, boletaAl, filename } = req.params;
+  const filePath = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea,'entregas', boletaAl, filename);
+
+  console.log('Intentando eliminar archivo:', filePath);
+
+  fs.unlink(filePath, err => {
+    if (err) {
+      console.error('Error al eliminar archivo:', err);
+      return res.status(500).json({ message: 'Error al eliminar archivo', error: err });
+    }
+
+    console.log('Archivo eliminado:', filename);
+    res.json({ message: 'Archivo eliminado exitosamente' });
+  });
+};
+
 module.exports = {
   uploadT,
   uploadFile,
   getFiles,
   deleteFile,
-  getFilesEntregas
+  getFilesEntregas,
+  deleteFileEntrega
 };

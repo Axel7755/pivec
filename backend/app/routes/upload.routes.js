@@ -17,4 +17,7 @@ router.get('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boleta', uploadControlle
 // Ruta para eliminar archivos
 router.delete('/tareas/:g_idmaterias/:idgrupos/:idtarea/:filename', uploadController.deleteFile);
 
+// Ruta para eliminar entregas
+router.delete('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boletaAl/:filename', uploadController.deleteFileEntrega);
+
 module.exports = router;

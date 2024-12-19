@@ -62,4 +62,8 @@ mat-sidenav-content {
   .adjusted-width {
     margin-left: 88px; /* Margen que simule el colapso */
   }
+
+  .pageTitle{
+    display: flex;
+  }
   

@@ -11,6 +11,8 @@ import { AlumnosService } from '../servicios/alumnos.service';
 import { catchError, of, forkJoin, tap } from 'rxjs';
 import { TareasService } from '../servicios/tareas.service';
 import { DocentesService } from '../servicios/docentes.service';
+import { ComentariosService } from '../servicios/comentarios.service';
+import { environment } from '../../environments/environments';
 
 @Component({
   selector: 'app-revisar-tareas-d',
@@ -31,8 +33,10 @@ export class RevisarTareasDComponent implements OnInit {
   g_idmaterias: string | null = null;
   idgrupos: string | null = null;
   tarea: any;
-  idDocente: string = "";
+  idDocente: string | null = null;
   archivosSubidos: File[] = [];
+
+  BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
 
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
@@ -54,7 +58,8 @@ export class RevisarTareasDComponent implements OnInit {
     private authService: AuthService,
     private googleDriveService: GoogleDriveService,
     private entregasService: EntregasService,
-    private tareasService: TareasService
+    private tareasService: TareasService,
+    private comentariosService: ComentariosService
   ) {
 
   }
@@ -64,7 +69,7 @@ export class RevisarTareasDComponent implements OnInit {
       this.idtarea = params['e_idtareas'];
       this.boleta = params['e_boleta'];
 
-      this.authService.getUserId;
+      this.idDocente = this.authService.getUserId();
 
       this.docentesService.obtenerDocente(this.idDocente).pipe(
         catchError(error => {
@@ -75,6 +80,7 @@ export class RevisarTareasDComponent implements OnInit {
       ).subscribe(docenteData => {
         if(docenteData){
           this.docente = `${docenteData.apellidoP_Do} ${docenteData.apellidoM_Do} ${docenteData.nombres_Do}`;
+          console.log('docente',this.docente)
         }
       })
       this.alumnosService.obtenerAlumno(this.boleta).pipe(
@@ -116,6 +122,36 @@ export class RevisarTareasDComponent implements OnInit {
             } else {
               console.log("sin archivos");
             }
+          });
+        }
+      })
+
+      this.comentariosService.getComentariosEntrega(this.idtarea!,this.boleta!).pipe(
+        catchError(error => {
+          console.error('Error al recuperar comentarios', error);
+          return of(null);
+        })
+      ).subscribe(cometariosData => {
+        if(cometariosData){
+          cometariosData.forEach((coment: any) => {
+            let emisor = 'docente';
+            let nombre = this.docente;
+            if(coment.doc_al == 1){
+              emisor = 'docente';
+              nombre = this.docente;
+            }else{
+              emisor = 'alumno';
+              nombre = this.alumno;
+            }
+
+            const nuevo = {
+              emisor: emisor,
+              texto: coment.Comentario,
+              nombre: nombre, // Cambia esto si es necesario
+              fecha: coment.c_fecha // Fecha actual
+            };
+
+            this.mensajes.push(nuevo);
           });
         }
       })
@@ -163,8 +199,26 @@ export class RevisarTareasDComponent implements OnInit {
         fecha: new Date().toLocaleString() // Fecha actual
       };
 
-      this.mensajes.push(nuevo); // Agregar el nuevo mensaje
-      this.nuevoMensaje = ''; // Limpiar el campo
+      const comentario = {
+        Comentario: this.nuevoMensaje,
+        doc_al: 1,
+        c_idtareas: this.idtarea,
+        c_boleta: this.boleta
+      }
+
+      this.comentariosService.createComentario(comentario).pipe(
+        catchError(error => {
+          console.error('Error al recuperar tarea', error);
+          alert('Error al recuperar tarea');
+          return of(null);
+        })
+      ).subscribe( comentarioData => {
+        if(comentarioData){
+          this.mensajes.push(nuevo); // Agregar el nuevo mensaje
+          this.nuevoMensaje = ''; // Limpiar el campo
+        }
+      }  
+      )
     }
   }
 
@@ -211,8 +265,7 @@ export class RevisarTareasDComponent implements OnInit {
   }
   uploadFile(file: any): void {
     const icon = this.iconSelector(file.type);
-    const fileURL = `/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/entregas/${this.boleta}/${file.name}`; 
-
+    const fileURL = `${this.BACKEND_BASE_URL}/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/entregas/${this.boleta}/${file.name}`; 
     const li = document.createElement('li');
     li.classList.add('list-section', 'in-prog');
     li.style.display = 'flex';

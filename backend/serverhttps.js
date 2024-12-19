@@ -142,7 +142,17 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/upload", UploadRouter);
 
 // Configurar express para servir archivos estáticos desde la carpeta 'uploads'
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'),{
+  fallthrough: false // Esto evita que pase al siguiente middleware si ocurre un error
+}));
+
+app.use('/uploads', (err, req, res, next) => {
+  console.error('Error al servir archivo estático:', err);
+  res.status(500).json({
+    message: 'Error al servir archivo estático',
+    error: err.message
+  });
+});
 
 // Ruta base
 app.get("/", (req, res) => {

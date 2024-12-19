@@ -16,7 +16,7 @@ body {
 
 h1,
 h2 {
-  color: #800020;
+  color: #6d1a42;
   /* Color guindo */
   text-align: center;
 }
@@ -52,7 +52,7 @@ textarea {
 }
 
 .btn {
-  background-color: #800020;
+  background-color: #6d1a42;
   /* Color guindo */
   color: #fff;
   border: none;
@@ -103,8 +103,8 @@ select {
   padding: 10px;
   font-size: 18px;
   color: #333;
-  background-color: #e9f4ff;
-  border: 1px solid #a4d1ff;
+  background-color: #6d1a4223;
+  border: 1px solid #6d1a42;
   border-radius: 5px;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -113,11 +113,11 @@ select {
 
 select:focus {
   border-color: #db1776ed;
-  box-shadow: 0 0 5px rgba(243, 0, 154, 0.5);
+  box-shadow: 0 0 5px #6d1a42;
 }
 
 select:hover {
-  background-color: #e9ecef;
+  background-color: #6d1a4223;
 }
 
 option {
