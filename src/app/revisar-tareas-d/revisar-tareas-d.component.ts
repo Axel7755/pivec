@@ -40,10 +40,7 @@ export class RevisarTareasDComponent implements OnInit {
 
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
-  mensajes = [
-    { emisor: 'docente', nombre: 'Docente', fecha: '2024-12-16T16:39:08.000Z', texto: 'Mensaje del docente.' },
-    { emisor: 'alumno', nombre: 'Alumno', fecha: '2024-12-16T16:39:09.000Z', texto: 'Mensaje del alumno.' },
-  ];
+  mensajes: any = [];
 
   nuevoMensaje = '';
   calificacion: number | null = null;
@@ -115,9 +112,9 @@ export class RevisarTareasDComponent implements OnInit {
               console.log('Archivos obtenidos:', archivosData.files);
               this.archivosSubidos = archivosData.files;
               this.archivosSubidos.forEach((file: any) => {
-                console.log('Archivo:', file); // Esto imprimirá cada archivo
-                console.log('Nombre del archivo:', file.name);
-                this.uploadFile(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
+                //console.log('Archivo:', file); // Esto imprimirá cada archivo
+                //console.log('Nombre del archivo:', file.name);
+                this.uploadFile(file); 
               });
             } else {
               console.log("sin archivos");
@@ -147,8 +144,8 @@ export class RevisarTareasDComponent implements OnInit {
             const nuevo = {
               emisor: emisor,
               texto: coment.Comentario,
-              nombre: nombre, // Cambia esto si es necesario
-              fecha: coment.c_fecha // Fecha actual
+              nombre: nombre, 
+              fecha: coment.c_fecha 
             };
 
             this.mensajes.push(nuevo);
@@ -177,7 +174,7 @@ export class RevisarTareasDComponent implements OnInit {
     })
   }
   // Ordena los mensajes de manera que los del docente aparezcan primero
-  getMensajesOrdenados() {
+  /*getMensajesOrdenados() {
     return this.mensajes.sort((a, b) => {
       if (a.emisor === 'docente' && b.emisor === 'alumno') {
         return -1; // El docente va primero
@@ -187,7 +184,7 @@ export class RevisarTareasDComponent implements OnInit {
       }
       return 0; // No cambia el orden si ambos son del mismo emisor
     });
-  }
+  }*/
 
   enviarMensaje() {
     if (this.nuevoMensaje.trim()) {
@@ -195,7 +192,7 @@ export class RevisarTareasDComponent implements OnInit {
       const nuevo = {
         emisor: 'docente',
         texto: this.nuevoMensaje,
-        nombre: 'Uriel Alejandro', // Cambia esto si es necesario
+        nombre: this.docente, // Cambia esto si es necesario
         fecha: new Date().toLocaleString() // Fecha actual
       };
 

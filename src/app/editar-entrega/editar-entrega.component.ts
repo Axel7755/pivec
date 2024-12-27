@@ -15,6 +15,8 @@ import { EntregasService } from '../servicios/entregas.service';
 import { GoogleDriveService } from '../servicios/google-drive.service';
 import { GoogleDriveFileService } from '../servicios/google-drive-file.service';
 import { environment } from '../../environments/environments';
+import { AlumnosService } from '../servicios/alumnos.service';
+import { ComentariosService } from '../servicios/comentarios.service';
 
 @Component({
   selector: 'app-editar-entrega',
@@ -27,9 +29,10 @@ import { environment } from '../../environments/environments';
 
 export class EditarEntregaComponent {
 
+  alumno: string = "";
   idgrupos: string | null = null;
   userId: string | null = null;
-  docente: string | null = "Uriel Alejandro";
+  docente: string | null = "";
   g_idmaterias: string | null = null;
   titulo: string = "";
   descrip: string = "";
@@ -38,6 +41,7 @@ export class EditarEntregaComponent {
   archivosSubidos2: File[] = [];
   fechaVencimiento: string = '';
   BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+  mensajes:any = [ ];
 
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
@@ -49,11 +53,13 @@ export class EditarEntregaComponent {
     private router: Router,
     private subirArchivosService: SubirArchivosService,
     private authService: AuthService,
+    private alumnosService: AlumnosService,
     private googleDriveService: GoogleDriveService,
     private googleDriveFileService: GoogleDriveFileService,
     private docentesService: DocentesService,
     private gruposService: GruposService,
-    private entregasService: EntregasService
+    private entregasService: EntregasService,
+    private comentariosService: ComentariosService
   ) {
 
   }
@@ -78,10 +84,7 @@ export class EditarEntregaComponent {
     });
   }
 
-  mensajes = [
-    { emisor: 'alumno', texto: 'Este es un mensaje del alumno.', nombre: 'Alan Ricardo', fecha: new Date().toLocaleString() },
-    { emisor: 'docente', texto: 'Este es un mensaje del docente.', nombre: 'Uriel Alejandro', fecha: new Date().toLocaleString() }
-  ];
+  
 
   nuevoMensaje = '';
 
@@ -108,6 +111,7 @@ export class EditarEntregaComponent {
           ).subscribe(docenteData => {
             if (docenteData) {
               this.docente = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
+              console.log('docente obtencion',this.docente)
             }
           });
         }
@@ -175,6 +179,49 @@ export class EditarEntregaComponent {
             console.log("sin archivos");
           }
         });
+
+        this.alumnosService.obtenerAlumno(this.userId!).pipe(
+          catchError(error => {
+            console.error('Error al recuperar alumno', error);
+            alert('Error al recuperar alumno');
+            return of(null);
+          })
+        ).subscribe(alumnoData => {
+          if (alumnoData) {
+            this.alumno = `${alumnoData.apellidoP_Al} ${alumnoData.apellidoM_Al} ${alumnoData.nombres_Al}`;
+          }
+        })
+
+        this.comentariosService.getComentariosEntrega(this.idtarea!,this.userId!).pipe(
+          catchError(error => {
+            console.error('Error al recuperar comentarios', error);
+            return of(null);
+          })
+        ).subscribe(cometariosData => {
+          if(cometariosData){
+            cometariosData.forEach((coment: any) => {
+              let emisor = 'docente';
+              let nombre = this.alumno;
+              if(coment.doc_al == 1){
+                emisor = 'docente';
+                nombre = this.docente!;
+                console.log('docente del comentario',this.docente)
+              }else{
+                emisor = 'alumno';
+                nombre = this.alumno;
+              }
+  
+              const nuevo = {
+                emisor: emisor,
+                texto: coment.Comentario,
+                nombre: nombre, 
+                fecha: coment.c_fecha 
+              };
+  
+              this.mensajes.push(nuevo);
+            });
+          }
+        })
       }
     });
   }
@@ -185,12 +232,30 @@ export class EditarEntregaComponent {
       const nuevo = {
         emisor: 'alumno',
         texto: this.nuevoMensaje,
-        nombre: 'Alan Ricardo', // Cambia esto si es necesario
+        nombre: this.alumno, // Cambia esto si es necesario
         fecha: new Date().toLocaleString() // Fecha actual
       };
 
-      this.mensajes.push(nuevo); // Agregar el nuevo mensaje
-      this.nuevoMensaje = ''; // Limpiar el campo
+      const comentario = {
+        Comentario: this.nuevoMensaje,
+        doc_al: 0,
+        c_idtareas: this.idtarea,
+        c_boleta: this.userId
+      }
+
+      this.comentariosService.createComentario(comentario).pipe(
+        catchError(error => {
+          console.error('Error al recuperar tarea', error);
+          alert('Error al recuperar tarea');
+          return of(null);
+        })
+      ).subscribe( comentarioData => {
+        if(comentarioData){
+          this.mensajes.push(nuevo); // Agregar el nuevo mensaje
+          this.nuevoMensaje = ''; // Limpiar el campo
+        }
+      }  
+      )
     }
   }
 
@@ -236,7 +301,7 @@ export class EditarEntregaComponent {
   }
 
 
-  uploadFile2(file: File): void {
+  uploadFile2(file: any): void {
     const icon = this.iconSelector(file.type);
 
     const li = document.createElement('li');
@@ -248,7 +313,42 @@ export class EditarEntregaComponent {
     li.style.borderRadius = '8px';
     li.style.transitionDuration = '0.3s';
 
-    li.innerHTML = `
+    if (file.path) {
+      const fileURL = `${this.BACKEND_BASE_URL}/uploads/tareasF/${this.g_idmaterias}/${this.idgrupos}/${this.idtarea}/entregas/${this.userId}/${file.name}`;
+
+      li.innerHTML = `
+    <div class="col" style="flex: .15; text-align: center;">
+      <img src="${icon}" alt="file-icon" width="40" height="50"> <!-- Tamaño fijo -->
+    </div>
+    <div class="col" style="flex: .78; text-align: left; font-size: 0.9rem; color: #3e4046; padding: 8px 10px;">
+      <div class="file-name" style="font-size: 15px; color: blue; font-weight: bold; cursor: pointer;">${file.name}</div>
+      <div class="file-size" style="margin-top: 5px; font-size: 0.75rem; color: #707EA0;">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+    </div>
+
+    <div class="col" style="flex: .1;">
+      <svg xmlns="http://www.w3.org/2000/svg" class="cross" height="20" width="20" style="fill: #8694d2; background-color: #dee6fd; position: relative; left: 50%; top: 40%; transform: translate(-50%, -50%); border-radius: 50%;">
+        <path d="m5.979 14.917-.854-.896 4-4.021-4-4.062.854-.896 4.042 4.062 4-4.062.854.896-4 4.062 4 4.021-.854.896-4-4.063Z"/>
+      </svg>
+    </div>
+    `;
+
+      li.onclick = () => {
+        if (
+          file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          file.type === 'application/msword' ||
+          file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+          file.type === 'application/vnd.ms-excel' ||
+          file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+          file.type === 'application/vnd.ms-powerpoint'
+        ) {
+          this.googleDriveService.signInAndUpload(fileURL, file.type);
+        } else {
+          window.open(fileURL, '_blank');
+        }
+      };
+
+    } else {
+      li.innerHTML = `
   <div class="col" style="flex: .15; text-align: center;">
     <img src="${icon}" alt="file-icon" width="40" height="50"> <!-- Tamaño fijo -->
   </div>
@@ -273,39 +373,51 @@ export class EditarEntregaComponent {
     <svg xmlns="http://www.w3.org/2000/svg" class="cross" height="20" width="20" style="fill: #8694d2; background-color: #dee6fd; position: relative; left: 50%; top: 40%; transform: translate(-50%, -50%); border-radius: 50%;">
       <path d="m5.979 14.917-.854-.896 4-4.021-4-4.062.854-.896 4.042 4.062 4-4.062.854.896-4 4.062 4 4.021-.854.896-4-4.063Z"/>
     </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" class="tick" height="20" width="20" style="fill: #50a156; background-color: transparent; position: relative; left: 50%; top: 40%; transform: translate(-50%, -50%); border-radius: 50%;">
-      <path d="m8.229 14.438-3.896-3.917 1.438-1.438 2.458 2.459 6-6L15.667 7Z"/>
-    </svg>
   </div>
   `;
+      const progressBar = li.querySelector('.progress-bar') as HTMLElement;
+      const progressText = li.querySelector('.progress-text') as HTMLElement;
 
-    this.listContainer2.nativeElement.prepend(li);
+      // Simular el progreso de carga (cambiar esto si tienes una lógica de progreso real)
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress < 100) {
+          progress += 10; // Aumenta de 10 en 10
+          progressBar.style.width = `${progress}%`;
+          progressText.innerText = `${progress}%`;
+        } else {
+          clearInterval(interval);
+          progressBar.style.width = '100%';
+          progressText.innerText = '100%';
+          li.classList.remove('in-prog');
+        }
+      }, 250); // Aumentar el progreso cada 300 ms
 
+      li.onclick = () => {
+        if (
+          file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          file.type === 'application/msword' ||
+          file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+          file.type === 'application/vnd.ms-excel' ||
+          file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+          file.type === 'application/vnd.ms-powerpoint'
+        ) {
+          this.googleDriveFileService.signIn(() => {
+            this.googleDriveFileService.uploadAndOpenDocument(file);
+          });
+        } else {
+          window.open(URL.createObjectURL(file), '_blank');
+        }
+      };
+    }
     const crossIcon = li.querySelector('.cross') as HTMLElement;
-    const progressBar = li.querySelector('.progress-bar') as HTMLElement;
-    const progressText = li.querySelector('.progress-text') as HTMLElement;
-
-    // Simular el progreso de carga (cambiar esto si tienes una lógica de progreso real)
-    let progress = 0;
-    const interval = setInterval(() => {
-      if (progress < 100) {
-        progress += 10; // Aumenta de 10 en 10
-        progressBar.style.width = `${progress}%`;
-        progressText.innerText = `${progress}%`;
-      } else {
-        clearInterval(interval);
-        progressBar.style.width = '100%';
-        progressText.innerText = '100%';
-        li.classList.remove('in-prog');
-      }
-    }, 250); // Aumentar el progreso cada 300 ms
-
     if (crossIcon) {
       crossIcon.onclick = () => {
         li.remove();
         this.archivosSubidos2 = this.archivosSubidos2.filter(f => f.name !== file.name);
       };
     }
+    this.listContainer2.nativeElement.prepend(li);
   }
 
   iconSelector(fileType: string): string {
@@ -349,7 +461,7 @@ export class EditarEntregaComponent {
       ).toPromise();
 
       if (response) {
-        
+
         const archivosActuales = await this.subirArchivosService.getFilesEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!).pipe(
           catchError(error => {
             console.error('Error al obtener archivos actuales', error);
@@ -415,7 +527,7 @@ export class EditarEntregaComponent {
           }
         }
 
-        //this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'tareas-a']);
+        this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'tareas-a']);
       }
     } catch (error) {
       console.error('Error al guardar entrega', error);
