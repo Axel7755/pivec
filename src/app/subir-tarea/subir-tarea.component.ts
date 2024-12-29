@@ -40,6 +40,7 @@ export class SubirTareaComponent implements OnInit{
   archivosSubidos2: File[] = [];
   fechaVencimiento: string = '';
   BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+  abilitar = true;
   
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
@@ -134,6 +135,10 @@ export class SubirTareaComponent implements OnInit{
               this.titulo = tareaData.titulo_T;
               this.descrip = tareaData.descripción_T;
               this.fechaVencimiento = new Date(tareaData.fecha_Entrega).toISOString().slice(0, 16);
+
+              if(new Date(tareaData.fecha_Entrega) > new Date()){
+                this.abilitar = false;                
+              }
 
               this.subirArchivosService.getFiles(this.idgrupos!, this.g_idmaterias!, this.idtarea!)
                 .pipe(

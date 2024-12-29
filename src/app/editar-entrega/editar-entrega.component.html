@@ -1,13 +1,14 @@
 <div class="contenedor-tarea">
     <div class="encabezado-materia">
         <h1>{{ docente }}</h1>
-        <button class="entregar-button acciones" (click)="guardarEntrega()" mat-raised-button color="primary">
+        <button class="entregar-button acciones" [disabled]="abilitar" (click)="guardarEntrega()" mat-raised-button color="primary">
             Guardar</button>
 
     </div>
     <div class="contenido-principal">
         <div class="informacion-materia">
-            <p class="vence">{{ fechaVencimiento | date:'dd-MM-yyyy HH:mm' }}</p>
+            <p class="vence"> Vence: {{ fechaVencimiento | date:'dd-MM-yyyy HH:mm' }}</p>
+            <p class="entregada"> Entregado: {{ entrega.e_fecha | date:'dd-MM-yyyy HH:mm' }}</p>
         </div>
 
         <div class="img-materia">
@@ -22,12 +23,18 @@
 
         <div class="desc-tarea">
             <strong>Descripción de la tarea:</strong> {{ descrip }}
+            
+        </div>
+
+        <div class="nombre-tarea">
+            <strong>Calificación:</strong> {{ titulo }}
             <div class="buton-download">
-                <a href="./assets/download/materia1.pdf" download class="download-icon">
+                <a  download class="download-icon">
                     <i class="fas fa-download"></i>
                 </a>
             </div>
         </div>
+
 
     </div>
     <div class="list-section">
@@ -48,7 +55,7 @@
         </div>
     </div>
     <div class="subir-documentos">
-        <button mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button
+        <button [disabled]="abilitar" mat-button (click)="openDialog()" for="documento" class="subir-button" mat-raised-button
             color="accent">Subir Documentos</button>
         <input type="file" id="documento" name="documento" multiple style="display: none;">
     </div>

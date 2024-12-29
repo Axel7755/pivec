@@ -34,7 +34,7 @@ export class EditarTareasDComponent implements OnInit {
   titulo: string = "";
   descrip: string = "";
   archivosSubidos: File[] = [];
-    BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+  BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
 
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 

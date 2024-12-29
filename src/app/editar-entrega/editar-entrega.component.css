@@ -134,6 +134,14 @@
     font-weight: bold;
 }
 
+.informacion-materia .entregada {
+    margin: 30px;
+    color: rgb(6, 116, 2);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 25px;
+    font-weight: bold;
+}
+
 .img-materia {
     margin-top: 0;
     width: 100%;

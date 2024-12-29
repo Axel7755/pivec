@@ -9,7 +9,7 @@ import { TareasService } from '../servicios/tareas.service';
 import { SubirArchivosService } from '../subir-archivos/subir-archivos.service';
 import { AuthService } from '../servicios/auth.service';
 import { DocentesService } from '../servicios/docentes.service';
-import { catchError, of, forkJoin, tap } from 'rxjs';
+import { catchError, of, forkJoin, firstValueFrom } from 'rxjs';
 import { GruposService } from '../servicios/grupos.service';
 import { EntregasService } from '../servicios/entregas.service';
 import { GoogleDriveService } from '../servicios/google-drive.service';
@@ -41,6 +41,10 @@ export class EditarEntregaComponent {
   archivosSubidos2: File[] = [];
   fechaVencimiento: string = '';
   BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+
+  entrega: any;
+
+  abilitar = true;
   mensajes:any = [ ];
 
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
@@ -136,10 +140,14 @@ export class EditarEntregaComponent {
               this.titulo = tareaData.titulo_T;
               this.descrip = tareaData.descripción_T;
               this.fechaVencimiento = new Date(tareaData.fecha_Entrega).toISOString().slice(0, 16);
+              if(new Date(tareaData.fecha_Entrega) > new Date()){
+                this.abilitar = false;                
+              }
             } else {
               console.error('tarea no existe');
             }
           });
+          
 
         this.subirArchivosService.getFiles(this.idgrupos!, this.g_idmaterias!, this.idtarea!)
           .pipe(
@@ -173,7 +181,7 @@ export class EditarEntregaComponent {
             this.archivosSubidos2.forEach((file: any) => {
               console.log('Archivo:', file); // Esto imprimirá cada archivo
               console.log('Nombre del archivo:', file.name);
-              this.uploadFile2(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
+              this.uploadFile2(file); 
             });
           } else {
             console.log("sin archivos");
@@ -189,6 +197,18 @@ export class EditarEntregaComponent {
         ).subscribe(alumnoData => {
           if (alumnoData) {
             this.alumno = `${alumnoData.apellidoP_Al} ${alumnoData.apellidoM_Al} ${alumnoData.nombres_Al}`;
+          }
+        })
+
+        this.entregasService.obtenerEntregasByTareaAlumno(this.idtarea!, this.userId!).pipe(
+          catchError(error => {
+            console.error('Error al recuperar entrega', error);
+            alert('Error al recuperar entrega');
+            return of(null);
+          })
+        ).subscribe(entregaData => {
+          if (entregaData) {
+            this.entrega = entregaData;
           }
         })
 
@@ -458,7 +478,7 @@ export class EditarEntregaComponent {
           console.error('Error al guardar entrega', error);
           return of(null);
         })
-      ).toPromise();
+      )
 
       if (response) {
 
@@ -475,7 +495,7 @@ export class EditarEntregaComponent {
 
         if (archivosParaEliminar.length > 0) {
           await Promise.all(archivosParaEliminar.map(async (archivo: any) => {
-            await this.subirArchivosService.deleteFileEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!, archivo.name).toPromise();
+            await firstValueFrom(this.subirArchivosService.deleteFileEntrega(this.idgrupos!, this.g_idmaterias!, this.idtarea!, this.userId!, archivo.name));
             console.log(`Archivo eliminado del backend: ${archivo.name}`);
           }));
         }
@@ -512,7 +532,7 @@ export class EditarEntregaComponent {
         }).filter(obs => obs !== null);
 
         if (uploadObservables.length > 0) {
-          const uploadResponses = await forkJoin(uploadObservables).toPromise();
+          const uploadResponses = await firstValueFrom(forkJoin(uploadObservables));
 
           if (uploadResponses) {
             uploadResponses.forEach((response: any) => {

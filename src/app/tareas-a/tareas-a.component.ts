@@ -117,12 +117,13 @@ export class TareasAComponent implements OnInit {
   Entregar(tarea: any) {
     //console.log("Navegando a subir tarea con tarea:", tarea);
     switch (this.estado){
-      case 0:
-        this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'subir-tarea', tarea.idtareas]);
-        break;
+      
       case 1:
-      case 2:
         this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'editar-entrega-a', tarea.idtareas]);
+        break;
+      case 0:
+      case 2:
+        this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'subir-tarea', tarea.idtareas]);
         break; 
     }
     
