@@ -169,7 +169,18 @@ export class TareasComponent implements OnInit {
   Entregar(tarea: any): void {
     if (tarea && tarea.idtareas) {
       console.log("Navegando a subir tarea con tarea:", tarea);
-      this.router.navigate(['/menu-materia', tarea.ta_idgrupos, tarea.ta_idmaterias, 'subir-tarea', tarea.idtareas]);
+
+      //console.log("Navegando a subir tarea con tarea:", tarea);
+    switch (this.estado){
+      
+      case 1:
+        this.router.navigate(['/menu-materia', tarea.ta_idgrupos, tarea.ta_idmaterias, 'editar-entrega-a', tarea.idtareas]);
+        break;
+      case 0:
+      case 2:
+        this.router.navigate(['/menu-materia', tarea.ta_idgrupos, tarea.ta_idmaterias, 'subir-tarea', tarea.idtareas]);
+        break; 
+    }
     } else {
       console.error("Error: Tarea no válida");
     }

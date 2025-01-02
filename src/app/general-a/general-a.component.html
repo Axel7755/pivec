@@ -1,29 +1,33 @@
-<div class="contenedor-tarea">
-    <div class="img-materia">
-        <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
-    </div>
-    <div class="informacion-materia">
-        <h1>Uriel Alejandro</h1>
-        <p>El desarrollo del liderazgo personal es crucial para el crecimiento individual y profesional.
-            ambiciosas, superando obstáculos con mayor claridad y dirección.</p>
-        <p class="publico">11/08/2024 - 13:30pm</p>
-        <a class="download-icon" (click)="onDownloadClick($event)">
-            <i class="fas fa-download"></i>
-        </a>
+<div class="entregas-container" *ngIf="avisos.length > 0; else noAvisos">
+    <div *ngFor="let aviso of avisos" class="contenedor-tarea">
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+        </div>
+        <div class="informacion-materia">
+            <h1>{{ docente }}</h1>
+            <p>{{ aviso.aviso }}</p>
+            <p class="publico">Publicado: {{ aviso.a_fecha | date:'dd-MM-yyyy HH:mm' }}</p>
+            <a class="download-icon" (click)="onDownloadClick(aviso.idAviso)">
+                <i class="fas fa-download"></i>
+            </a>
 
-        <div class="list-section" [ngStyle]="{'display': showFileList ? 'block' : 'none'}">
-            <div class="list-title">Archivos Subidos</div>
-            <div class="list">
-                <ul>
-                    <li *ngFor="let file of uploadedFiles">
-                        <div class="col tamaño"><i [class]="getFileIcon(file.name)"></i></div>
-                        <div class="col file-name">{{file.name}} - <span>{{file.size}}</span></div>
-                    </li>
-                </ul>
+            <div class="list-section" [ngStyle]="{'display': showFileList[aviso.idAviso] ? 'block' : 'none'}">
+                <div class="list-title">Archivos Subidos</div>
+                <div class="list">
+                    <ul>
+                        <li *ngFor="let file of aviso.archivos" (click)="abrirArchivo(file, aviso.idAviso)" >
+                            <div class="col tamaño"><i [class]="getFileIcon(file.name)"></i></div>
+                            <div class="col file-name">{{file.name}} - <span>{{file.size}}</span></div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<ng-template #noAvisos>
+    <p>Aun no hay entregas de esta tarea.</p>
+</ng-template>
 
 <!--------------- Campo para enviar un nuevo mensaje -------------->
 <div class="contenedor">
@@ -36,13 +40,12 @@
             </ul>
         </div>
     </div>
-    
+
     <!-- Enviar comentario y documento -->
     <div class="nuevo-comentario">
         <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un comentario..." class="input-comentario">
-        <div class="comentar">
-            <i (click)="openDialog()" class="uis uis-paperclip"></i>
-            <button class="btn-comentar" mat-raised-button color="primary">Comentar</button>
-        </div>
+
+        <i (click)="openDialog()" class="uis uis-paperclip"></i>
+        <button class="btn-comentar" mat-raised-button color="primary" (click)="comentar()">Comentar</button>
     </div>
 </div>

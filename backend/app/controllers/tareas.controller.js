@@ -66,7 +66,10 @@ exports.findAllPGrupo = (req, res) => {
       fecha_Entrega: {
         [Op.gt]: now // Fecha de entrega mayor a la fecha y hora actual
       }
-    }
+    },
+    order: [
+      ['fecha_Entrega', 'DESC'] // Ordenar por fecha_Entrega en orden descendente
+    ]
   })
     .then(data => {
       res.send(data);
@@ -78,7 +81,7 @@ exports.findAllPGrupo = (req, res) => {
     });
 };
 
-// Obtener todas las tareas de un grupo con fecha_Entrega mayor a la fecha y hora actual
+// Obtener todas las tareas de un grupo con fecha_Entrega menor a la fecha y hora actual
 exports.findAllVGrupo = (req, res) => {
   const { ta_idmaterias, ta_idgrupos } = req.params;
   const now = new Date();
@@ -88,9 +91,12 @@ exports.findAllVGrupo = (req, res) => {
       ta_idmaterias,
       ta_idgrupos,
       fecha_Entrega: {
-        [Op.lt]: now // Fecha de entrega mayor a la fecha y hora actual
+        [Op.lt]: now // Fecha de entrega menor a la fecha y hora actual
       }
-    }
+    },
+    order: [
+      ['fecha_Entrega', 'DESC'] // Ordenar por fecha_Entrega en orden descendente
+    ]
   })
     .then(data => {
       res.send(data);
@@ -101,6 +107,7 @@ exports.findAllVGrupo = (req, res) => {
       });
     });
 };
+
 
 // Obtener una tarea por id
 exports.findOne = (req, res) => {

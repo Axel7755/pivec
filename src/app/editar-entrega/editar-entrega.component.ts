@@ -29,6 +29,10 @@ import { ComentariosService } from '../servicios/comentarios.service';
 
 export class EditarEntregaComponent {
 
+
+  @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
+
+  @ViewChild('listContainer2') listContainer2!: ElementRef<HTMLUListElement>;
   alumno: string = "";
   idgrupos: string | null = null;
   userId: string | null = null;
@@ -46,10 +50,6 @@ export class EditarEntregaComponent {
 
   abilitar = true;
   mensajes:any = [ ];
-
-  @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
-
-  @ViewChild('listContainer2') listContainer2!: ElementRef<HTMLUListElement>;
   readonly dialog = inject(MatDialog);
 
   constructor(private route: ActivatedRoute,
@@ -159,11 +159,7 @@ export class EditarEntregaComponent {
             if (archivosData && Array.isArray(archivosData.files)) {
               console.log('Archivos obtenidos:', archivosData.files);
               this.archivosSubidos = archivosData.files;
-              this.archivosSubidos.forEach((file: any) => {
-                console.log('Archivo:', file); // Esto imprimirá cada archivo
-                console.log('Nombre del archivo:', file.name);
-                this.uploadFile(file); // Aquí puede estar el problema si no necesitas volver a cargar estos archivos
-              });
+              
             } else {
               console.log("sin archivos");
             }
@@ -178,11 +174,6 @@ export class EditarEntregaComponent {
           if (archivosData && Array.isArray(archivosData.files)) {
             console.log('Archivos obtenidos:', archivosData.files);
             this.archivosSubidos2 = archivosData.files;
-            this.archivosSubidos2.forEach((file: any) => {
-              console.log('Archivo:', file); // Esto imprimirá cada archivo
-              console.log('Nombre del archivo:', file.name);
-              this.uploadFile2(file); 
-            });
           } else {
             console.log("sin archivos");
           }
@@ -243,6 +234,17 @@ export class EditarEntregaComponent {
           }
         })
       }
+    });
+  }
+
+  ngAfterViewInit() { 
+    // Lógica que requiere acceso a ViewChilds (listContainer) puede ir aquí. 
+    this.archivosSubidos.forEach(file => { 
+      this.uploadFile(file); 
+    }); 
+
+    this.archivosSubidos2.forEach((file: any) => {
+      this.uploadFile2(file); 
     });
   }
 
@@ -553,6 +555,17 @@ export class EditarEntregaComponent {
       console.error('Error al guardar entrega', error);
     }
   }
-
+  eliminarEntrega(){
+    this.entregasService.deleteEntrega(this.idtarea!, this.userId!).pipe(
+      catchError(error => {
+        console.error('Error al eliminar entrega', error);
+        return of(null);
+      })
+    ).subscribe(response => {
+      if(response){
+        this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'tareas-a']);
+      }
+    })
+  }
 
 }

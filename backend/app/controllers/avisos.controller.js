@@ -1,11 +1,11 @@
 const db = require("../models");
-const Avisos = db.avisos;
+const Avisos = db.Avisos;
 
 // Crear un nuevo aviso
 exports.create = (req, res) => {
     const aviso = {
         aviso: req.body.aviso,
-        a_fecha: req.body.a_fecha,
+        a_fecha: new Date(),
         av_idmaterias: req.body.av_idmaterias,
         av_idgrupos: req.body.av_idgrupos
     };
@@ -19,6 +19,29 @@ exports.create = (req, res) => {
                 message: err.message || "Ocurrió un error al crear el aviso."
             });
         });
+};
+
+exports.findAllAvGrupo = (req, res) => {
+  const { av_idmaterias, av_idgrupos } = req.params;
+  const now = new Date();
+
+  Avisos.findAll({
+    where: {
+        av_idmaterias,
+        av_idgrupos,
+    },
+    order: [
+      ['a_fecha', 'ASC'] // Ordenar por fecha_Entrega en orden descendente
+    ]
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Ocurrió un error al recuperar los avisos del grupo."
+      });
+    });
 };
 
 // Obtener todos los avisos

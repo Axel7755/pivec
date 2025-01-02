@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleTranslateService {
-  private apiKey = 'AIzaSyAtvOTytzg4NrQmipbhzxwdgcAd2ZA8ZcE';
+  private apiKey = environment.apiKey;
 
   constructor(private http: HttpClient) {}
 

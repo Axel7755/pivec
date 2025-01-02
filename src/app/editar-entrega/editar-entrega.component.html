@@ -1,6 +1,8 @@
 <div class="contenedor-tarea">
     <div class="encabezado-materia">
         <h1>{{ docente }}</h1>
+        <button class="eliminar-button acciones" (click)="eliminarEntrega()" mat-raised-button color="warn">
+            Eliminar</button>
         <button class="entregar-button acciones" [disabled]="abilitar" (click)="guardarEntrega()" mat-raised-button color="primary">
             Guardar</button>
 
@@ -27,7 +29,7 @@
         </div>
 
         <div class="nombre-tarea">
-            <strong>Calificación:</strong> {{ titulo }}
+            <strong>Calificación:</strong> '{{ entrega["calificación"] }}'
             <div class="buton-download">
                 <a  download class="download-icon">
                     <i class="fas fa-download"></i>

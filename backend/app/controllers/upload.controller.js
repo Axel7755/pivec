@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const mime = require('mime-types');
+let tareasEnt = true;
 
 // Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
@@ -10,10 +11,14 @@ const storage = multer.diskStorage({
     let uploadDir;
 
     // Verifica si es una entrega (si la boleta está en los parámetros)
-    if (boletaAl) {
-      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, 'entregas', boletaAl);
+    if (tareasEnt==true) {
+      if (boletaAl) {
+        uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, 'entregas', boletaAl);
+      } else {
+        uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
+      }
     } else {
-      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
+      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'avisosF', g_idmaterias, idgrupos, idtarea);
     }
 
     console.log('Destino de almacenamiento:', uploadDir);
@@ -45,6 +50,12 @@ const storage = multer.diskStorage({
     cb(null, newFileName);
   }
 });
+
+function destinoAvisos(req, res, next) {
+  tareasEnt = false;
+  next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
+}
+
 
 const uploadT = multer({
   storage: storage,
@@ -170,6 +181,44 @@ const getFilesEntregas = (req, res) => {
   });
 };
 
+const getFilesAvisos = (req, res) => {
+  const { idgrupos, g_idmaterias, idtarea, boleta } = req.params;
+  const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'avisosF', g_idmaterias, idgrupos, idtarea);
+
+  console.log('Leyendo archivos del directorio:', uploadDir);
+
+  // Verificar si el directorio existe antes de intentar leerlo
+  if (!fs.existsSync(uploadDir)) {
+    console.error('Directorio no encontrado:', uploadDir);
+    return res.status(404).json({ message: 'Directorio no encontrado' });
+  }
+
+  fs.readdir(uploadDir, (err, files) => {
+    if (err) {
+      console.error('Error al leer los archivos:', err);
+      return res.status(500).json({ message: 'Error al leer los archivos', error: err });
+    }
+
+    const fileInfo = files
+      .filter(file => fs.statSync(path.join(uploadDir, file)).isFile()) // Filtra solo archivos
+      .map(file => {
+        const stats = fs.statSync(path.join(uploadDir, file));
+        return {
+          lastModified: stats.mtimeMs,
+          lastModifiedDate: stats.mtime,
+          name: file,
+          size: stats.size,
+          type: mime.lookup(file) || 'application/octet-stream',
+          webkitRelativePath: '',
+          originalName: file,
+          path: path.join(uploadDir, file)
+        };
+      });
+
+    console.log('Archivos encontrados:', fileInfo);
+    res.json({ files: fileInfo });
+  });
+};
 
 // Controlador para eliminar archivos
 const deleteFile = (req, res) => {
@@ -192,7 +241,7 @@ const deleteFile = (req, res) => {
 // Controlador para eliminar archivos
 const deleteFileEntrega = (req, res) => {
   const { idgrupos, g_idmaterias, idtarea, boletaAl, filename } = req.params;
-  const filePath = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea,'entregas', boletaAl, filename);
+  const filePath = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, 'entregas', boletaAl, filename);
 
   console.log('Intentando eliminar archivo:', filePath);
 
@@ -213,5 +262,7 @@ module.exports = {
   getFiles,
   deleteFile,
   getFilesEntregas,
-  deleteFileEntrega
+  deleteFileEntrega,
+  destinoAvisos,
+  getFilesAvisos
 };
