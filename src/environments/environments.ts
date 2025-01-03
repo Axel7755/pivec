@@ -8,5 +8,4 @@ export const environment = {
     //apiUrl: 'https://192.168.1.73'
     //apiUrl: 'https://187.230.248.179'
     //apiUrl: 'https://187.133.247.68'
-  };
-  
+};

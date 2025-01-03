@@ -26,6 +26,7 @@ import { TranslatorComponent } from './translator/translator.component';
 import { EditarEntregaComponent } from './editar-entrega/editar-entrega.component';
 import { ClasesGrabadasComponent } from './clases-grabadas/clases-grabadas.component';
 import { ChatBotAComponent } from './chat-bot-a/chat-bot-a.component';
+import { VerificarDatosGralComponent } from './verificar-datos-gral/verificar-datos-gral.component';
 
 export const routes: Routes = [
 
@@ -48,6 +49,7 @@ export const routes: Routes = [
             { path: 'videos-compartidos', component: VideosCompartidosComponent, canActivate: [AuthGuard] },
             { path: 'traductor', component: TranslatorComponent, canActivate: [AuthGuard] },
             { path: 'google-academico', component: GoogleAcademicoComponent },
+            { path: 'modificar-horario', component: VerificarDatosGralComponent },
             { path: '', redirectTo: 'materias', pathMatch: 'full' },
         ]
     },
