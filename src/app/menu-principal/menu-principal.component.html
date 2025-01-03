@@ -17,11 +17,9 @@
     <app-in-reu></app-in-reu>
     <router-outlet></router-outlet>
     <div *ngIf="isDocente; else alumno">
-      <p>{{isDocente}}</p>
       <app-chat-bot-d></app-chat-bot-d>
     </div>
     <ng-template #alumno>
-      <p>{{isDocente}}</p>
       <app-chat-bot-a></app-chat-bot-a>
     </ng-template>
   </mat-sidenav-content>

@@ -1,0 +1,75 @@
+<body>
+    <h1>Verificar Datos - Horario</h1>
+
+    <!-- Contenedor de los campos Boleta y Nombre -->
+    <!-- Contenedor para Boleta y Nombre -->
+    <div class="input-container">
+        <!-- Campo de Boleta -->
+        <div class="input-row">
+            <mat-form-field class="input-field">
+                <mat-label>Boleta/No.Trabajador</mat-label>
+                <input type="number" matInput placeholder="Boleta" [(ngModel)]="boleta">
+            </mat-form-field>
+        </div>
+
+        <!-- Campo de Nombre -->
+        <div class="input-row">
+            <mat-form-field class="input-field">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="ApellidoPaterno ApellidoMaterno Nombres" [(ngModel)]="nombre"
+                    style="text-transform: uppercase;">
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <!-- Tabla de Horario -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+        <!-- Materia Column -->
+        <ng-container matColumnDef="materia">
+            <th mat-header-cell *matHeaderCellDef class="header-cell-center">Materia</th>
+            <td mat-cell *matCellDef="let element" class="cell-center">
+                <mat-form-field>
+                    <textarea matInput placeholder="Materia" [(ngModel)]="element.materia"></textarea>
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <!-- Docente Column -->
+        <ng-container matColumnDef="docente">
+            <th mat-header-cell *matHeaderCellDef class="header-cell-center">Docente</th>
+            <td mat-cell *matCellDef="let element" class="cell-center">
+                <mat-form-field>
+                    <textarea matInput placeholder="Docente" [(ngModel)]="element.docente"></textarea>
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <!-- Dias Column -->
+        <ng-container *ngFor="let day of days" [matColumnDef]="day.key">
+            <th mat-header-cell *matHeaderCellDef class="header-cell-center">{{ day.label }}</th>
+            <td mat-cell *matCellDef="let element" class="cell-center">
+                <div class="hora-container">
+                    <div class="hora-group">
+                        <label>Entrada:</label>
+                        <input type="time" [(ngModel)]="element[day.key + 'Entrada']">
+                    </div>
+                    <div class="hora-group"> 
+                        <label>Salida:</label>
+                        <input type="time" [(ngModel)]="element[day.key + 'Salida']">
+                    </div>
+                </div>
+            </td> 
+        </ng-container>
+
+        <!-- Header Row -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Data Rows -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Botón Guardar -->
+    <div id="boton">
+        <button mat-raised-button class="boton">Guardar Horario</button>
+    </div>
+</body>

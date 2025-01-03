@@ -75,7 +75,7 @@ export class MenuPrincipalComponent implements OnInit {
     {
       icon: 'edit',
       name: 'Modificar horario',
-      route: ''
+      route: '/menu-principal/modificar-horario'
     },
   ];
 }

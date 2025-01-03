@@ -1,0 +1,145 @@
+.content {
+    padding: 24px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+input[type="time"]:focus {
+    outline-color: #6D1A42;
+    box-shadow: none;
+}
+
+mat-sidenav-container {
+    height: 100vh;
+    background-color: #6D1A42;
+}
+
+mat-sidenav {
+    width: 300px;
+    padding: 18px;
+    padding-top: 65px;
+    background-color: #6D1A42;
+}
+
+mat-sidenav-content {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    height: 93%;
+    background-color: #FFFFFF;
+}
+
+.demo-table {
+    width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid #6D1A42;
+    cursor: pointer;
+}
+
+/* Input de boleta y nombre */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* Espacio entre filas */
+    margin-bottom: 24px;
+    /* Espacio inferior para separar de la tabla */
+    border-radius: 5px;
+}
+
+.input-row {
+    display: flex;
+    justify-content: center;
+    /* Centra los inputs en la fila */
+    border-radius: 5px;
+}
+
+.input-field {
+    width: 100%;
+    max-width: 400px;
+    /* Ancho máximo de los inputs */
+    border-radius: 5px;
+}
+
+.input-field .mat-form-field-underline .mat-form-field-ripple {
+    background-color: #6D1A42;
+    /* Cambia el color de la línea activa */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+#boton {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+/* Configuración de botones */
+.bonton {
+    width: 35%;
+    height: 45px;
+    margin-bottom: 10px;
+    border-radius: 17px;
+    padding: 10px 20px;
+}
+
+#boton {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    /* Centrar el botón horizontalmente */
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+    /* Eliminar el borde */
+    background-color: #f0f0f0ca;
+    border-radius: 5px;
+}
+
+/* Organizar los campos de mi tabla */
+
+.header-cell-center {
+    text-align: center;
+}
+
+.cell-center {
+    text-align: center;
+}
+
+.cell-center input {
+    text-align: center;
+    width: 100%;
+    /* Ajusta el tamaño del input al 100% del contenedor */
+    box-sizing: border-box;
+    /* Asegura que el padding y border se incluyan en el ancho total */
+}
+
+/* Estilos para el formato de hora (entrada y salida) */
+.hora-container {
+    display: flex;
+    flex-direction: column;
+    /* Apilar los elementos verticalmente */
+    align-items: flex-start;
+}
+
+.hora-container label {
+    display: block;
+    /* Hacer que las etiquetas se muestren en una nueva línea */
+    margin-bottom: 5px;
+    /* Espacio debajo de la etiqueta */
+}
+
+.hora-container input {
+    /* Hacer que los inputs se muestren en una nueva línea */
+    display: block;
+}
