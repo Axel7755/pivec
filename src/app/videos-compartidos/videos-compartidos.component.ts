@@ -1,10 +1,19 @@
-import { Component, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChildren, QueryList, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadVideosComponent } from '../upload-videos/upload-videos.component';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { environment } from '../../environments/environments';
+import { forkJoin, of, mergeMap, catchError, Observable, tap } from 'rxjs';
+import { AuthService } from '../servicios/auth.service';
+import { GruposService } from '../servicios/grupos.service';
+import { GruposAlumnosService } from '../servicios/grupos-alumnos.service';
+import { MateriasService } from '../servicios/materias.service';
+import { DocentesService } from '../servicios/docentes.service';
+import { VideosService } from '../servicios/videos.service';
 
 @Component({
   selector: 'app-videos-compartidos',
@@ -14,38 +23,210 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./videos-compartidos.component.css'],
   host: { 'ngSkipHydration': '' }
 })
-export class VideosCompartidosComponent {
+export class VideosCompartidosComponent implements OnInit {
   truncatedContent = 'Aquí va el contenido recortado o el texto que desees mostrar';
   showCheckboxes = false;
   isButtonClicked = false; // Esta propiedad controlará si el botón ha sido presionado
+  googleScholarUrl: SafeResourceUrl = '';
+  BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
+
+  isDocente: boolean = false;
+  userId: string | null = null;
+  grupos: any[] = [];
+  docentes: any[] = [];
+  materias: any[] = [];
+  combinados: any[] = [];
 
   // Lista de tarjetas de video
-  videoCards = [
-    {
-      title: 'Liderazgo Personal',
-      subtitle: 'Luis Francisco',
-      isVideoVisible: false,
-      videoSrc: '../../assets/images/Cancion2.mp4', seleccionada: false
-    },
-    {
-      title: 'Programación',
-      subtitle: 'Alan Ricardo',
-      isVideoVisible: false,
-      videoSrc: '', seleccionada: false
-    },
+  videoCards: any = [
   ];
 
   @ViewChildren('videoPlayer') videoPlayers!: QueryList<ElementRef<HTMLVideoElement>>;
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
+    private gruposService: GruposService,
+    private grupoAlumnosService: GruposAlumnosService,
+    private materiasService: MateriasService,
+    private docentesService: DocentesService,
+    private videosService: VideosService,
+
+  ) { }
+
+  ngOnInit(): void {
+    this.isDocente = this.authService.getUserRole() === 'docente';
+    this.userId = this.authService.getUserId();
+    if (this.isDocente) {
+      console.log("docente")
+      this.gruposService.getGruposByDocente(this.userId!).pipe(
+        catchError(error => {
+          console.error('Error al recuperar grupos', error);
+          alert('Error al recuperar grupos');
+          return of([]);
+        })
+      )
+        .subscribe(gruposData => {
+          this.grupos = gruposData;
+          const materiasObservables = this.grupos.map(grupob =>
+            this.materiasService
+              .findMateriaById(grupob.g_idmaterias)
+              .pipe(
+                catchError(error => {
+                  console.error('Error al recuperar materias', error);
+                  alert('Error al recuperar materias');
+                  return of(null);
+                })
+              )
+          );
+          forkJoin(materiasObservables).subscribe(materiasData => {
+            this.materias = materiasData.filter(materia => materia !== null);
+            if (this.materias.length > 0) {
+              this.combinados = this.grupos.map(obj1 => {
+                const matchingObj2 = this.materias.find(
+                  obj2 => obj2.idmaterias === obj1.g_idmaterias
+                );
+                return matchingObj2
+                  ? { ...obj1, material: matchingObj2.material }
+                  : obj1;
+              });
+              this.getVideoRecords();
+              //console.log(this.combinados);
+            }
+          });
+        });
+    } else {
+      this.grupoAlumnosService.findGruposAlumno(this.userId!).pipe(
+        catchError(error => {
+          console.error('Error al recuperar grupos', error);
+          alert('Error al recuperar grupos');
+          return of([]);
+        }),
+        mergeMap(gruposAlumnData => {
+          if (gruposAlumnData.length === 0) {
+            return of([]); // No hay grupos, devolver un array vacío
+          }
+
+          // Obtener los detalles de cada grupo
+          return forkJoin(gruposAlumnData.map((grupoAl: any) => {
+            return this.gruposService.getGruposByID(grupoAl.ga_idmaterias, grupoAl.ga_idgrupos).pipe(
+              catchError(error => {
+                console.error('Error al recuperar grupos', error);
+                alert('Error al recuperar grupos');
+                return of(null); // Devolver null en caso de error
+              })
+            );
+          })) as Observable<any[]>; // Tipar correctamente el retorno de forkJoin
+        }),
+        mergeMap((gruposDataArray: any[]) => {
+          const gruposFiltrados = gruposDataArray.filter(grupoData => grupoData !== null);
+          this.grupos.push(...gruposFiltrados);
+          console.log(this.grupos);
+
+          if (this.grupos.length === 0) {
+            return of([]); // No hay grupos, devolver un array vacío
+          }
+
+          // Obtener los detalles de cada docente
+          return forkJoin(this.grupos.map(grupo => {
+            return this.docentesService.obtenerDocente(grupo.g_doc_noTrabajador).pipe(
+              catchError(error => {
+                console.error('Error al recuperar docente', error);
+                alert('Error al recuperar docente');
+                return of(null); // Devolver null en caso de error
+              })
+            );
+          })) as Observable<any[]>; // Tipar correctamente el retorno de forkJoin
+        })
+      ).subscribe((docenteDataArray: any[]) => {
+        const docentesFiltrados = docenteDataArray.filter(docenteData => docenteData !== null);
+        this.docentes.push(...docentesFiltrados);
+        console.log(this.docentes);
+
+        const materiasObservables = this.grupos.map(grupo =>
+          this.materiasService.findMateriaById(grupo.g_idmaterias).pipe(
+            catchError(error => {
+              console.error('Error al recuperar materias', error);
+              alert('Error al recuperar materias');
+              return of(null);
+            })
+          )
+        );
+
+        forkJoin(materiasObservables).subscribe(materiasData => {
+          this.materias = materiasData.filter(materia => materia !== null);
+
+          if (this.materias.length > 0) {
+            // Combinación final de grupos, materias y docentes
+            this.combinados = this.grupos.map(grupo => {
+              const matchingMateria = this.materias.find(materia => materia.idmaterias === grupo.g_idmaterias);
+              const matchingDocente = this.docentes.find(docente => docente.noTrabajador === grupo.g_doc_noTrabajador);
+
+              return {
+                ...grupo,
+                material: matchingMateria ? matchingMateria.material : null,
+                docente: matchingDocente
+                  ? `${matchingDocente.apellidoP_Do} ${matchingDocente.apellidoM_Do} ${matchingDocente.nombres_Do}`.trim()
+                  : null // Asegúrate de ajustar las propiedades según los datos de tu docente
+              };
+            });
+            this.getVideoRecords();
+            console.log("combinados",this.combinados);
+          }
+        });
+      });
+
+    }
+  }
+
+  getVideoRecords() {
+    const videoRecords: any = [];
+    const videoObservables = this.combinados.map(combinado => this.videosService.getVideosByMateria(combinado.g_idmaterias).pipe(
+      catchError(error => {
+        console.error('Error al recuperar materias', error);
+        //alert('Error al recuperar videos'); 
+        return of([]);
+      })));
+    forkJoin(videoObservables).subscribe(videosDataMaterias => {
+      videosDataMaterias.forEach((videosData, index) => {
+        if (videosData.length > 0) {
+          videosData.forEach((videoData:any) => {
+            if (videoData.dirección_V.includes("http")) {
+              this.videoCards.push({
+                title: videoData.titulo_V,
+                subtitle: this.combinados[index].material,
+                isVideoVisible: false,
+                videoSrc: videoData.dirección_V,
+                seleccionada: false,
+                isYouTube: true
+              });
+            } else {
+              const fileURL = `${this.BACKEND_BASE_URL}/uploads/videosF/${videoData.dirección_V}`;
+              this.videoCards.push({
+                title: videoData.titulo_V,
+                subtitle: this.combinados[index].material,
+                isVideoVisible: false,
+                videoSrc: fileURL,
+                seleccionada: false,
+                isYouTube: false
+              });
+            }
+            
+          });
+          //videoRecords.push({ materia: this.combinados[index].g_idmaterias, videos: videos });
+        }
+      });
+      console.log(videoRecords); // You can use the videoRecords array as needed 
+    });
+  }
 
   archivosSubidos: File[] = [];
 
   // Método para mostrar y reproducir el video
   playVideo(index: number) {
     // Detener y ocultar cualquier video visible
-    this.videoCards.forEach((card, i) => {
+    this.videoCards.forEach((card: any, i: any) => {
       card.isVideoVisible = false; // Ocultar todos los videos
       const videoPlayer = this.videoPlayers.get(i);
       if (videoPlayer) {
@@ -62,6 +243,18 @@ export class VideosCompartidosComponent {
     }
   }
 
+  getVideoIframe(url: string) {
+    var video, results;
+
+    if (url === null) {
+      return '';
+    }
+    results = url.match('[\\?&]v=([^&#]*)');
+    video = (results === null) ? url : results[1];
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);
+  }
+
   // Método para manejar la acción del botón de subir video
   openDialog() {
     const dialogRef = this.dialog.open(UploadVideosComponent);
@@ -69,11 +262,29 @@ export class VideosCompartidosComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // El resultado ahora incluirá tanto los archivos subidos como el título y la materia seleccionada
-        const { title, subject } = result;
+        const videoData = result;
 
-        this.archivosSubidos.forEach(file => {
-          this.uploadFile(file, title, subject);  // Ahora pasamos los nuevos datos al método de carga
-        });
+        console.log('video data', videoData);
+        if (videoData.dirección_V.includes("http")) {
+          this.videoCards.push({
+            title: videoData.titulo_V,
+            subtitle: videoData.materia_V,
+            isVideoVisible: false,
+            videoSrc: videoData.dirección_V,
+            seleccionada: false,
+            isYouTube: true
+          });
+        } else {
+          const fileURL = `${this.BACKEND_BASE_URL}/uploads/videosF/${videoData.dirección_V}`;
+          this.videoCards.push({
+            title: videoData.titulo_V,
+            subtitle: videoData.materia_V,
+            isVideoVisible: false,
+            videoSrc: fileURL,
+            seleccionada: false,
+            isYouTube: false
+          });
+        }
       }
     });
   }
@@ -188,11 +399,11 @@ export class VideosCompartidosComponent {
   }
 
   hayTareasSeleccionadas(): boolean {
-    return this.videoCards.some(video => video.seleccionada);
+    return this.videoCards.some((video: any) => video.seleccionada);
   }
 
   eliminarEntregas() {
-    this.videoCards = this.videoCards.filter(video => !video.seleccionada);
+    this.videoCards = this.videoCards.filter((video: any) => !video.seleccionada);
   }
 
 }

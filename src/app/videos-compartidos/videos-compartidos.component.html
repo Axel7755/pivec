@@ -16,7 +16,7 @@
     <!-- Botón para subir video (se oculta si hay videos seleccionados) -->
     <button mat-button class="upload-btn" mat-raised-button color="accent" (click)="openDialog()"
         *ngIf="!hayTareasSeleccionadas()">
-        <span class="texto-btn">Subir Documentos</span>
+        <span class="texto-btn">Subir Video</span>
         <img src="../../assets/images/video-uploads.png" alt="Icono Tarea" class="icono-tarea">
     </button>
 
@@ -27,30 +27,34 @@
 
 <div class="card-container">
     <mat-card class="example-card" appearance="outlined" *ngFor="let card of videoCards; let i = index"
-        [ngClass]="{'selected': card.seleccionada, 'mat-card-header-adjusted': isButtonClicked}">
-        <div class="checkbox-container" *ngIf="showCheckboxes">
-            <input type="checkbox" class="tarea-checkbox" [(ngModel)]="card.seleccionada">
-        </div>
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>{{ card.title }}</mat-card-title>
-            <mat-card-subtitle>{{ card.subtitle }}</mat-card-subtitle>
-        </mat-card-header>
+    [ngClass]="{'selected': card.seleccionada, 'mat-card-header-adjusted': isButtonClicked}">
+  <div class="checkbox-container" *ngIf="showCheckboxes">
+    <input type="checkbox" class="tarea-checkbox" [(ngModel)]="card.seleccionada">
+  </div>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ card.title }}</mat-card-title>
+    <mat-card-subtitle>{{ card.subtitle }}</mat-card-subtitle>
+  </mat-card-header>
 
-        <div class="video-container" [ngClass]="{'initial': !card.isVideoVisible, 'expanded': card.isVideoVisible}">
-            <!-- Mostrar imagen si el video no está visible -->
-            <img *ngIf="!card.isVideoVisible" mat-card-image src="./assets/images/videosShare.png" alt="materia1"
-                (click)="playVideo(i)">
+  <div class="video-container" [ngClass]="{'initial': !card.isVideoVisible, 'expanded': card.isVideoVisible}">
+    <!-- Mostrar imagen si el video no está visible -->
+    <img *ngIf="!card.isVideoVisible" mat-card-image src="./assets/images/videosShare.png" alt="materia1"
+         (click)="playVideo(i)">
 
-            <!-- Mostrar video si está visible -->
-            <video *ngIf="card.isVideoVisible" #videoPlayer class="video-player" controls autoplay>
-                <source [src]="card.videoSrc" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+    <!-- Mostrar video si está visible -->
+    <ng-container *ngIf="card.isVideoVisible">
+      <video *ngIf="!card.isYouTube" #videoPlayer class="video-player" controls autoplay>
+        <source [src]="card.videoSrc" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <iframe *ngIf="card.isYouTube" class="video-player" [src]="getVideoIframe(card.videoSrc)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </ng-container>
+  </div>
 
-        <mat-card-content>
-            <p>{{ truncatedContent }}</p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card-content>
+    <p>{{ card.title }}</p>
+    <p>{{ card.subtitle }}</p>
+  </mat-card-content>
+</mat-card>
 </div>

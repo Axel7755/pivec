@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const mime = require('mime-types');
-let tareasEnt = true;
+let tareasEnt = 0;
 
 // Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
@@ -11,14 +11,18 @@ const storage = multer.diskStorage({
     let uploadDir;
 
     // Verifica si es una entrega (si la boleta está en los parámetros)
-    if (tareasEnt==true) {
+    if (tareasEnt==0) {
       if (boletaAl) {
         uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea, 'entregas', boletaAl);
       } else {
         uploadDir = path.join(__dirname, '..', '..', 'uploads', 'tareasF', g_idmaterias, idgrupos, idtarea);
       }
-    } else {
+    } 
+    if (tareasEnt==1) {
       uploadDir = path.join(__dirname, '..', '..', 'uploads', 'avisosF', g_idmaterias, idgrupos, idtarea);
+    }
+    if (tareasEnt==2) {
+      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'videosF', g_idmaterias);
     }
 
     console.log('Destino de almacenamiento:', uploadDir);
@@ -52,7 +56,12 @@ const storage = multer.diskStorage({
 });
 
 function destinoAvisos(req, res, next) {
-  tareasEnt = false;
+  tareasEnt = 1;
+  next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
+}
+
+function destinoVideos(req, res, next) {
+  tareasEnt = 2;
   next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
 }
 
@@ -61,7 +70,7 @@ const uploadT = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     console.log('Procesando archivo:', file.originalname);
-    const allowedTypes = /jpeg|jpg|png|gif|pdf|docx|xlsx|doc|xls|ppt|pptx|odt|ods|odp|rar|zip/;
+    const allowedTypes = /jpeg|jpg|png|gif|pdf|docx|xlsx|doc|xls|ppt|pptx|odt|ods|odp|rar|zip|mp4|wmv|mpeg|ogg/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
 
@@ -264,5 +273,6 @@ module.exports = {
   getFilesEntregas,
   deleteFileEntrega,
   destinoAvisos,
+  destinoVideos,
   getFilesAvisos
 };
