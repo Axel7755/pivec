@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button'
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
-import { FormControl,FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { merge } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [MatButtonModule,MatInputModule,MatFormFieldModule,
-    MatIconModule, RouterLink,FormsModule, ReactiveFormsModule],
+  imports: [MatButtonModule, MatInputModule, MatFormFieldModule,
+    MatIconModule, RouterLink, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css'
 })
@@ -23,7 +26,18 @@ export class LoginFormComponent {
     contraseña: new FormControl(''),
   })
 
-  constructor(private authService: AuthService, private router: Router) {}
+  formRec = new FormGroup({
+    recCorreo: new FormControl('', [Validators.required, Validators.email]),
+  })
+
+  errorMessage = '';
+  mostrarCampoCorreo = true; // Muestra el campo al cargar la página
+
+  constructor(private authService: AuthService, private router: Router) {
+    merge(this.formRec.controls.recCorreo.statusChanges, this.formRec.controls.recCorreo.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage());
+  }
 
   iniciarSesion() {
     var identificador = this.formReg.value.identificador ?? '';
@@ -43,4 +57,29 @@ export class LoginFormComponent {
     });
   }
   //title = 'pivec';
+
+  // Secciones de recuperar contraseña
+
+  toggleOlvideContrasena() {
+    this.mostrarCampoCorreo = !this.mostrarCampoCorreo;
+  }
+
+  recuperarContrasena() {
+    // Lógica para enviar el correo de recuperación
+  }
+
+  // Validación de correo
+  updateErrorMessage() {
+    if (this.formRec.controls.recCorreo.hasError('required')) {
+      this.errorMessage = 'Ingrese un valor';
+    } else if (this.formRec.controls.recCorreo.hasError('email')) {
+      this.errorMessage = 'No es un email valido';
+    } else {
+      this.errorMessage = '';
+    }
+  }
+
+
+
+
 }

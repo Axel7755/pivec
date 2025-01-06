@@ -3,8 +3,7 @@
     <h1 class="titulo">
       Iniciar Sesión
     </h1>
-    <form [formGroup]="formReg" class="formulario" >
-      <!--<button mat-raised-button color="accent" class="bontonAcentuado">Subir horario</button>-->
+    <form [formGroup]="formReg" class="formulario">
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>Boleta / No. Trabajador</mat-label>
         <input required formControlName="identificador" matInput placeholder="1234567890">
@@ -13,12 +12,37 @@
         <mat-label>Contraseña</mat-label>
         <input required formControlName="contraseña" matInput placeholder="Contraseña" type="password">
       </mat-form-field>
-      <button  (click)="iniciarSesion()" [disabled]="!formReg.valid" mat-raised-button color="primary" class="bonton">Iniciar</button>
+      <button (click)="iniciarSesion()" [disabled]="!formReg.valid" mat-raised-button color="primary"
+        class="bonton">Iniciar</button>
     </form>
+
+    <!-- Olvide contraseña -->
+    <div class="flex">
+      <a (click)="toggleOlvideContrasena()" mat-button color="accent" class="sub-texto">Olvidé mi contraseña</a>
+    </div>
+
+    <!-- Campo para poner correo -->
+    <div style="margin-top: 5px;" [ngClass]="{'hidden': !mostrarCampoCorreo}">
+      <form [formGroup]="formRec"> <!-- Agregar el formGroup aquí -->
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput placeholder="pat@ejemplo.com" required formControlName="recCorreo"
+            (blur)="updateErrorMessage()">
+          <mat-error *ngIf="formRec.controls.recCorreo.invalid">{{errorMessage}}</mat-error>
+          <!-- Corregir la condición para mostrar el error -->
+        </mat-form-field>
+        <button style="margin-top: 24px;" (click)="recuperarContrasena()" mat-raised-button color="accent"
+          class="bonton">Enviar</button>
+      </form>
+    </div> 
+
+    <!-- Registrarse -->
     <div class="flex">
       <p class="sub-texto">Aun no cuentas con una cuenta? </p>
       <a mat-button routerLink="/login/registro-component" routerLinkActive="active" ariaCurrentWhenActive="page"
         color="accent" class="sub-texto">Registrarse</a>
     </div>
+
+
   </div>
 </div>
