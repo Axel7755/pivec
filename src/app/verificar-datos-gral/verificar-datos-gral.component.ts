@@ -5,17 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RegistroDataService, RegistroData } from '../registro-data.service';
-import { DocentesService } from '../servicios/docentes.service';
-import { MateriasService } from '../servicios/materias.service';
-import { GruposService } from '../servicios/grupos.service';
-import { HorariosService } from '../servicios/horarios.service';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { AlumnosService } from '../servicios/alumnos.service';
-import { GruposAlumnosService } from '../servicios/grupos-alumnos.service';
-import { Router } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 export interface Horario {
   materia: string;
@@ -33,9 +24,62 @@ export interface Horario {
 }
 
 const ELEMENT_DATA: Horario[] = [
-  { materia: 'Matemáticas', docente: 'Dr. Smith', lunesEntrada: '08:30', lunesSalida: '09:30', martesEntrada: '10:00', martesSalida: '11:00', miercolesEntrada: '12:00', miercolesSalida: '13:00', juevesEntrada: '14:00', juevesSalida: '15:00', viernesEntrada: '08:30', viernesSalida: '09:30' },
-  { materia: 'Física', docente: 'Mtra. Johnson', lunesEntrada: '09:30', lunesSalida: '10:30', martesEntrada: '11:00', martesSalida: '12:00', miercolesEntrada: '13:00', miercolesSalida: '14:00', juevesEntrada: '15:00', juevesSalida: '16:00', viernesEntrada: '09:30', viernesSalida: '10:30' },
-  { materia: 'Química', docente: 'Dr. Brown', lunesEntrada: '10:30', lunesSalida: '11:30', martesEntrada: '12:00', martesSalida: '13:00', miercolesEntrada: '14:00', miercolesSalida: '15:00', juevesEntrada: '16:00', juevesSalida: '17:00', viernesEntrada: '10:30', viernesSalida: '11:30' },
+  {
+    materia: 'Matemáticas',
+    docente: 'Dr. Smith',
+    lunesEntrada: '08:30',
+    lunesSalida: '09:30',
+    martesEntrada: '10:00',
+    martesSalida: '11:00',
+    miercolesEntrada: '12:00',
+    miercolesSalida: '13:00',
+    juevesEntrada: '14:00',
+    juevesSalida: '15:00',
+    viernesEntrada: '08:30',
+    viernesSalida: '09:30'
+  },
+  {
+    materia: 'Física',
+    docente: 'Mtra. Johnson',
+    lunesEntrada: '09:30',
+    lunesSalida: '10:30',
+    martesEntrada: '11:00',
+    martesSalida: '12:00',
+    miercolesEntrada: '13:00',
+    miercolesSalida: '14:00',
+    juevesEntrada: '15:00',
+    juevesSalida: '16:00',
+    viernesEntrada: '09:30',
+    viernesSalida: '10:30'
+  },
+  {
+    materia: 'Química',
+    docente: 'Dr. Brown',
+    lunesEntrada: '10:30',
+    lunesSalida: '11:30',
+    martesEntrada: '12:00',
+    martesSalida: '13:00',
+    miercolesEntrada: '14:00',
+    miercolesSalida: '15:00',
+    juevesEntrada: '16:00',
+    juevesSalida: '17:00',
+    viernesEntrada: '10:30',
+    viernesSalida: '11:30'
+  },
+  {
+    materia: 'Historia',
+    docente: 'Mtro. Taylor',
+    lunesEntrada: '11:30',
+    lunesSalida: '12:30',
+    martesEntrada: '13:00',
+    martesSalida: '14:00',
+    miercolesEntrada: '15:00',
+    miercolesSalida: '16:00',
+    juevesEntrada: '08:30',
+    juevesSalida: '09:30',
+    viernesEntrada: '11:30',
+    viernesSalida: '12:30'
+  },
 ];
 
 @Component({
@@ -46,9 +90,12 @@ const ELEMENT_DATA: Horario[] = [
     MatButtonModule,
     FormsModule,
     MatFormFieldModule,
-    MatInputModule],
+    MatInputModule,
+    MatIcon,
+    CommonModule],
   templateUrl: './verificar-datos-gral.component.html',
-  styleUrl: './verificar-datos-gral.component.css'
+  styleUrl: './verificar-datos-gral.component.css',
+  host: { 'ngSkipHydration': '' }
 })
 
 export class VerificarDatosGralComponent {
@@ -56,15 +103,40 @@ export class VerificarDatosGralComponent {
   boleta: string = '2021670048';
   nombre: string = 'Luis Francisco Lopez Lopez';
 
-  displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
+  displayedColumns: string[] = ['materia', 'docente', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'acciones'];
   dataSource = ELEMENT_DATA;
 
-  days = [
-    { key: 'lunes', label: 'Lunes' },
-    { key: 'martes', label: 'Martes' },
-    { key: 'miercoles', label: 'Miércoles' },
-    { key: 'jueves', label: 'Jueves' },
-    { key: 'viernes', label: 'Viernes' },
-  ];
+  eliminarFila(index: number) {
+    const confirmation = confirm('¿Estás seguro de que deseas eliminar esta fila?');
+    if (confirmation) {
+      this.dataSource.splice(index, 1); // Eliminar el elemento en el índice especificado
+      this.dataSource = [...this.dataSource]; // Actualizar la referencia para que Angular detecte el cambio
+    }
+  }
+
+  agregarFila() {
+    const nuevaFila: Horario = {
+      materia: '',
+      docente: '',
+      lunesEntrada: '',
+      lunesSalida: '',
+      martesEntrada: '',
+      martesSalida: '',
+      miercolesEntrada: '',
+      miercolesSalida: '',
+      juevesEntrada: '',
+      juevesSalida: '',
+      viernesEntrada: '',
+      viernesSalida: ''
+    };
+    this.dataSource = [...this.dataSource, nuevaFila];
+  }
+
+  buttonFocus: boolean = false;
+
+  onFocus(focused: boolean): void {
+    this.buttonFocus = focused;
+  }
+
 
 }

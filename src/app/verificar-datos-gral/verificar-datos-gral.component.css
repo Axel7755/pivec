@@ -2,9 +2,7 @@
     padding: 24px;
 }
 
-input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-}
+input[type="time"]::-webkit-calendar-picker-indicator {}
 
 input[type="time"]:focus {
     outline-color: #6D1A42;
@@ -30,13 +28,61 @@ mat-sidenav-content {
     background-color: #FFFFFF;
 }
 
+mat-mdc-header-cell {
+    text-align: center;
+}
+
+/* Estilo para el botón: fondo amarillo desde el inicio */
+
+/* Cambiar el color del ícono a guinda */
+button[mat-icon-button] mat-icon {
+    color: rgb(142, 142, 142) !important;
+    /* Color guinda */
+}
+
+/* Cambiar el color del ícono a guinda cuando se pase el mouse por encima */
+button[mat-icon-button]:hover mat-icon {
+    color: darkred !important;
+    /* Color guinda cuando pasa el mouse */
+}
+
+/* Estilo específico para el botón de agregar nueva fila */
+.add-row-button {
+    background: linear-gradient(to left, #FF9933, #FFC545) !important;
+    color: white !important;
+}
+
+.add-row-button .agregar-row{
+    color: white !important;
+}
+
+/* Cambiar el color del ícono a guinda desde el principio */
+.add-row-button mat-icon {
+    color: white !important;
+}
+
+/* Cambiar el color del ícono a guinda cuando se pase el mouse por encima */
+.add-row-button:hover mat-icon {
+    color: darkred !important;
+}
+
 .demo-table {
     width: 100%;
 }
 
 .mat-mdc-row .mat-mdc-cell {
     border-bottom: 1px solid #6D1A42;
+    padding: 10px;
     cursor: pointer;
+    text-align: center;
+}
+
+.mdc-data-table__header-cell {
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    outline: none;
+    text-align: center;
 }
 
 /* Input de boleta y nombre */
@@ -125,6 +171,7 @@ input {
 }
 
 /* Estilos para el formato de hora (entrada y salida) */
+
 .hora-container {
     display: flex;
     flex-direction: column;
