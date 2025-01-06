@@ -367,7 +367,7 @@ div#video-subject-container label {
 }
 
 .cont-video-titulo{
-    margin-top: -27px;
+    margin-top: 20px;
 }
 
 .cont-video-materia{
@@ -378,6 +378,11 @@ div#video-subject-container label {
     font-size: 17px;
 }
 
+.disabled {
+    opacity: 0.5; /* Cambia la opacidad para dar una apariencia de deshabilitado */
+    pointer-events: none; /* Desactiva los eventos de puntero */
+  }
+  
 /* Efecto hover y focus */
 #video-title:hover,
 #video-subject:hover {

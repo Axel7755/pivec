@@ -63,34 +63,6 @@
             <input type="file" id="documento" name="documento" multiple style="display: none;">
         </div>
 
-        <!-- Sección de mensajeria new -->
-        <div class="comentarios">
-            <h2>Comentarios</h2>
-
-            <!-- Contenedor para los mensajes -->
-            <div class="lista-mensajes">
-                <!-- Mensajes dinámicos -->
-                <div *ngFor="let mensaje of mensajes"
-                    [ngClass]="{'mensaje': true, 'alumno': mensaje.emisor === 'alumno', 'docente': mensaje.emisor === 'docente'}">
-                    <p>
-                        <strong>{{ mensaje.emisor | titlecase }}: {{ mensaje.nombre }}</strong>
-                        <span class="fecha-mensaje">({{ mensaje.fecha }})</span>
-                        <!-- Mostrar la fecha junto al nombre -->
-                    </p>
-                    <p>{{ mensaje.texto }}</p> <!-- Mostrar el mensaje -->
-                </div>
-            </div>
-
-            <!-- Campo para enviar un nuevo mensaje -->
-            <div class="nuevo-comentario">
-                <input type="text" [(ngModel)]="nuevoMensaje" placeholder="Escribe un comentario..."
-                    class="input-comentario" (keyup.enter)="enviarMensaje()">
-                <button (click)="enviarMensaje()" class="btn-comentar" mat-raised-button
-                    color="primary">Comentar</button>
-            </div>
-
-        </div>
-
     </div>
 </body>
 

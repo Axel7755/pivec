@@ -1,6 +1,9 @@
 const db = require("../models");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const Alumnos = db.Alumnos;
+const saltRounds = 10;
 
 // Crear un nuevo alumno
 exports.create = async (req, res) => {
@@ -10,7 +13,6 @@ exports.create = async (req, res) => {
         });
         return;
     }
-    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.contraseña_Al, saltRounds);
     const alumno = {
         boleta: req.body.boleta,
@@ -64,6 +66,70 @@ exports.findOne = (req, res) => {
                 message: err.message || "Ocurrió un error al recuperar el alumno."
             });
         });
+};
+
+// Enviar enlace de restablecimiento de contraseña
+exports.sendResetEmail = async (req, res) => {
+    const correo = req.body.correo;
+    const usuario = await Alumnos.findOne({ where: { correoRec_Al: correo } });
+    
+    if (!usuario) {
+      return res.status(404).send({ message: "Correo no encontrado." });
+    }
+  
+    // Generar un token (puedes usar una biblioteca como `jsonwebtoken`)
+    const token = jwt.sign({ id: usuario.boleta }, "tu_llave_secreta", { expiresIn: '1h' });
+  
+    // Configurar y enviar el correo electrónico con el enlace de restablecimiento
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'piavcipn@gmail.com',
+        pass: 'cduj muvh zwmc ucuw'
+      }
+    });
+  
+    const mailOptions = {
+      from: 'piavcipn@gmail.com',
+      to: correo,
+      subject: 'Restablecimiento de contraseña',
+      text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: 
+             https://localhost:8081/login/resetPassword/0/${token}`
+    };
+  
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(500).send({ message: error.message });
+      }
+      res.send({ message: 'Correo enviado.' });
+    });
+};
+  
+// Manejar la actualización de la contraseña
+exports.resetPassword = async (req, res) => {
+    const token = req.params.token;
+    let decoded;
+  
+    try {
+      decoded = jwt.verify(token, "tu_llave_secreta");
+    } catch (error) {
+      return res.status(400).send({ message: 'Token inválido o expirado.' });
+    }
+  
+    const newPassword = req.body.newPassword;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+  
+    Alumnos.update({ contraseña_Al: hashedPassword }, { where: { boleta: decoded.id } })
+      .then(num => {
+        if (num == 1) {
+          res.send({ message: "Contraseña actualizada exitosamente." });
+        } else {
+          res.send({ message: "No se pudo actualizar la contraseña." });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message || "Ocurrió un error al actualizar la contraseña." });
+      });
 };
 
 // Actualizar un alumno por boleta

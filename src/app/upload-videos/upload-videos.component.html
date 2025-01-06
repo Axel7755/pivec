@@ -9,37 +9,16 @@
         </div>
     </div>
 
-    <div class="drop-section" #dropArea (dragover)="onDragOver($event)" (dragleave)="onDragLeave()"
-        (drop)="onDrop($event)">
-        <div class="col">
-            <div class="cloud-icon">
-                <img src="../../assets/icons/cloud2.png" alt="cloud">
-            </div>
-            <span>Arrastra y suelta tu video aquí</span>
-            <span>O</span>
-            <button class="file-selector" (click)="onFileSelectorClick()">Buscar archivos</button>
-            <input #fileSelectorInput type="file" (change)="onFileChange()" style="display: none;" multiple />
-        </div>
-        <div class="col">
-            <div class="drop-here">Soltar aquí</div>
-        </div>
-    </div>
-
-    <!-- Campo para titulo del video -->
-    <div class="cont-video-titulo">
-        <label for="video-title">Titulo del Video</label>
-        <input id="video-title" type="text" [(ngModel)]="videoTitle">
-    </div>
-
-    <!-- Campo para seleccionar la materia -->
-    <div class="cont-video-materia">
-        <label class="titulo-video" for="video-subject">Selecciona una Materia</label>
-        <select id="video-subject" [(ngModel)]="videoSubject">
-            <option value="math">Matemáticas</option>
-            <option value="science">Ciencias</option>
-            <option value="history">Historia</option>
-        </select>
-    </div>
+    <div class="drop-section" #dropArea (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)" [class.disabled]="isDropSectionDisabled"> 
+        <div class="col"> 
+            <div class="cloud-icon"> 
+                <img src="../../assets/icons/cloud2.png" alt="cloud"> 
+            </div> 
+            <span>Arrastra y suelta tu video aquí</span> 
+            <span>O</span> 
+            <button class="file-selector" (click)="onFileSelectorClick()" [disabled]="isDropSectionDisabled">Buscar archivos</button> 
+            <input #fileSelectorInput type="file" (change)="onFileChange()" style="display: none;" multiple /> 
+        </div> <div class="col"> <div class="drop-here">Soltar aquí</div> </div> </div>
 
     <div class="list-section">
         <div class="list-title">Video Subido</div>
@@ -48,10 +27,31 @@
                 <!-- Aquí se mostrarán los archivos cargados -->
             </ul>
         </div>
-        <div class="upload-button-container">
-            <button class="upload-button" [disabled]="archivosSubidos.length === 0" (click)="uploadFiles()">Subir
-                Video</button>
-        </div>
+    </div> 
+    
+    <!-- Campo para link de YouTube --> 
+    <div class="cont-video-titulo" [class.disabled]="isYoutubeSectionDisabled"> 
+        <label for="video-link">Link de video de YouTube</label> 
+        <input id="video-title" type="text" [(ngModel)]="linkYoutube" (ngModelChange)="onLinkYoutubeChange()" [class.disabled]="isYoutubeSectionDisabled"> 
+    </div>
+
+   <!-- Campo para título del video --> 
+    <div class="cont-video-titulo"> 
+        <label for="video-title">Titulo del Video</label> 
+        <input id="video-title" type="text" [(ngModel)]="videoTitle"> 
+    </div>
+
+    <!-- Campo para seleccionar la materia -->
+    <div class="cont-video-materia">
+        <label class="titulo-video" for="video-subject">Selecciona una Materia</label>
+        <select id="video-subject" [(ngModel)]="videoSubject" *ngIf="combinados.length > 0;">
+            <option *ngFor="let grupo of combinados" value='{{grupo.g_idmaterias}}'>{{grupo.material}}</option>
+        </select>
+    </div>
+
+    <div class="upload-button-container">
+        <button class="upload-button" [disabled]="archivosSubidos.length === 0 && !isDropSectionDisabled" (click)="uploadFiles()">Subir
+            Video</button>
     </div>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close

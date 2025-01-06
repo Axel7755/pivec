@@ -1,5 +1,5 @@
 const db = require("../models");
-const Videos = db.videos;
+const Videos = db.Videos;
 
 // Crear un nuevo video
 exports.create = (req, res) => {
@@ -34,6 +34,24 @@ exports.findAll = (req, res) => {
         });
 };
 
+
+exports.findAllVidMateria = (req, res) => {
+    const { v_idmaterias} = req.params;
+  
+    Videos.findAll({
+      where: {
+        v_idmaterias,
+      }
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Ocurrió un error al recuperar los videos de la materia."
+        });
+      });
+  };
 // Obtener un video por id
 exports.findOne = (req, res) => {
     const { idvideos, v_boleta, v_idmaterias } = req.params;

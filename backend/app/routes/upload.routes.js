@@ -11,6 +11,9 @@ router.post('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boletaAl', uploadContro
 // Ruta para subir archivos de avisos
 router.post('/avisos/:g_idmaterias/:idgrupos/:idtarea', uploadController.destinoAvisos,uploadController.uploadT.single('file'), uploadController.uploadFile);
 
+// Ruta para subir archivos de videos
+router.post('/videos/:g_idmaterias/', uploadController.destinoVideos,uploadController.uploadT.single('file'), uploadController.uploadFile);
+
 // Ruta para obtener archivos
 router.get('/tareas/:g_idmaterias/:idgrupos/:idtarea', uploadController.getFiles);
 

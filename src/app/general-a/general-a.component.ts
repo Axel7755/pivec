@@ -103,6 +103,7 @@ export class GeneralAComponent implements OnInit {
                   }
                   this.showFileList[aviso.idAviso] = false;
                   this.avisos.push(aviso)
+                  console.log('archivos', archivos.files)
                 }
               })
             });
@@ -359,7 +360,7 @@ uploadFile(file: File): void {
 
                     this.router.navigate(['/menu-materia', this.idgrupos, this.g_idmaterias, 'general-a']);
                     this.nuevoMensaje = '';
-                    //console.log('Ruta completa:', response.body.file.path);
+                    console.log('Ruta completa:', response.body.file.path);
                   }
                 });
               },
@@ -384,6 +385,7 @@ uploadFile(file: File): void {
 
   abrirArchivo(file: any, idAviso: string){
     if (file.path) {
+      console.log('direccion del archivo', file.path);
       const fileURL = `${this.BACKEND_BASE_URL}/uploads/avisosF/${this.g_idmaterias}/${this.idgrupos}/${idAviso}/${file.name}`;
       if (
         file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||

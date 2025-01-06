@@ -82,6 +82,30 @@ export class SubirArchivosService {
   
     return this.http.request(req);
   }
+
+  uploadVideo(file: File, g_idmaterias: string): Observable<HttpEvent<any>> {
+    console.log('Datos del archivo:', file);
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('name', file.name);
+    formData.append('type', file.type);
+    formData.append('size', file.size.toString());
+    formData.append('lastModified', file.lastModified.toString());
+    
+    const headers = new HttpHeaders({
+      'enctype': 'multipart/form-data'
+    });
+  
+    const req = new HttpRequest('POST', `${this.baseUrl}/videos/${g_idmaterias}`, formData, {
+      headers,
+      reportProgress: true,
+      responseType: 'json'
+    });
+  
+    console.log('Datos del archivo enviados:', formData);
+  
+    return this.http.request(req);
+  }
   
 
   // Método para obtener la lista de archivos
