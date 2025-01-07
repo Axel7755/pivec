@@ -38,8 +38,7 @@ export class VideosCompartidosComponent implements OnInit {
   combinados: any[] = [];
 
   // Lista de tarjetas de video
-  videoCards: any = [
-  ];
+  videoCards: any = [ ];
 
   @ViewChildren('videoPlayer') videoPlayers!: QueryList<ElementRef<HTMLVideoElement>>;
   @ViewChild('listContainer') listContainer!: ElementRef<HTMLUListElement>;
@@ -194,22 +193,30 @@ export class VideosCompartidosComponent implements OnInit {
           videosData.forEach((videoData:any) => {
             if (videoData.dirección_V.includes("http")) {
               this.videoCards.push({
+                v_idmaterias: videoData.v_idmaterias,
+                v_boleta: videoData.v_boleta,
+                idvideos: videoData.idvideos,
                 title: videoData.titulo_V,
                 subtitle: this.combinados[index].material,
                 isVideoVisible: false,
                 videoSrc: videoData.dirección_V,
                 seleccionada: false,
-                isYouTube: true
+                isYouTube: true,
+                usuario: videoData.v_boleta
               });
             } else {
               const fileURL = `${this.BACKEND_BASE_URL}/uploads/videosF/${videoData.dirección_V}`;
               this.videoCards.push({
+                v_idmaterias: videoData.v_idmaterias,
+                v_boleta: videoData.v_boleta,
+                idvideos: videoData.idvideos,
                 title: videoData.titulo_V,
                 subtitle: this.combinados[index].material,
                 isVideoVisible: false,
                 videoSrc: fileURL,
                 seleccionada: false,
-                isYouTube: false
+                isYouTube: false,
+                usuario: videoData.v_boleta
               });
             }
             
@@ -264,25 +271,32 @@ export class VideosCompartidosComponent implements OnInit {
         // El resultado ahora incluirá tanto los archivos subidos como el título y la materia seleccionada
         const videoData = result;
 
-        console.log('video data', videoData);
         if (videoData.dirección_V.includes("http")) {
           this.videoCards.push({
+            v_idmaterias: videoData.v_idmaterias,
+            v_boleta: videoData.v_boleta,
+            idvideos: videoData.idvideos,
             title: videoData.titulo_V,
             subtitle: videoData.materia_V,
             isVideoVisible: false,
             videoSrc: videoData.dirección_V,
             seleccionada: false,
-            isYouTube: true
+            isYouTube: true,
+            usuario: videoData.v_boleta
           });
         } else {
           const fileURL = `${this.BACKEND_BASE_URL}/uploads/videosF/${videoData.dirección_V}`;
           this.videoCards.push({
+            v_idmaterias: videoData.v_idmaterias,
+            v_boleta: videoData.v_boleta,
+            idvideos: videoData.idvideos,
             title: videoData.titulo_V,
             subtitle: videoData.materia_V,
             isVideoVisible: false,
             videoSrc: fileURL,
             seleccionada: false,
-            isYouTube: false
+            isYouTube: false,
+            usuario: videoData.v_boleta
           });
         }
       }
@@ -403,7 +417,26 @@ export class VideosCompartidosComponent implements OnInit {
   }
 
   eliminarEntregas() {
-    this.videoCards = this.videoCards.filter((video: any) => !video.seleccionada);
+
+    const selecionados = this.videoCards.filter((video: any) => video.seleccionada);
+    //this.videoCards = this.videoCards.filter((video: any) => !video.seleccionada);
+    selecionados.forEach((videoDel: any) => {
+
+      this.videosService.deleteVideo(videoDel.v_idmaterias, this.userId!, videoDel.idvideos).pipe(
+        catchError(this.handleError)
+      ).subscribe(videoData => {
+        if(videoData){
+          this.videoCards = this.videoCards.filter((video: any) => !video.seleccionada);
+        }
+      })
+    });
+    
+  }
+
+  private handleError(error: any) {
+    console.error('Error:', error);
+    //alert('Ocurrió un error. Por favor, inténtelo de nuevo.');
+    return of(null);
   }
 
 }

@@ -31,7 +31,7 @@
           <mat-error *ngIf="formRec.controls.recCorreo.invalid">{{errorMessage}}</mat-error>
           <!-- Corregir la condición para mostrar el error -->
         </mat-form-field>
-        <button style="margin-top: 24px;" (click)="recuperarContrasena()" mat-raised-button color="accent"
+        <button [disabled]="!formRec.valid" style="margin-top: 24px;" (click)="recuperarContrasena()" mat-raised-button color="accent"
           class="bonton">Enviar</button>
       </form>
     </div> 

@@ -19,4 +19,7 @@ export class VideosService {
   getVideosByMateria(v_idmaterias: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${v_idmaterias}`);
   }
+  deleteVideo(v_idmaterias: string, v_boleta: string, idvideos: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${v_idmaterias}/${v_boleta}/${idvideos}`);
+ }
 }

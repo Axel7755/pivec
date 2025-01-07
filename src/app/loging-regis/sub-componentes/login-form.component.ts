@@ -31,7 +31,7 @@ export class LoginFormComponent {
   })
 
   errorMessage = '';
-  mostrarCampoCorreo = true; // Muestra el campo al cargar la página
+  mostrarCampoCorreo = false; // Muestra el campo al cargar la página
 
   constructor(private authService: AuthService, private router: Router) {
     merge(this.formRec.controls.recCorreo.statusChanges, this.formRec.controls.recCorreo.valueChanges)

@@ -15,7 +15,7 @@
 
     <!-- Botón para subir video (se oculta si hay videos seleccionados) -->
     <button mat-button class="upload-btn" mat-raised-button color="accent" (click)="openDialog()"
-        *ngIf="!hayTareasSeleccionadas()">
+        *ngIf="!isDocente">
         <span class="texto-btn">Subir Video</span>
         <img src="../../assets/images/video-uploads.png" alt="Icono Tarea" class="icono-tarea">
     </button>
@@ -29,7 +29,7 @@
     <mat-card class="example-card" appearance="outlined" *ngFor="let card of videoCards; let i = index"
     [ngClass]="{'selected': card.seleccionada, 'mat-card-header-adjusted': isButtonClicked}">
   <div class="checkbox-container" *ngIf="showCheckboxes">
-    <input type="checkbox" class="tarea-checkbox" [(ngModel)]="card.seleccionada">
+    <input *ngIf="card.usuario == userId || isDocente" type="checkbox" class="tarea-checkbox" [(ngModel)]="card.seleccionada">
   </div>
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>

@@ -110,7 +110,7 @@ exports.update = (req, res) => {
 
 // Eliminar un video por id
 exports.delete = (req, res) => {
-    const { idvideos, v_boleta, v_idmaterias } = req.params;
+    const { v_boleta, v_idmaterias, idvideos } = req.params;
 
     Videos.destroy({
         where: {

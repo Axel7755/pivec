@@ -11,6 +11,12 @@ router.get("/", docentes.findAll);
 // Obtener un Docente por id
 router.get("/:id", docentes.findOne);
 
+// Ruta para enviar el enlace de restablecimiento de contraseña 
+router.post('/sendResetEmail', docentes.sendResetEmail);
+
+// Ruta para manejar la actualización de la contraseña 
+router.post('/resetPassword/:token', docentes.resetPassword);
+
 // Actualizar un Docente por id
 router.put("/:id", docentes.update);
 

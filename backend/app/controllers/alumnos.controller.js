@@ -71,6 +71,7 @@ exports.findOne = (req, res) => {
 // Enviar enlace de restablecimiento de contraseña
 exports.sendResetEmail = async (req, res) => {
     const correo = req.body.correo;
+    const urlbase = req.body.urlbase;
     const usuario = await Alumnos.findOne({ where: { correoRec_Al: correo } });
     
     if (!usuario) {
@@ -93,8 +94,7 @@ exports.sendResetEmail = async (req, res) => {
       from: 'piavcipn@gmail.com',
       to: correo,
       subject: 'Restablecimiento de contraseña',
-      text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: 
-             https://localhost:8081/login/resetPassword/0/${token}`
+      text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: ${urlbase}:8081/login/resetPassword/0/${token}`
     };
   
     transporter.sendMail(mailOptions, (error, info) => {
