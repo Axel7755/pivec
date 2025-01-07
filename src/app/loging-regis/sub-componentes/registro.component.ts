@@ -3,11 +3,11 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { RegistroDataService } from '../../registro-data.service';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {merge} from 'rxjs';
-import { FormControl, Validators,FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { merge } from 'rxjs';
+import { FormControl, Validators, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDialog,
   MatDialogActions,
@@ -25,7 +25,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/js/pdf.worker.mjs';
   selector: 'app-registro',
   standalone: true,
   imports: [MatButtonModule, MatInputModule, MatFormFieldModule, MatIconModule,
-    RouterLink, RouterOutlet, ReactiveFormsModule, FormsModule
+    RouterLink, ReactiveFormsModule, FormsModule
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
@@ -55,7 +55,8 @@ export class RegistroComponent {
     recCorreo: new FormControl('', [Validators.required, Validators.email]),
   })
   errorMessage = '';
-  constructor(private dataService: RegistroDataService, public dialog: MatDialog) { 
+  constructor(private dataService: RegistroDataService, public dialog: MatDialog, 
+      private router: Router,) {
     merge(this.formReg.controls.recCorreo.statusChanges, this.formReg.controls.recCorreo.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -77,11 +78,11 @@ export class RegistroComponent {
     this.cont = this.formReg.value.contr ?? '';
     this.confcont = this.formReg.value.confcontr ?? '';
     this.correo = this.formReg.value.recCorreo ?? '';
-    if(this.cont!=this.confcont){
+    if (this.cont != this.confcont) {
       this.openDialog();
       //this.formReg.value.recCorreo = '';
-    }else{
-      this.conthash=this.cont
+    } else {
+      this.conthash = this.cont
       inputNode.click()
     }
   }
@@ -113,7 +114,7 @@ export class RegistroComponent {
         } else {
           console.log('Tipo de archivo no soportado');
         }
-       
+
       } else {
         console.log('No se ha seleccionado ningún archivo');
       }
@@ -206,21 +207,31 @@ export class RegistroComponent {
   }
 
   sendData() {
-    const data = {
-      nombre: this.nombre,
-      boleta: this.boleta,
-      conthash: this.conthash,
-      correo: this.correo,
-      materias: this.materias,
-      grupos: this.grupos,
-      docentes: this.docentes,
-      lunes: this.lunes,
-      martes: this.martes,
-      miercoles: this.miercoles,
-      jueves: this.jueves,
-      viernes: this.viernes
-    };
-    this.dataService.changeData(data);
+    this.cont = this.formReg.value.contr ?? '';
+    this.confcont = this.formReg.value.confcontr ?? '';
+    if (this.cont != this.confcont) {
+      this.openDialog();
+      //this.formReg.value.recCorreo = '';
+    } else {
+      this.conthash = this.cont
+
+      const data = {
+        nombre: this.nombre,
+        boleta: this.boleta,
+        conthash: this.conthash,
+        correo: this.correo,
+        materias: this.materias,
+        grupos: this.grupos,
+        docentes: this.docentes,
+        lunes: this.lunes,
+        martes: this.martes,
+        miercoles: this.miercoles,
+        jueves: this.jueves,
+        viernes: this.viernes
+      };
+      this.dataService.changeData(data);
+      this.router.navigate(['/login/verificar-datos'])
+    }
   }
 
   async extraerPdf(file: File) {
@@ -275,7 +286,7 @@ export class RegistroComponent {
     const outerKeys = Object.keys(this.docentes).map(key => Number(key)); // Obtiene las claves del primer nivel
     outerKeys.forEach(outerKey => {
 
-      if(rows[5][outerKey]){
+      if (rows[5][outerKey]) {
         this.grupos[outerKey] = rows[5][outerKey];
       }
 
@@ -285,7 +296,7 @@ export class RegistroComponent {
       } else {
         if (rows[48][outerKey]) {
           this.lunes[outerKey - 1] = rows[48][outerKey];
-        }else{
+        } else {
           this.lunes[outerKey - 1] = '';
         }
       }
@@ -294,7 +305,7 @@ export class RegistroComponent {
       } else {
         if (rows[58][outerKey]) {
           this.martes[outerKey - 1] = rows[58][outerKey];
-        }else{
+        } else {
           this.martes[outerKey - 1] = '';
         }
       }
@@ -303,7 +314,7 @@ export class RegistroComponent {
       } else {
         if (rows[68][outerKey]) {
           this.miercoles[outerKey - 1] = rows[68][outerKey];
-        }else{
+        } else {
           this.miercoles[outerKey - 1] = '';
         }
       }
@@ -312,7 +323,7 @@ export class RegistroComponent {
       } else {
         if (rows[78][outerKey]) {
           this.jueves[outerKey - 1] = rows[78][outerKey];
-        }else{
+        } else {
           this.jueves[outerKey - 1] = '';
         }
       }
@@ -321,7 +332,7 @@ export class RegistroComponent {
       } else {
         if (rows[88][outerKey]) {
           this.viernes[outerKey - 1] = rows[88][outerKey];
-        }else{
+        } else {
           this.viernes[outerKey - 1] = '';
         }
       }
@@ -335,4 +346,4 @@ export class RegistroComponent {
   standalone: true,
   imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
 })
-export class DialogElementsExampleDialog {}
+export class DialogElementsExampleDialog { }

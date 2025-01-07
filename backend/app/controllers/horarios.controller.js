@@ -1,8 +1,9 @@
 const db = require("../models");
-const Horarios = db.horarios;
+const Horarios = db.Horarios;
 
 // Crear un nuevo horario
 exports.create = (req, res) => {
+    console.log("Request Body:", req.body);
     const horario = {
         dia: req.body.dia,
         entrada: req.body.entrada !== "" ? req.body.entrada : null,
@@ -11,7 +12,8 @@ exports.create = (req, res) => {
         ho_idgrupos: req.body.ho_idgrupos
     };
 
-    Horarios.create(horario)
+    Horarios.create(horario, { logging: console.log // Esto hará que Sequelize imprima el SQL para esta operación específica 
+        })
         .then(data => {
             res.send(data);
         })
@@ -33,6 +35,27 @@ exports.findAll = (req, res) => {
                 message: err.message || "Ocurrió un error al recuperar los horarios."
             });
         });
+};
+
+// Obtener todas las tareas de un grupo con fecha_Entrega mayor a la fecha y hora actual
+exports.findAllGrupo = (req, res) => {
+    const { ho_idmaterias, ho_idgrupos } = req.params;
+  const now = new Date();
+
+  Horarios.findAll({
+    where: {
+        ho_idmaterias,
+        ho_idgrupos,
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Ocurrió un error al recuperar los horarios del grupo."
+      });
+    });
 };
 
 // Obtener un horario por id

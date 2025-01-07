@@ -14,4 +14,8 @@ export class HorariosService {
   createHorario(horario: any): Observable<any> {
     return this.http.post(this.baseUrl, horario);
   }
+
+  getHorario(ho_idmaterias: string, ho_idgrupos: string): Observable<any>{
+    return this.http.get(`${this.baseUrl}/${ho_idmaterias}/${ho_idgrupos}`);
+  }
 }

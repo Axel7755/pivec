@@ -12,5 +12,6 @@ module.exports = {
     },
     define: {
       timestamps: false
-  }
+  },
+  logging: console.log // Esto habilita el logging global
   };
