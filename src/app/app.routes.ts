@@ -27,6 +27,7 @@ import { EditarEntregaComponent } from './editar-entrega/editar-entrega.componen
 import { ClasesGrabadasComponent } from './clases-grabadas/clases-grabadas.component';
 import { ChatBotAComponent } from './chat-bot-a/chat-bot-a.component';
 import { VerificarDatosGralComponent } from './verificar-datos-gral/verificar-datos-gral.component';
+import { RestablecerPasswordComponent } from './restablecer-password/restablecer-password.component';
 
 export const routes: Routes = [
 
@@ -36,6 +37,7 @@ export const routes: Routes = [
             { path: 'login-component', component: LoginFormComponent, },
             { path: 'registro-component', component: RegistroComponent, },
             { path: 'verificar-datos', component: VerificarDatosComponent, },
+            { path: 'restablecer-password/:aluDoc/:Rec', component: RestablecerPasswordComponent, },
         ],
     },
     {
