@@ -11,6 +11,9 @@ router.get("/", horarios.findAll);
 // Obtener un horario por id
 router.get("/:idHorarios/:ho_idmaterias/:ho_idgrupos", horarios.findOne);
 
+// Obtener un horarios por grupo
+router.get("/:ho_idmaterias/:ho_idgrupos", horarios.findAllGrupo);
+
 // Actualizar un horario por id
 router.put("/:idHorarios/:ho_idmaterias/:ho_idgrupos", horarios.update);
 

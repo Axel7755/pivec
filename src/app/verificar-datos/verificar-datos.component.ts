@@ -1,7 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { LateralLogin } from '../loging-regis/sub-componentes/lateral.component';
-import { LoginFormComponent } from '../loging-regis/sub-componentes/login-form.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -14,10 +12,11 @@ import { GruposService } from '../servicios/grupos.service';
 import { HorariosService } from '../servicios/horarios.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { AlumnosService } from '../servicios/alumnos.service';
-import { GruposAlumnosService } from '../servicios/grupos-alumnos.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { GruposAlumnosService } from '../servicios/grupos-alumnos.service';
 
 
 export interface Horario {
@@ -179,8 +178,8 @@ export class VerificarDatosComponent implements OnInit {
                         ga_idgrupos: grupoId,
                         ga_boleta: alumno.boleta,
                       }
-                      const GrupoAlumResponse = await this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno).toPromise();
-
+                      //const GrupoAlumResponse = await this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno).toPromise();
+                      const GrupoAlumResponse = await firstValueFrom(this.grupoAlumnoService.createAsigGrupoAlumno(grupo_alumno));
                       if (GrupoAlumResponse) {
                         console.log("Respuesta del backend:", GrupoAlumResponse);
 
@@ -247,8 +246,8 @@ export class VerificarDatosComponent implements OnInit {
                   const materia = { material: grupoData.materia };
 
                   // Crear la materia de manera secuencial y esperar a la respuesta antes de continuar
-                  const materiaResponse = await this.materiasService.createMateria(materia).toPromise();
-
+                  //const materiaResponse = await this.materiasService.createMateria(materia).toPromise();
+                  const materiaResponse = await firstValueFrom(this.materiasService.createMateria(materia));
                   if (materiaResponse) {
                     console.log("Respuesta del backend:", materiaResponse);
 
@@ -358,7 +357,7 @@ export class VerificarDatosComponent implements OnInit {
           entrada: horarioData.entrada,
           salida: horarioData.salida,
           ho_idmaterias: idMaterias,
-          ho_idgrupos: grupoData.docente
+          ho_idgrupos: grupoId
         };
         console.log(horario)
         this.horariosService.createHorario(horario).pipe(

@@ -21,7 +21,7 @@
       </mat-form-field>
       <button (click)="obtenerDataForm()" [disabled]="!formReg.valid" mat-raised-button color="accent" class="bonton espacio">Subir horario</button>
       <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
-      <button (click)="sendData()" [disabled]="!formReg.valid" [routerLink]="['/login/verificar-datos']" mat-raised-button color="primary" class="bonton">Iniciar</button>
+      <button (click)="sendData()" [disabled]="!formReg.valid"  mat-raised-button color="primary" class="bonton">Iniciar</button>
     </form>
     <div class="flex">
       <p class="sub-texto">Cuentas ya con una cuenta? </p>
