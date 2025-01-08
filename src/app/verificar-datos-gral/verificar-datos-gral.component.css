@@ -143,7 +143,6 @@ h1 {
 }
 
 input {
-    width: 100%;
     padding: 5px;
     box-sizing: border-box;
     border: none;
@@ -164,7 +163,6 @@ input {
 
 .cell-center input {
     text-align: center;
-    width: 100%;
     /* Ajusta el tamaño del input al 100% del contenedor */
     box-sizing: border-box;
     /* Asegura que el padding y border se incluyan en el ancho total */
@@ -189,4 +187,7 @@ input {
 .hora-container input {
     /* Hacer que los inputs se muestren en una nueva línea */
     display: block;
+}
+.grupo{
+    width: 80px;
 }

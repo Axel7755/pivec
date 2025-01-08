@@ -55,6 +55,11 @@ const storage = multer.diskStorage({
   }
 });
 
+function destinoOriginal(req, res, next) {
+  tareasEnt = 0;
+  next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
+}
+
 function destinoAvisos(req, res, next) {
   tareasEnt = 1;
   next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
@@ -274,5 +279,6 @@ module.exports = {
   deleteFileEntrega,
   destinoAvisos,
   destinoVideos,
+  destinoOriginal,
   getFilesAvisos
 };

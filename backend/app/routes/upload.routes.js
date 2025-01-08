@@ -3,10 +3,10 @@ const router = express.Router();
 const uploadController = require('../controllers/upload.controller');
 
 // Ruta para subir archivos de tareas
-router.post('/tareas/:g_idmaterias/:idgrupos/:idtarea', uploadController.uploadT.single('file'), uploadController.uploadFile);
+router.post('/tareas/:g_idmaterias/:idgrupos/:idtarea', uploadController.destinoOriginal, uploadController.uploadT.single('file'), uploadController.uploadFile);
 
 // Ruta para subir archivos de entregas
-router.post('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boletaAl', uploadController.uploadT.single('file'), uploadController.uploadFile);
+router.post('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boletaAl', uploadController.destinoOriginal,uploadController.uploadT.single('file'), uploadController.uploadFile);
 
 // Ruta para subir archivos de avisos
 router.post('/avisos/:g_idmaterias/:idgrupos/:idtarea', uploadController.destinoAvisos,uploadController.uploadT.single('file'), uploadController.uploadFile);

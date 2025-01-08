@@ -29,7 +29,7 @@
 </ng-template>
 
 <!--------------- Campo para enviar un nuevo mensaje -------------->
-<div class="contenedor">
+<div class="contenedor" *ngIf="isDocente">
     <!-- Mostrar la lista de archivos -->
     <div id="section-up-comentario" class="list-section">
         <div class="list-title">Archivos Subidos</div>

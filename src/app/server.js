@@ -3,16 +3,18 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = 8081;
 
 app.use(cors());
 app.use(express.json());
 
-const apiKey = 'd968a88a4a3215da3da618e6836d8e9b6721255dc6f9e4bed38aa332ee118b9e'; // Asegúrate de usar una clave válida
+const apiKey = '47a287ecd296e876b21d93e6a43fc822c22bb48eeffc1228d241f5cbe5408d17'; // Asegúrate de usar una clave válida
 
 // Endpoint para manejar solicitudes 
 app.get('/search', async (req, res) => {
   const query = req.query.q;
+
+  console.log(`Received search query: ${query}`);
 
   try {
     const response = await axios.get(`https://serpapi.com/search.json`, {
@@ -23,17 +25,25 @@ app.get('/search', async (req, res) => {
       },
     });
 
-    // Extrae y formatea los resultados si es necesario
-    const formattedResults = response.data.results.map(result => ({
-      title: result.title,
-      snippet: result.snippet,
-      link: result.link,
-    }));
+    console.log('Response from SerpApi:', response.data);
 
-    res.json({ results: formattedResults });
+    if (response.data.organic_results) {
+      // Extrae y formatea los resultados si es necesario
+      const formattedResults = response.data.organic_results.map(result => ({
+        title: result.title,
+        snippet: result.snippet,
+        link: result.link,
+      }));
+
+      res.json({ results: formattedResults });
+    } else {
+      console.error('No organic results found in response:', response.data);
+      throw new Error('No results found');
+    }
+
   } catch (error) {
     console.error('Error fetching data:', error.response?.data || error.message);
-    res.status(500).send('Se produjo un error al buscar.');
+    res.status(500).send(`Se produjo un error al buscar: ${error.message}`);
   }
 });
 

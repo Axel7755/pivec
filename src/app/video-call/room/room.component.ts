@@ -219,45 +219,61 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   
-  recordCall = () => {
+  recordCall = async () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-      navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
-        .then(stream => { 
-          this.mediaRecorder = new MediaRecorder(stream); 
-          this.mediaRecorder.ondataavailable = (event: any) => { 
-            if (event.data.size > 0) { 
-              this.recordedChunks.push(event.data); 
-            } 
-          }; 
-          this.mediaRecorder.onstop = () => { 
-            const blob = new Blob(this.recordedChunks, { type: 'video/webm' }); 
-            const url = URL.createObjectURL(blob); 
-            const a = document.createElement('a'); 
-            a.style.display = 'none'; 
-            a.href = url; 
-            a.download = 'recorded_video.webm'; 
-            document.body.appendChild(a); 
-            a.click(); 
-            URL.revokeObjectURL(url); 
-          }; 
-          this.mediaRecorder.start();
-          this.isRecording = true; 
-        }) 
-        .catch(error => { 
-          console.error('Error accessing media devices.', error); 
-        });
+      try {
+        // Obtén el flujo de video y audio del sistema
+        const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+  
+        // Obtén el flujo de audio del micrófono
+        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  
+        // Combina ambos flujos en uno
+        const combinedStream = new MediaStream([
+          ...displayStream.getVideoTracks(),
+          ...displayStream.getAudioTracks(),
+          ...audioStream.getAudioTracks(),
+        ]);
+  
+        // Configura la grabadora
+        this.mediaRecorder = new MediaRecorder(combinedStream);
+        this.recordedChunks = [];
+  
+        this.mediaRecorder.ondataavailable = (event: any) => {
+          if (event.data.size > 0) {
+            this.recordedChunks.push(event.data);
+          }
+        };
+  
+        this.mediaRecorder.onstop = () => {
+          const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = 'recorded_video.webm';
+          document.body.appendChild(a);
+          a.click();
+          URL.revokeObjectURL(url);
+        };
+  
+        this.mediaRecorder.start();
+        this.isRecording = true;
+      } catch (error) {
+        console.error('Error accessing media devices.', error);
+      }
     } else {
       console.error("getDisplayMedia is not supported in this browser");
     }
-  }
+  };
   
-
-  stopRecording() { 
-    if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') { 
+  stopRecording() {
+    if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
       this.mediaRecorder.stop();
       this.isRecording = false;
-    } 
+    }
   }
+  
 
   toggleRecording() { if (this.isRecording) { this.stopRecording(); } else { this.recordCall(); } }
 

@@ -13,6 +13,7 @@ import { GoogleDriveFileService } from '../servicios/google-drive-file.service';
 import { GruposService } from '../servicios/grupos.service';
 import { DocentesService } from '../servicios/docentes.service';
 import { environment } from '../../environments/environments';
+import { AuthService } from '../servicios/auth.service';
 
 @Component({
   selector: 'app-general-a',
@@ -28,6 +29,7 @@ export class GeneralAComponent implements OnInit {
   g_idmaterias: string | null = null;
   avisos: any[]= [];
   docente: string = '';
+  isDocente: boolean = false;
 
   BACKEND_BASE_URL = `${environment.apiUrl}:8080`;
 
@@ -49,6 +51,7 @@ export class GeneralAComponent implements OnInit {
 
   nuevoMensaje = '';
   constructor(private route: ActivatedRoute,
+    private authService: AuthService,
     private router: Router,
     private subirArchivosService: SubirArchivosService,
     private avisosService: AvisosService,
@@ -60,6 +63,7 @@ export class GeneralAComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    this.isDocente = this.authService.getUserRole() === 'docente';
     this.route.parent?.params.subscribe(params => {
       this.idgrupos = params['idgrupos'];
       this.g_idmaterias = params['g_idmaterias'];
@@ -88,7 +92,7 @@ export class GeneralAComponent implements OnInit {
             avisosData.forEach((avisodata:any) => {
               this.subirArchivosService.getFilesAvisos(this.idgrupos!, this.g_idmaterias!, avisodata.idAviso).pipe(
                 catchError(error => {
-                  //console.error('Error al obtener archivos de abiso ', error);
+                  console.error('Error al obtener archivos de abiso ', error);
                   return of([]);
                 })
               ).subscribe(archivos => {
@@ -103,11 +107,10 @@ export class GeneralAComponent implements OnInit {
                   }
                   this.showFileList[aviso.idAviso] = false;
                   this.avisos.push(aviso)
-                  console.log('archivos', archivos.files)
                 }
               })
             });
-            //console.log('aviso a miprimir', this.avisos);
+            console.log('aviso a miprimir', this.avisos);
           }
         
       });

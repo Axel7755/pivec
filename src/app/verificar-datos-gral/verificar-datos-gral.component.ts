@@ -78,10 +78,11 @@ export class VerificarDatosGralComponent implements OnInit {
   eliminarFila(index: number) {
     const confirmation = confirm('¿Estás seguro de que deseas eliminar esta fila?');
     if (confirmation) {
-      this.dataSource.splice(index, 1); // Eliminar el elemento en el índice especificado
-      this.dataSource = [...this.dataSource]; // Actualizar la referencia para que Angular detecte el cambio
+      const updatedData = this.dataSource.filter((_, i) => i !== index);
+      this.dataSource = updatedData; // Reasigna con el nuevo array filtrado
     }
   }
+
 
   ngOnInit() {
     this.isDocente = this.authService.getUserRole() === 'docente';
@@ -131,61 +132,62 @@ export class VerificarDatosGralComponent implements OnInit {
                   : obj1;
               });
 
-              const elementData: Horario[] = [];
-
               this.combinados.forEach(grupoCombinado => {
 
-                this.horariosService.getHorario(grupoCombinado.g_idmaterias, grupoCombinado.idgrupos).pipe(
-                  catchError(this.handleError)
-                ).subscribe(horariosData => {
-                  let lunes, martes, miercoles, jueves, viernes: string = '';
-                  let lunesS, martesS, miercolesS, juevesS, viernesS: string = '';
-                  //console.log("horarios", horariosData)
-                  horariosData.forEach((horario: any) => {
-                    switch (horario.dia) {
-                      case 'LUNES':
-                        lunes = horario.entrada
-                        lunesS = horario.salida
-                        break
-                      case 'MARTES':
-                        martes = horario.entrada
-                        martesS = horario.salida
-                        break
-                      case 'MIERCOLES':
-                        miercoles = horario.entrada
-                        miercolesS = horario.salida
-                        break
-                      case 'JUEVES':
-                        jueves = horario.entrada
-                        juevesS = horario.salida
-                        break
-                      case 'VIERNES':
-                        viernes = horario.entrada
-                        viernesS = horario.salida
-                        break
-                    }
-                  })
-                  elementData.push( {
-                    materia: grupoCombinado.material,
-                    grupo: this.separarGrupo(grupoCombinado.idgrupos),
-                    docente: this.separarGrupo(grupoCombinado.idgrupos),
-                    lunesEntrada: lunes || '',
-                    lunesSalida: lunesS || '',
-                    martesEntrada: martes || '',
-                    martesSalida: martesS || '',
-                    miercolesEntrada: miercoles || '',
-                    miercolesSalida: miercolesS || '',
-                    juevesEntrada: jueves || '',
-                    juevesSalida: juevesS || '',
-                    viernesEntrada: viernes || '',
-                    viernesSalida: viernesS || ''
-                  });
-                 
-                })
 
+                const horariosObservables = this.combinados.map(grupoCombinado =>
+                  this.horariosService.getHorario(grupoCombinado.g_idmaterias, grupoCombinado.idgrupos)
+                );
+
+                forkJoin(horariosObservables).subscribe(allHorarios => {
+                  const elementData = this.combinados.map((grupoCombinado, index) => {
+                    const horariosData = allHorarios[index];
+                    let lunes, martes, miercoles, jueves, viernes: string = '';
+                    let lunesS, martesS, miercolesS, juevesS, viernesS: string = '';
+                    horariosData.forEach((horario: any) => {
+                      switch (horario.dia) {
+                        case 'LUNES':
+                          lunes = horario.entrada
+                          lunesS = horario.salida
+                          break
+                        case 'MARTES':
+                          martes = horario.entrada
+                          martesS = horario.salida
+                          break
+                        case 'MIERCOLES':
+                          miercoles = horario.entrada
+                          miercolesS = horario.salida
+                          break
+                        case 'JUEVES':
+                          jueves = horario.entrada
+                          juevesS = horario.salida
+                          break
+                        case 'VIERNES':
+                          viernes = horario.entrada
+                          viernesS = horario.salida
+                          break
+                      }
+                    })
+                    return {
+                      materia: grupoCombinado.material,
+                      grupo: this.separarGrupo(grupoCombinado.idgrupos),
+                      docente: this.separarGrupo(grupoCombinado.idgrupos),
+                      lunesEntrada: lunes || '',
+                      lunesSalida: lunesS || '',
+                      martesEntrada: martes || '',
+                      martesSalida: martesS || '',
+                      miercolesEntrada: miercoles || '',
+                      miercolesSalida: miercolesS || '',
+                      juevesEntrada: jueves || '',
+                      juevesSalida: juevesS || '',
+                      viernesEntrada: viernes || '',
+                      viernesSalida: viernesS || ''
+                      // Completa el objeto Horario aquí
+                    };
+                  });
+                  this.dataSource = elementData; // Asigna los datos solo después de completar todas las llamadas
+                });
               });
-              this.dataSource = elementData;
-              console.log('horarios acomodados',elementData)
             }
           });
         });
@@ -267,14 +269,17 @@ export class VerificarDatosGralComponent implements OnInit {
 
             const elementData: Horario[] = [];
 
-              this.combinados.forEach(grupoCombinado => {
+            this.combinados.forEach(grupoCombinado => {
 
-                this.horariosService.getHorario(grupoCombinado.g_idmaterias, grupoCombinado.idgrupos).pipe(
-                  catchError(this.handleError)
-                ).subscribe(horariosData => {
+              const horariosObservables = this.combinados.map(grupoCombinado =>
+                this.horariosService.getHorario(grupoCombinado.g_idmaterias, grupoCombinado.idgrupos)
+              );
+
+              forkJoin(horariosObservables).subscribe(allHorarios => {
+                const elementData = this.combinados.map((grupoCombinado, index) => {
+                  const horariosData = allHorarios[index];
                   let lunes, martes, miercoles, jueves, viernes: string = '';
                   let lunesS, martesS, miercolesS, juevesS, viernesS: string = '';
-                  //console.log("horarios", horariosData)
                   horariosData.forEach((horario: any) => {
                     switch (horario.dia) {
                       case 'LUNES':
@@ -299,7 +304,7 @@ export class VerificarDatosGralComponent implements OnInit {
                         break
                     }
                   })
-                  elementData.push( {
+                  return {
                     materia: grupoCombinado.material,
                     grupo: this.separarGrupo(grupoCombinado.idgrupos),
                     docente: grupoCombinado.docente,
@@ -313,12 +318,12 @@ export class VerificarDatosGralComponent implements OnInit {
                     juevesSalida: juevesS || '',
                     viernesEntrada: viernes || '',
                     viernesSalida: viernesS || ''
-                  });
-                 
-                })
-
+                    // Completa el objeto Horario aquí
+                  };
+                });
+                this.dataSource = elementData; // Asigna los datos solo después de completar todas las llamadas
               });
-              this.dataSource = elementData;
+            });
 
             //console.log(this.combinados);
           }
