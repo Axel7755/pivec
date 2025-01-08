@@ -7,7 +7,7 @@ import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
 import { FormControl, Validators, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { merge } from 'rxjs';
+import { catchError, merge, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
@@ -33,7 +33,8 @@ export class LoginFormComponent {
   errorMessage = '';
   mostrarCampoCorreo = false; // Muestra el campo al cargar la página
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router,
+  ) {
     merge(this.formRec.controls.recCorreo.statusChanges, this.formRec.controls.recCorreo.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -65,6 +66,14 @@ export class LoginFormComponent {
   }
 
   recuperarContrasena() {
+    const correo = this.formRec.value.recCorreo ?? '';
+    this.authService.sendResetEmail(correo).pipe(
+      catchError(this.handleError)
+    ).subscribe(correoData => {
+      if(correoData){
+        alert('Correo enviado');
+      }
+    })
     // Lógica para enviar el correo de recuperación
   }
 
@@ -80,6 +89,10 @@ export class LoginFormComponent {
   }
 
 
-
+ private handleError(error: any) {
+    console.error('Error:', error);
+    //alert('Ocurrió un error. Por favor, inténtelo de nuevo.');
+    return of(null);
+  }
 
 }
