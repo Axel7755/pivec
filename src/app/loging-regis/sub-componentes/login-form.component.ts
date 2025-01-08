@@ -91,7 +91,7 @@ export class LoginFormComponent {
 
  private handleError(error: any) {
     console.error('Error:', error);
-    //alert('Ocurrió un error. Por favor, inténtelo de nuevo.');
+    alert('Ocurrió un error correo no encontrado. Por favor, inténtelo de nuevo');
     return of(null);
   }
 

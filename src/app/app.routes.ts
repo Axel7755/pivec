@@ -37,7 +37,7 @@ export const routes: Routes = [
             { path: 'login-component', component: LoginFormComponent, },
             { path: 'registro-component', component: RegistroComponent, },
             { path: 'verificar-datos', component: VerificarDatosComponent, },
-            { path: 'restablecer-password/:aluDoc/:Rec', component: RestablecerPasswordComponent, },
+            { path: 'restablecer-password/:ident/:token', component: RestablecerPasswordComponent, },
         ],
     },
     {

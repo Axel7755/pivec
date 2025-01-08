@@ -1,12 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { catchError, merge, of } from 'rxjs';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
+import { AuthService } from '../servicios/auth.service';
 
 
 @Component({
@@ -17,7 +20,11 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   styleUrls: ['./restablecer-password.component.css'],
   host: { 'ngSkipHydration': '' }
 })
-export class RestablecerPasswordComponent {
+export class RestablecerPasswordComponent implements OnInit {
+
+
+  ident: string | null = null;
+  token: string | null = null;
 
   // Validator to check if the passwords match
   passwordMatchValidator: ValidatorFn = (form: AbstractControl) => {
@@ -31,29 +38,63 @@ export class RestablecerPasswordComponent {
     contr: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
-      Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+      Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#._\-~`!@#$%^&*()+=<>?,:;{}[\]|\\/])[A-Za-z\d@$!%*?&.#._\-~`!@#$%^&*()+=<>?,:;{}[\]|\\/]{8,}$/)
     ]),
     confcontr: new FormControl('', Validators.required)
   }, { validators: this.passwordMatchValidator });
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public dialog: MatDialog,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+  ) { }
 
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.ident = params['ident'];
+      this.token = params['token'];
+    }
+    )
+  }
   // Method to handle password recovery
   recuperarContrasena() {
     if (this.formReg.valid) {
-      // Logic to handle password recovery (e.g., call a service)
-      this.router.navigate(['login/login-component']);
+      if (this.formReg.value.contr !== this.formReg.value.confcontr) {
+        console.log("contraseñas diferentes");
+        this.openDialogError();
+      } else {
+        console.log(this.ident);
+        console.log(this.token);
+        console.log(this.formReg.value.contr!);
+        this.authService.resetPassword(this.ident!, this.token!, this.formReg.value.contr!).pipe(
+          catchError(this.handleError)
+        ).subscribe(recContData => {
+          if(recContData){
+            this.openDialog();
+          }
+        })
+        
+      }
+      // Lógica para manejar la recuperación de la contraseña (por ejemplo, llamar a un servicio)
+      //this.router.navigate(['login/login-component']);
     }
   }
+  private handleError(error: any) {
+    console.error('Error:', error);
+    alert("token expirado");
+    //alert('Ocurrió un error. Por favor, inténtelo de nuevo.');
+    return of(null);
+  }
 
-  readonly dialog = inject(MatDialog);
+  openDialogError() {
+    this.dialog.open(DialogElementsExampleDialogError);
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogContentExampleDialog);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.router.navigate(['login/login-component']); // Reemplaza '/login' con la ruta real de tu página de inicio de sesión
+        //this.router.navigate(['login/login-component']); // Reemplaza '/login' con la ruta real de tu página de inicio de sesión
       }
     });
   }
@@ -67,5 +108,17 @@ export class RestablecerPasswordComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogContentExampleDialog {
-
+  constructor(private router: Router) { }
+  irLogin() {
+    this.router.navigate(['login/login-component']);
+  }
 }
+
+@Component({
+  selector: 'dialog-elements-example-dialog',
+  templateUrl: 'dialog-contError.html',
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+})
+export class DialogElementsExampleDialogError { }
+

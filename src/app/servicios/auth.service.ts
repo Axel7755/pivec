@@ -65,7 +65,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/sendResetEmail`, { correo, urlbase: environment.apiUrl});
   }
 
-  resetPassword(token: string, ident: string, newPassword: string): Observable<any> { 
+  resetPassword(ident: string, token: string,  newPassword: string): Observable<any> { 
     return this.http.post(`${this.baseUrl}/resetPassword/${ident}/${token}`, { newPassword }); 
   }
 }

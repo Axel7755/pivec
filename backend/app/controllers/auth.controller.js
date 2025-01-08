@@ -4,6 +4,7 @@ const db = require("../models");
 const nodemailer = require('nodemailer');
 const Docentes = db.Docentes;
 const Alumnos = db.Alumnos;
+const saltRounds = 10;
 const secretKey = 'PIAVC-credenciales-usuarios';
 
 exports.login = async (req, res) => {
@@ -43,8 +44,8 @@ exports.login = async (req, res) => {
 exports.sendResetEmail = async (req, res) => {
     const correo = req.body.correo;
     const urlbase = req.body.urlbase;
-    const alumno = true;
-    const usuario = await Alumnos.findOne({ where: { correoRec_Al: correo } });
+    let alumno = true;
+    let usuario = await Alumnos.findOne({ where: { correoRec_Al: correo } });
 
     if (!usuario) {
         usuario = await Docentes.findOne({ where: { correoRec_Do: correo } });
@@ -70,7 +71,7 @@ exports.sendResetEmail = async (req, res) => {
         const mailOptions = {
             from: 'piavcipn@gmail.com',
             to: correo,
-            subject: 'Restablecimiento de contraseña',
+            subject: 'Restablecimiento de contraseña alumno',
             text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: ${urlbase}:8081/login/restablecer-password/0/${token}`
         };
 
@@ -96,7 +97,7 @@ exports.sendResetEmail = async (req, res) => {
         const mailOptions = {
             from: 'piavcipn@gmail.com',
             to: correo,
-            subject: 'Restablecimiento de contraseña',
+            subject: 'Restablecimiento de contraseña docente',
             text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: ${urlbase}:8081/login/restablecer-password/1/${token}`
         };
 
@@ -112,6 +113,9 @@ exports.sendResetEmail = async (req, res) => {
 // Manejar la actualización de la contraseña
 exports.resetPassword = async (req, res) => {
     const { ident, token } = req.params;
+    console.log('identificador', ident)
+
+    console.log('token', token)
     let decoded;
     if(ident == 0){
     try {
