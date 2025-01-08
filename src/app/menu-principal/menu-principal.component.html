@@ -21,12 +21,7 @@
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="collapsed ? 'sidenav-collapsed-content' : ''">
     <app-in-reu></app-in-reu>
-    <router-outlet></router-outlet>
-    <div *ngIf="isDocente; else alumno">
-      <app-chat-bot-d></app-chat-bot-d>
-    </div>
-    <ng-template #alumno>
-      <app-chat-bot-a></app-chat-bot-a>
-    </ng-template>
+    <router-outlet></router-outlet>    
+    <app-chat-bot-d></app-chat-bot-d>
   </mat-sidenav-content>
 </mat-sidenav-container>

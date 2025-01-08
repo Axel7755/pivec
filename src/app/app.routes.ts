@@ -25,7 +25,6 @@ import { VideoPlayerComponent } from './components/video-player/video-player.com
 import { TranslatorComponent } from './translator/translator.component';
 import { EditarEntregaComponent } from './editar-entrega/editar-entrega.component';
 import { ClasesGrabadasComponent } from './clases-grabadas/clases-grabadas.component';
-import { ChatBotAComponent } from './chat-bot-a/chat-bot-a.component';
 import { VerificarDatosGralComponent } from './verificar-datos-gral/verificar-datos-gral.component';
 import { RestablecerPasswordComponent } from './restablecer-password/restablecer-password.component';
 
@@ -76,7 +75,6 @@ export const routes: Routes = [
         ]
     },
     { path: 'chat-bot-d', component: ChatBotDComponent },
-    { path: 'chat-bot-a', component: ChatBotAComponent },
     {
         path: 'room/:id', component: RoomComponent,
     },

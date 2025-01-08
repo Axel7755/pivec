@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { InReuComponent } from "../video-call/in-reu/in-reu.component";
 import { ChatBotDComponent } from "../chat-bot-d/chat-bot-d.component";
 import { AuthService } from '../servicios/auth.service';
-import { ChatBotAComponent } from "../chat-bot-a/chat-bot-a.component";
 
 export interface Section {
   icon: string;
@@ -21,7 +20,7 @@ export interface Section {
   selector: 'app-menu-principal',
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule, MatIconModule, CommonModule,
-    RouterOutlet, MatListModule, RouterLink, RouterLinkActive, NgClass, InReuComponent, ChatBotDComponent, ChatBotAComponent],
+    RouterOutlet, MatListModule, RouterLink, RouterLinkActive, NgClass, InReuComponent, ChatBotDComponent],
   templateUrl: './menu-principal.component.html',
   styleUrls: ['./menu-principal.component.css']
 })
