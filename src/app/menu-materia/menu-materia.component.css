@@ -5,20 +5,23 @@ mat-sidenav-container {
 
 mat-sidenav {
   width: 23%;
-  padding: 15px; /* Ancho inicial del menú lateral */
+  padding: 15px;
+  /* Ancho inicial del menú lateral */
   transition: width 0.3s;
-  background: linear-gradient( #B0507F 0, #872b57 25%, #6d1a42 100%);
+  background: linear-gradient(#B0507F 0, #872b57 25%, #6d1a42 100%);
 }
 
 .sidenav-collapsed {
-  width: 88px; /* Ancho menor cuando está colapsado */
+  width: 88px;
+  /* Ancho menor cuando está colapsado */
 }
 
 mat-sidenav-content {
   flex: 1;
   padding: 24px;
   height: 93%;
-  transition: margin-left 0.3s; /* Suaviza el cambio en la transición */
+  transition: margin-left 0.3s;
+  /* Suaviza el cambio en la transición */
 }
 
 .sidenav-header {
@@ -49,21 +52,26 @@ mat-sidenav-content {
   border-bottom: solid 2px #ffffff;
 }
 
-  .sidenav-header-collapsed{
-    display: flex;
-    align-items: center;
-    margin-left: 5px;
-  }
+.sidenav-header-collapsed {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
 
-  .sidenav-collapsed-content {
-    margin-left: 88px; /* Para ajustar el contenido cuando el menú está colapsado */
-  }
+.sidenav-collapsed-content {
+  margin-left: 88px;
+  /* Para ajustar el contenido cuando el menú está colapsado */
+}
 
-  .adjusted-width {
-    margin-left: 88px; /* Margen que simule el colapso */
-  }
+.adjusted-width {
+  margin-left: 88px;
+  /* Margen que simule el colapso */
+}
 
-  .pageTitle{
-    display: flex;
-  }
-  
+.pageTitle {
+  display: flex;
+}
+
+.exit-out {
+  bottom: -43%;
+}

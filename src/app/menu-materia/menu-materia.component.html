@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <mat-nav-list>
+    <mat-nav-list style="height: 100%;">
       <a
         mat-list-item
         class="tamanio-auto"
@@ -29,6 +29,10 @@
         <span *ngIf="!collapsed" matListItemTitle class="textoblanco">
           {{ seccion.name }}
         </span>
+      </a>
+      <a (click)="exit()" mat-list-item class="tamanio-auto exit-out">
+        <mat-icon matListItemIcon class="blanco">logout</mat-icon>
+        <span *ngIf="!collapsed" matListItemTitle class="textoblanco">Cerrar Sesión</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>

@@ -81,4 +81,9 @@ export class MenuPrincipalComponent implements OnInit {
   irPaginaInicial(){
     this.router.navigate([`/menu-principal/materias`]);
   }
+
+  exit(){
+    this.authService.logout();
+    this.router.navigate([`/`]);
+  }
 }
