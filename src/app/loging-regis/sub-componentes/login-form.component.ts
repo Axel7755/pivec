@@ -71,7 +71,7 @@ export class LoginFormComponent {
   // Validación de correo
   updateErrorMessage() {
     if (this.formRec.controls.recCorreo.hasError('required')) {
-      this.errorMessage = 'Ingrese un valor';
+      this.errorMessage = 'Ingresa tu correo con el que te registraste';
     } else if (this.formRec.controls.recCorreo.hasError('email')) {
       this.errorMessage = 'No es un email valido';
     } else {
