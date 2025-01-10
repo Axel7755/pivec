@@ -12,18 +12,18 @@
         <mat-icon *ngIf="collapsed">keyboard_arrow_right</mat-icon>
       </button>
     </div>
-    <mat-nav-list style="height: 100%;">
+    <mat-nav-list class="altura">
       <a *ngFor="let seccion of secciones" mat-list-item class="tamanio-auto" [routerLink]="seccion.route"
         routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon matListItemIcon class="blanco">{{ seccion.icon }}</mat-icon>
         <span *ngIf="!collapsed" matListItemTitle class="textoblanco">{{ seccion.name }}</span>
       </a>
-      <a (click)="exit()" mat-list-item class="tamanio-auto exit-out">
-        <mat-icon matListItemIcon class="blanco">logout</mat-icon>
-        <span *ngIf="!collapsed" matListItemTitle class="textoblanco">Cerrar Sesión</span>
-      </a>
-
     </mat-nav-list>
+
+    <a (click)="exit()" mat-list-item class="tamanio-auto exit-out">
+      <mat-icon matListItemIcon class="blanco">logout</mat-icon>
+      <span *ngIf="!collapsed" matListItemTitle class="textoblanco">Cerrar Sesión</span>
+    </a>
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="collapsed ? 'sidenav-collapsed-content' : ''">
     <app-in-reu></app-in-reu>

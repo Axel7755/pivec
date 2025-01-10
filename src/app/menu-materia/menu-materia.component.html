@@ -1,20 +1,18 @@
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [ngClass]="{ 'sidenav-collapsed': collapsed }">
     <div class="sidenav-header" [ngClass]="collapsed ? 'sidenav-header-collapsed' : ''">
-      <ng-container *ngIf="!collapsed ">
-        <div class="pageTitle" (click)="irPaginaInicial()">
+      
+        <div  *ngIf="!collapsed " class="pageTitle" (click)="irPaginaInicial()">
           <h2 class="tit1">PIA</h2>
           <h2 class="tit2">VC</h2>
         </div>
-       
-      </ng-container>
       
       <button mat-icon-button (click)="collapse()" color="warn" class="desplegable">
         <mat-icon>{{ collapsed ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}</mat-icon>
       </button>
     </div>
 
-    <mat-nav-list style="height: 100%;">
+    <mat-nav-list class="altura">
       <a
         mat-list-item
         class="tamanio-auto"
@@ -30,11 +28,11 @@
           {{ seccion.name }}
         </span>
       </a>
-      <a (click)="exit()" mat-list-item class="tamanio-auto exit-out">
-        <mat-icon matListItemIcon class="blanco">logout</mat-icon>
-        <span *ngIf="!collapsed" matListItemTitle class="textoblanco">Cerrar Sesión</span>
-      </a>
     </mat-nav-list>
+    <a (click)="exit()" mat-list-item class="tamanio-auto exit-out">
+      <mat-icon matListItemIcon class="blanco">logout</mat-icon>
+      <span *ngIf="!collapsed" matListItemTitle class="textoblanco">Cerrar Sesión</span>
+    </a>
   </mat-sidenav>
 
   <mat-sidenav-content [class.adjusted-width]="collapsed">

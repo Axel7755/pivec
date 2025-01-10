@@ -65,6 +65,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
           this.myname = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
         }
       });
+      this.recordCall();
     } else {
       this.alumnosService.obtenerAlumno(this.userId).pipe(
         catchError(error => {

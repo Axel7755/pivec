@@ -36,7 +36,6 @@ mat-sidenav-content {
 
 .tit2 {
   color: #062c64;
-  margin-right: 120px;
 }
 
 .textoblanco,
@@ -63,15 +62,15 @@ mat-sidenav-content {
   /* Para ajustar el contenido cuando el menú está colapsado */
 }
 
-.adjusted-width {
-  margin-left: 88px;
-  /* Margen que simule el colapso */
-}
 
 .pageTitle {
   display: flex;
 }
 
-.exit-out {
-  bottom: -43%;
+.altura{
+  height: calc(100% - 150px);;
+}
+
+.desplegable{
+  margin-left: auto;
 }

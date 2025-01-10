@@ -1,5 +1,5 @@
   mat-sidenav-container{
-    height: 100vh;
+    height: 100%;
   }
   mat-sidenav{
     width: 23%;
@@ -26,7 +26,6 @@
 
   .tit2{
     color: #062c64;
-    margin-right: 120px;
   }
 
   .texto{
@@ -45,7 +44,7 @@
     border-bottom: solid 2px #FFFFFF;
   }
   .sidenav-collapsed{
-    width: 99px;
+    width: 88px;
   }
   .sidenav-collapsed-content{
     margin-left: 100px;
@@ -59,7 +58,9 @@
   .pageTitle{
     display: flex;
   }
-
-  .exit-out{
-    bottom: 620px;
+  .altura{
+    height: calc(100% - 150px);;
+  }
+  .desplegable{
+    margin-left: auto;
   }
