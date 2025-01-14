@@ -31,14 +31,14 @@
           <mat-error *ngIf="formRec.controls.recCorreo.invalid">{{errorMessage}}</mat-error>
           <!-- Corregir la condición para mostrar el error -->
         </mat-form-field>
-        <button [disabled]="!formRec.valid" style="margin-top: -15px;" (click)="recuperarContrasena()" mat-raised-button color="accent"
-          class="bonton">Enviar</button>
+        <button [disabled]="!formRec.valid" style="margin-top: -15px;" (click)="recuperarContrasena()" mat-raised-button
+          color="accent" class="bonton">Enviar</button>
       </form>
-    </div> 
+    </div>
 
     <!-- Registrarse -->
     <div class="flex">
-      <p class="sub-texto">Aun no cuentas con una cuenta? </p>
+      <p class="sub-texto">¿Aún no tienes una cuenta?</p>
       <a mat-button routerLink="/login/registro-component" routerLinkActive="active" ariaCurrentWhenActive="page"
         color="accent" class="sub-texto">Registrarse</a>
     </div>

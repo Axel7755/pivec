@@ -1,49 +1,46 @@
+<div class="crear-tareas">
+    <button mat-button class="crear-tareas-btn" mat-raised-button color="accent" (click)="navigateToCrearTareas()">
+        <img src="../../assets/images/homework.ico" alt="Icono Tarea" class="icono-tarea">
+        Crear Tarea
+    </button>
+</div>
 
-    <div class="crear-tareas">
-        <button mat-button class="crear-tareas-btn" mat-raised-button color="accent" (click)="navigateToCrearTareas()">
-            <img src="../../assets/images/homework.ico" alt="Icono Tarea" class="icono-tarea">
-            Crear Tarea
-        </button>
-    </div>
+<hr>
 
-    <hr>
-    
-    <div class="tareas-container" *ngIf="tareas.length > 0; else noTareas">
-        <div class="contenedor-tarea" *ngFor="let tarea of tareas" >
-            <div class="img-materia">
-                <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+<div class="tareas-container" *ngIf="tareas.length > 0; else noTareas">
+    <div class="contenedor-tarea" *ngFor="let tarea of tareas">
+        <div class="img-materia">
+            <img mat-card-image src="./assets/images/mat1.png" alt="materia1">
+        </div>
+        <div class="informacion-materia">
+            <div class="controles">
+                <button mat-icon-button class="boton-opciones" [matMenuTriggerFor]="menu">
+                    <mat-icon color="accent" aria-hidden="false" aria-label="Example home icon">menu</mat-icon>
+                </button>
+                <mat-menu class="menuu" #menu="matMenu" color="primary">
+                    <button mat-menu-item class="custom-menu-item" (click)="editarTarea(tarea)">Editar Tarea</button>
+                    <button mat-menu-item class="custom-menu-item" (click)="eliminarTarea(tarea)">Eliminar
+                        Tarea</button>
+                </mat-menu>
             </div>
-            <div class="informacion-materia">
-                <div class="controles">
-                    <button mat-icon-button class="boton-opciones" [matMenuTriggerFor]="menu">
-                        <mat-icon color="accent" aria-hidden="false" aria-label="Example home icon" >menu</mat-icon>
-                    </button>
-                    <mat-menu class="menuu" #menu="matMenu" color="primary">
-                        <button mat-menu-item class="custom-menu-item" (click)="editarTarea(tarea)">Editar Tarea</button>
-                        <button mat-menu-item class="custom-menu-item" (click)="eliminarTarea(tarea)">Eliminar Tarea</button>
-                    </mat-menu>   
-                </div>
-                <div (click)="irListadoEntregas(tarea)">
+            <div (click)="irListadoEntregas(tarea)">
                 <div class="titulo-icono">
                     <h1>{{ tarea.titulo_T }}</h1>
-                    <!-- Ícono de opciones convertido en botón -->
-                                                   
                 </div>
-    
+
                 <div class="seccion-medio">
                     <!-- Usando notación de array para evitar errores con el acento -->
                     <p>{{ tarea['descripción_T'] }}</p>
                 </div>
-    
+
                 <div class="seccion-abajo">
                     <!-- Formato de fecha ajustado -->
                     <p class="vence">Vence: {{ tarea.fecha_Entrega | date:'dd-MM-yyyy HH:mm' }}</p>
                 </div>
             </div>
-            </div>
         </div>
     </div>
-    <ng-template #noTareas>
-        <p>No tienes tareas creadas.</p>
-    </ng-template>
-
+</div>
+<ng-template #noTareas>
+    <p>No tienes tareas creadas.</p>
+</ng-template>

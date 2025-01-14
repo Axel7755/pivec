@@ -74,3 +74,40 @@ mat-card-content:hover h4 {
     color: #fff;
     font-weight: bold;
 }
+
+mat-card {
+    position: relative;
+    overflow: hidden;
+    transition: background 0.7s ease; /* Transición para el fondo */
+    cursor: pointer; /* Hace que el cursor cambie a pointer */
+}
+
+mat-card::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0;
+    background: #9c3465;
+    bottom: 0;
+    left: 0;
+    transition: height 0.7s ease;
+    z-index: -1;
+    border-radius: 10px;
+}
+
+mat-card:hover::before {
+    height: 100%; /* Desliza el color guinda hacia arriba */
+}
+
+mat-card-content {
+    text-align: center;
+    transition: color 0.7s ease; /* Transición para el color del texto */
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté por encima del ::before */
+}
+
+mat-card:hover mat-card-content h3,
+mat-card:hover mat-card-content h4 {
+    color: #fff;
+    font-weight: bold;
+}
