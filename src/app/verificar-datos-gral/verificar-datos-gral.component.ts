@@ -132,9 +132,6 @@ export class VerificarDatosGralComponent implements OnInit {
                   : obj1;
               });
 
-              this.combinados.forEach(grupoCombinado => {
-
-
                 const horariosObservables = this.combinados.map(grupoCombinado =>
                   this.horariosService.getHorario(grupoCombinado.g_idmaterias, grupoCombinado.idgrupos)
                 );
@@ -187,7 +184,6 @@ export class VerificarDatosGralComponent implements OnInit {
                   });
                   this.dataSource = elementData; // Asigna los datos solo después de completar todas las llamadas
                 });
-              });
             }
           });
         });
@@ -267,10 +263,6 @@ export class VerificarDatosGralComponent implements OnInit {
               };
             });
 
-            const elementData: Horario[] = [];
-
-            this.combinados.forEach(grupoCombinado => {
-
               const horariosObservables = this.combinados.map(grupoCombinado =>
                 this.horariosService.getHorario(grupoCombinado.g_idmaterias, grupoCombinado.idgrupos)
               );
@@ -323,7 +315,6 @@ export class VerificarDatosGralComponent implements OnInit {
                 });
                 this.dataSource = elementData; // Asigna los datos solo después de completar todas las llamadas
               });
-            });
 
             //console.log(this.combinados);
           }

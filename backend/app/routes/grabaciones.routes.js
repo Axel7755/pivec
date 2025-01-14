@@ -8,6 +8,9 @@ router.post("/", grabaciones.create);
 // Obtener todas las grabaciones
 router.get("/", grabaciones.findAll);
 
+// Obtener una grabación por prupo
+router.get("/:gr_idmaterias/:gr_idgrupos", grabaciones.findOne);
+
 // Obtener una grabación por id
 router.get("/:idgrabaciones/:gr_idmaterias/:gr_idgrupos", grabaciones.findOne);
 

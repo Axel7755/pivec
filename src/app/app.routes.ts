@@ -40,43 +40,39 @@ export const routes: Routes = [
         ],
     },
     {
-        path: 'in-reu', component: InReuComponent
-    },
-    {
         path: 'menu-principal', component: MenuPrincipalComponent,
         children: [
             { path: 'materias', component: MateriasComponent, canActivate: [AuthGuard] },
             { path: 'tareas', component: TareasComponent, canActivate: [AuthGuard] },
             { path: 'videos-compartidos', component: VideosCompartidosComponent, canActivate: [AuthGuard] },
             { path: 'traductor', component: TranslatorComponent, canActivate: [AuthGuard] },
-            { path: 'google-academico', component: GoogleAcademicoComponent },
-            { path: 'modificar-horario', component: VerificarDatosGralComponent },
+            { path: 'google-academico', component: GoogleAcademicoComponent, canActivate: [AuthGuard]  },
+            { path: 'modificar-horario', component: VerificarDatosGralComponent, canActivate: [AuthGuard]  },
             { path: '', redirectTo: 'materias', pathMatch: 'full' },
         ]
     },
     {
         path: 'menu-materia/:idgrupos/:g_idmaterias', component: MenuMateriaComponent,
         children: [
-            { path: 'general-a', component: GeneralAComponent },
-            { path: 'tareas-a', component: TareasAComponent },
-            { path: 'subir-tarea/:idtarea', component: SubirTareaComponent },
-            // Este de video-player: reunión
-            { path: 'video-player', component: VideoPlayerComponent },
+            { path: 'general-a', component: GeneralAComponent, canActivate: [AuthGuard]  },
+            { path: 'tareas-a', component: TareasAComponent, canActivate: [AuthGuard]  },
+            { path: 'subir-tarea/:idtarea', component: SubirTareaComponent, canActivate: [AuthGuard]  },
+            
             // clases-grabadas
-            { path: 'clases-grabadas', component: ClasesGrabadasComponent },
+            { path: 'clases-grabadas', component: ClasesGrabadasComponent, canActivate: [AuthGuard]  },
             { path: 'crear-tareas-d', component: CrearTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'editar-tareas-d/:idtarea', component: EditarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: 'editar-entrega-a/:idtarea', component: EditarEntregaComponent },
-            { path: 'revisar-tareas-d/:e_idtareas/:e_boleta', component: RevisarTareasDComponent },
-            { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent },
-            { path: 'listado-entregas-tareas/:idtarea', component: ListadoEntregasTareasComponent },
+            { path: 'revisar-tareas-d/:e_idtareas/:e_boleta', component: RevisarTareasDComponent, canActivate: [AuthGuard, DocenteGuard] },
+            { path: 'listado-tareas-g', component: ListadoTareasGeneralComponent, canActivate: [AuthGuard, DocenteGuard] },
+            { path: 'listado-entregas-tareas/:idtarea', component: ListadoEntregasTareasComponent, canActivate: [AuthGuard, DocenteGuard] },
             { path: '', redirectTo: 'general-a', pathMatch: 'full' },
 
         ]
     },
     { path: 'chat-bot-d', component: ChatBotDComponent },
     {
-        path: 'room/:id', component: RoomComponent,
+        path: 'room/:id', component: RoomComponent, canActivate: [AuthGuard]
     },
     {
         path: 'video-play', component: VideoPlayerComponent,

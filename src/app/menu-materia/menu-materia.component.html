@@ -36,6 +36,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content [class.adjusted-width]="collapsed">
+    <app-in-reu *ngIf="this.getHorariosActuales().length > 0"></app-in-reu>
     <router-outlet></router-outlet>
     <app-chat-bot-d></app-chat-bot-d>
   </mat-sidenav-content>

@@ -24,6 +24,9 @@ const storage = multer.diskStorage({
     if (tareasEnt==2) {
       uploadDir = path.join(__dirname, '..', '..', 'uploads', 'videosF', g_idmaterias);
     }
+    if (tareasEnt==3) {
+      uploadDir = path.join(__dirname, '..', '..', 'uploads', 'grabacionesF', g_idmaterias, idgrupos);
+    }
 
     console.log('Destino de almacenamiento:', uploadDir);
 
@@ -70,12 +73,16 @@ function destinoVideos(req, res, next) {
   next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
 }
 
+function destinoGrabaciones(req, res, next) {
+  tareasEnt = 3;
+  next(); // Asegúrate de llamar a next() para pasar al siguiente middleware
+}
 
 const uploadT = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     console.log('Procesando archivo:', file.originalname);
-    const allowedTypes = /jpeg|jpg|png|gif|pdf|docx|xlsx|doc|xls|ppt|pptx|odt|ods|odp|rar|zip|mp4|wmv|mpeg|ogg/;
+    const allowedTypes = /jpeg|webm|jpg|png|gif|pdf|docx|xlsx|doc|xls|ppt|pptx|odt|ods|odp|rar|zip|mp4|wmv|mpeg|ogg/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
 
@@ -234,6 +241,45 @@ const getFilesAvisos = (req, res) => {
   });
 };
 
+const getFilesGrabaciones = (req, res) => {
+  const { idgrupos, g_idmaterias } = req.params;
+  const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'grabacionesF', g_idmaterias, idgrupos);
+
+  console.log('Leyendo archivos del directorio:', uploadDir);
+
+  // Verificar si el directorio existe antes de intentar leerlo
+  if (!fs.existsSync(uploadDir)) {
+    console.error('Directorio no encontrado:', uploadDir);
+    return res.status(404).json({ message: 'Directorio no encontrado' });
+  }
+
+  fs.readdir(uploadDir, (err, files) => {
+    if (err) {
+      console.error('Error al leer los archivos:', err);
+      return res.status(500).json({ message: 'Error al leer los archivos', error: err });
+    }
+
+    const fileInfo = files
+      .filter(file => fs.statSync(path.join(uploadDir, file)).isFile()) // Filtra solo archivos
+      .map(file => {
+        const stats = fs.statSync(path.join(uploadDir, file));
+        return {
+          lastModified: stats.mtimeMs,
+          lastModifiedDate: stats.mtime,
+          name: file,
+          size: stats.size,
+          type: mime.lookup(file) || 'application/octet-stream',
+          webkitRelativePath: '',
+          originalName: file,
+          path: path.join(uploadDir, file)
+        };
+      });
+
+    console.log('Archivos encontrados:', fileInfo);
+    res.json({ files: fileInfo });
+  });
+};
+
 // Controlador para eliminar archivos
 const deleteFile = (req, res) => {
   const { idgrupos, g_idmaterias, idtarea, filename } = req.params;
@@ -280,5 +326,7 @@ module.exports = {
   destinoAvisos,
   destinoVideos,
   destinoOriginal,
+  destinoGrabaciones,
+  getFilesGrabaciones,
   getFilesAvisos
 };

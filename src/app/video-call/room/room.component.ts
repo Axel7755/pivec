@@ -9,6 +9,9 @@ import { DocentesService } from '../../servicios/docentes.service';
 import { AlumnosService } from '../../servicios/alumnos.service';
 import { catchError, of, Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { SubirArchivosService } from '../../subir-archivos/subir-archivos.service';
+import { ClockService } from '../../servicios/clock.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-room',
@@ -31,10 +34,13 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   main__chat__window: HTMLElement | null = null;
   mainChatWindow: HTMLElement | null = null;
   mediaRecorder: any;
-  recordedChunks:any = [];
+  recordedChunks: any = [];
   isRecording: boolean = false;
   private socketSub: Subscription = new Subscription();
   isChatHidden: boolean = false;
+  grabacion: File | null = null;
+  idgrupo = '';
+  idmat = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +49,9 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private docentesService: DocentesService,
     private alumnosService: AlumnosService,
-    private router: Router
+    private router: Router,
+    private subriArchivosService: SubirArchivosService,
+    private clockService: ClockService,
   ) {
     this.roomName = this.route.snapshot.paramMap.get('id')!;
     console.log('---> Room name: ', this.roomName);
@@ -52,6 +60,11 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
     this.isDocente = this.authService.getUserRole() === 'docente';
+
+    this.clockService.getIds().subscribe(ids => {
+      this.idmat = ids.idmat;
+      this.idgrupo = ids.idgrupo;
+    });
 
     if (this.isDocente) {
       this.docentesService.obtenerDocente(this.userId).pipe(
@@ -83,7 +96,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initPeer();
     this.sendCall();
     // Suscribirse al evento de mensaje del socket 
-    this.webSocketService.socket.on("createMessage", (message: string) => { 
+    this.webSocketService.socket.on("createMessage", (message: string) => {
       this.addMessageToChat(message);
       console.log(message)
     });
@@ -140,7 +153,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listUser = [...unique];
   }
 
-  removeVideoUser = (idpeer: any) => { 
+  removeVideoUser = (idpeer: any) => {
     this.listUser = this.listUser.filter(userStream => userStream.id !== idpeer);
     const unique = new Set(this.listUser);
     this.listUser = [...unique];
@@ -148,7 +161,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendCall = () => {
     console.log("sendcallprimero");
-  
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -165,11 +178,11 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
               });
             }
             if (res.name === 'bye-user') {
-              const { idPeer } = res.data; 
-              console.log('User disconnected', idPeer); 
+              const { idPeer } = res.data;
+              console.log('User disconnected', idPeer);
               // Encontrar el stream del usuario desconectado y eliminarlo 
-              
-                this.removeVideoUser(idPeer); 
+
+              this.removeVideoUser(idPeer);
             }
           });
         })
@@ -180,7 +193,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error("getUserMedia is not supported in this browser");
     }
   }
-  
+
   irPaginaInicial() {
     // Detener todas las pistas de video y audio
     if (this.currentStream) {
@@ -188,11 +201,14 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
         track.stop();
       });
     }
-  
+    if(this.isRecording){
+      this.stopRecording();
+    }
+
     // Navegar a la página principal
     this.router.navigate(['/menu-principal/materias']);
   }
-  
+
 
   shareDisplay = () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
@@ -219,45 +235,68 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error("getDisplayMedia is not supported in this browser");
     }
   }
-  
+
   recordCall = async () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
       try {
         // Obtén el flujo de video y audio del sistema
         const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-  
+
         // Obtén el flujo de audio del micrófono
         const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  
+
         // Combina ambos flujos en uno
         const combinedStream = new MediaStream([
           ...displayStream.getVideoTracks(),
           ...displayStream.getAudioTracks(),
           ...audioStream.getAudioTracks(),
         ]);
-  
+
         // Configura la grabadora
         this.mediaRecorder = new MediaRecorder(combinedStream);
         this.recordedChunks = [];
-  
+
         this.mediaRecorder.ondataavailable = (event: any) => {
           if (event.data.size > 0) {
             this.recordedChunks.push(event.data);
           }
         };
-  
+
         this.mediaRecorder.onstop = () => {
           const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          a.href = url;
-          a.download = 'recorded_video.webm';
-          document.body.appendChild(a);
-          a.click();
-          URL.revokeObjectURL(url);
+          if (this.isDocente) {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString('es-ES').replace(/\//g, '-') + ' - ' + currentDate.toLocaleTimeString('es-ES').replace(/:/g, '-');
+            const file = new File([blob], `${formattedDate}.webm`, { type: 'video/webm' });
+            console.log('Archivo grabado:', file);
+            this.subriArchivosService.uploadGrabacion(file, this.idgrupo, this.idmat).pipe(
+              catchError(error => {
+                console.error('Error al subir el archivo:', error);
+                return of(null);
+              })
+            ).subscribe(
+              event => {
+                if (event) {
+                  if (event.type === HttpEventType.UploadProgress) {
+                    // Puedes manejar el progreso de la subida aquí si lo deseas
+                  } else if (event instanceof HttpResponse) {
+                    console.log('Archivo subido exitosamente');
+                  }
+                }
+              }
+            );
+          } else {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${new Date()}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            URL.revokeObjectURL(url);
+          }
         };
-  
+
         this.mediaRecorder.start();
         this.isRecording = true;
       } catch (error) {
@@ -267,25 +306,27 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error("getDisplayMedia is not supported in this browser");
     }
   };
-  
+
   stopRecording() {
     if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
       this.mediaRecorder.stop();
       this.isRecording = false;
+      // Llamar al método de servicio para subir la grabación
     }
   }
-  
+
 
   toggleRecording() { if (this.isRecording) { this.stopRecording(); } else { this.recordCall(); } }
 
-  addMessageToChat = (message: string) => { 
-    const ul = document.getElementById("messageadd"); 
-    if (ul) { 
-      const li = document.createElement("li"); 
-      li.appendChild(document.createTextNode(message)); 
-      li.className = "message"; 
-      ul.appendChild(li); } 
+  addMessageToChat = (message: string) => {
+    const ul = document.getElementById("messageadd");
+    if (ul) {
+      const li = document.createElement("li");
+      li.appendChild(document.createTextNode(message));
+      li.className = "message";
+      ul.appendChild(li);
     }
+  }
 
   muteUnmute = () => {
     const enabled = this.currentStream.getAudioTracks()[0].enabled;

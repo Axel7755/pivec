@@ -1,5 +1,5 @@
 const db = require("../models");
-const Grabaciones = db.grabaciones;
+const Grabaciones = db.Grabaciones;
 
 // Crear una nueva grabación
 exports.create = (req, res) => {
@@ -25,6 +25,25 @@ exports.create = (req, res) => {
 // Obtener todas las grabaciones
 exports.findAll = (req, res) => {
     Grabaciones.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Ocurrió un error al recuperar las grabaciones."
+            });
+        });
+};
+
+// Obtener todas las grabaciones
+exports.findAllGrupo = (req, res) => {
+    const { gr_idmaterias, gr_idgrupos} = req.params;
+    Grabaciones.findAll({
+        where: {
+            gr_idmaterias,
+            gr_idgrupos
+        }
+      })
         .then(data => {
             res.send(data);
         })

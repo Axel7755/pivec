@@ -2,12 +2,37 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require('morgan');
 const http = require('http');
+
+const axios = require('axios');
 const socketIO = require('socket.io');
 const path = require('path');
-const { PeerServer } = require('peer');
 const db = require("./app/models");
 
+const { PeerServer } = require('peer');
+
 const app = express();
+
+//key google academico
+const apiKey = '47a287ecd296e876b21d93e6a43fc822c22bb48eeffc1228d241f5cbe5408d17'; // Asegúrate de usar una clave válida
+
+
+const server = http.createServer();
+
+const io = socketIO(server, {
+  cors: {
+    origin: (callback) => { callback(null, true); }, // Especifica la URL exacta del origen permitido
+    methods: ["GET", "POST"],
+    credentials: false // Permite el envío de credenciales
+  }
+});
+
+// Configuración de CORS
+const corsOptions = {
+  origin: "*", // Especifica la URL exacta del origen permitido
+  credentials: false, // Permite el envío de credenciales
+  optionsSuccessStatus: 200
+};
+
 
 const peerServer = PeerServer({
   port: 3001,
@@ -23,23 +48,6 @@ peerServer.on('connection', (client) => {
 peerServer.on('disconnect', (client) => {
   console.log(`Cliente desconectado: ${client.getId()}`);
 });
-
-
-const server = http.createServer(app);
-const io = socketIO(server, {
-  cors: {
-    origin: (origin, callback) => { callback(null, true); }, // Especifica la URL exacta del origen permitido
-    methods: ["GET", "POST"],
-    credentials: true // Permite el envío de credenciales
-  }
-});
-
-// Configuración de CORS
-const corsOptions = {
-  origin: "*", // Especifica la URL exacta del origen permitido
-  credentials: true, // Permite el envío de credenciales
-  optionsSuccessStatus: 200
-};
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -62,27 +70,48 @@ connectWithRetry();
 
 // Función para reiniciar la base de datos (si es necesario)
 const resetDatabase = async () => {
-  db.sequelize.sync({ force: true }).then(async () => {
-    await sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
-    await db.Documentos.destroy({ where: {}, truncate: true });
-    await db.DocumentosTareas.destroy({ where: {}, truncate: true });
-    await db.AvisosDocumentos.destroy({ where: {}, truncate: true });
-    await db.Comentarios.destroy({ where: {}, truncate: true });
-    await db.Entregas.destroy({ where: {}, truncate: true });
-    await db.Tareas.destroy({ where: {}, truncate: true });
-    await db.Avisos.destroy({ where: {}, truncate: true });
-    await db.Horarios.destroy({ where: {}, truncate: true });
-    await db.Grabaciones.destroy({ where: {}, truncate: true });
-    await db.GruposAlumnos.destroy({ where: {}, truncate: true });
-    await db.Videos.destroy({ where: {}, truncate: true });
-    await db.Grupos.destroy({ where: {}, truncate: true });
-    await db.Alumnos.destroy({ where: {}, truncate: true });
-    await db.Materias.destroy({ where: {}, truncate: true });
-    await db.Docentes.destroy({ where: {}, truncate: true });
-    await sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
-    await sequelize.sync();
-  })
+  const transaction = await db.sequelize.transaction();
+
+  try {
+    await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", { transaction });
+
+    // Destruir datos en todas las tablas con truncate
+    const tables = [
+      db.Documentos,
+      db.DocumentosTareas,
+      db.AvisosDocumentos,
+      db.Comentarios,
+      db.Entregas,
+      db.Tareas,
+      db.Avisos,
+      db.Horarios,
+      db.Grabaciones,
+      db.GruposAlumnos,
+      db.Videos,
+      db.Grupos,
+      db.Alumnos,
+      db.Materias,
+      db.Docentes,
+    ];
+
+    for (const table of tables) {
+      await table.destroy({ where: {}, truncate: true, cascade: true, transaction });
+    }
+
+    await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1", { transaction });
+
+    // Sincronizar modelos
+    await db.sequelize.sync({ transaction });
+
+    await transaction.commit();
+    console.log("Base de datos reiniciada con éxito");
+  } catch (error) {
+    await transaction.rollback();
+    console.error("Error al reiniciar la base de datos:", error.message);
+    throw error; // Propagar el error para manejarlo a nivel superior si es necesario
+  }
 };
+
 
 // Importar rutas
 const alumnosRouter = require("./app/routes/alumnos.routes.js");
@@ -123,7 +152,17 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/upload", UploadRouter);
 
 // Configurar express para servir archivos estáticos desde la carpeta 'uploads'
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'),{
+  fallthrough: false // Esto evita que pase al siguiente middleware si ocurre un error
+}));
+
+app.use('/uploads', (err, req, res, next) => {
+  console.error('Error al servir archivo estático:', err);
+  res.status(500).json({
+    message: 'Error al servir archivo estático',
+    error: err.message
+  });
+});
 
 // Ruta base
 app.get("/", (req, res) => {
@@ -153,6 +192,45 @@ io.on('connection', (socket) => {
       socket.to(roomName).emit('bye-user', data);
     });
   });
+});
+
+
+//Google Academico middleware
+// Endpoint para manejar solicitudes 
+app.get('/search', async (req, res) => {
+  const query = req.query.q;
+
+  console.log(`Received search query: ${query}`);
+
+  try {
+    const response = await axios.get(`https://serpapi.com/search.json`, {
+      params: {
+        engine: 'google_scholar',
+        q: query,
+        api_key: apiKey,
+      },
+    });
+
+    console.log('Response from SerpApi:', response.data);
+
+    if (response.data.organic_results) {
+      // Extrae y formatea los resultados si es necesario
+      const formattedResults = response.data.organic_results.map(result => ({
+        title: result.title,
+        snippet: result.snippet,
+        link: result.link,
+      }));
+
+      res.json({ results: formattedResults });
+    } else {
+      console.error('No organic results found in response:', response.data);
+      throw new Error('No results found');
+    }
+
+  } catch (error) {
+    console.error('Error fetching data:', error.response?.data || error.message);
+    res.status(500).send(`Se produjo un error al buscar: ${error.message}`);
+  }
 });
 
 

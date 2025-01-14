@@ -14,6 +14,9 @@ router.post('/avisos/:g_idmaterias/:idgrupos/:idtarea', uploadController.destino
 // Ruta para subir archivos de videos
 router.post('/videos/:g_idmaterias/', uploadController.destinoVideos,uploadController.uploadT.single('file'), uploadController.uploadFile);
 
+// Ruta para subir archivos de grabaciones
+router.post('/grabaciones/:g_idmaterias/:idgrupos', uploadController.destinoGrabaciones,uploadController.uploadT.single('file'), uploadController.uploadFile);
+
 // Ruta para obtener archivos
 router.get('/tareas/:g_idmaterias/:idgrupos/:idtarea', uploadController.getFiles);
 
@@ -22,6 +25,9 @@ router.get('/entregas/:g_idmaterias/:idgrupos/:idtarea/:boleta', uploadControlle
 
 // Ruta para obtener archivos de avisos
 router.get('/avisos/:g_idmaterias/:idgrupos/:idtarea', uploadController.getFilesAvisos);
+
+// Ruta para obtener archivos de grabaciones
+router.get('/grabaciones/:g_idmaterias/:idgrupos', uploadController.getFilesGrabaciones);
 
 // Ruta para eliminar archivos
 router.delete('/tareas/:g_idmaterias/:idgrupos/:idtarea/:filename', uploadController.deleteFile);

@@ -106,6 +106,30 @@ export class SubirArchivosService {
   
     return this.http.request(req);
   }
+
+  uploadGrabacion(file: File, idgrupos: string, g_idmaterias: string): Observable<HttpEvent<any>> {
+    console.log('Datos del archivo:', file);
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('name', file.name);
+    formData.append('type', file.type);
+    formData.append('size', file.size.toString());
+    formData.append('lastModified', file.lastModified.toString());
+    
+    const headers = new HttpHeaders({
+      'enctype': 'multipart/form-data'
+    });
+  
+    const req = new HttpRequest('POST', `${this.baseUrl}/grabaciones/${g_idmaterias}/${idgrupos}`, formData, {
+      headers,
+      reportProgress: true,
+      responseType: 'json'
+    });
+  
+    console.log('Datos del archivo enviados:', formData);
+  
+    return this.http.request(req);
+  }
   
 
   // Método para obtener la lista de archivos
@@ -122,6 +146,11 @@ export class SubirArchivosService {
   getFilesAvisos(idgrupos: string, g_idmaterias: string, idtarea: string): Observable<any> {
     //console.log(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`);
     return this.http.get(`${this.baseUrl}/avisos/${g_idmaterias}/${idgrupos}/${idtarea}`);
+  }
+
+  getFilesGrabaciones(idgrupos: string, g_idmaterias: string): Observable<any> {
+    //console.log(`${this.baseUrl}/tareas/${g_idmaterias}/${idgrupos}/${idtarea}`);
+    return this.http.get(`${this.baseUrl}/grabaciones/${g_idmaterias}/${idgrupos}`);
   }
 
   // Método para eliminar un archivo 
