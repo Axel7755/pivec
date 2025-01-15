@@ -114,7 +114,7 @@ export class EditarEntregaComponent {
             })
           ).subscribe(docenteData => {
             if (docenteData) {
-              this.docente = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
+              this.docente = `${docenteData.apellidoP_Do} ${docenteData.apellidoM_Do} ${docenteData.nombres_Do}`;
               console.log('docente obtencion',this.docente)
             }
           });
