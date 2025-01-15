@@ -14,7 +14,7 @@ const { PeerServer } = require('peer');
 const app = express();
 
 //key google academico
-const apiKey = ''; // Asegúrate de usar una clave válida
+const apiKey = '2894730ba6cf9812db85b20d4a1e62095a158ee119082554a89a1233edef6d91'; // Asegúrate de usar una clave válida
 
 const keyPath = '/key.pem'; 
 const certPath = '/cert.pem';

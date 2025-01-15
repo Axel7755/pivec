@@ -63,6 +63,34 @@ export class MenuPrincipalComponent implements OnInit {
     console.log(`userId: ${this.userId}`);
 
     if (this.isDocente) {
+      this.secciones= [
+        {
+          icon: 'business_center',
+          name: 'Materias',
+          route: '/menu-principal/materias'
+        },
+        {
+          icon: 'movie',
+          name: 'Videos Compartidos',
+          route: '/menu-principal/videos-compartidos'
+        },
+        {
+          icon: 'translate',
+          name: 'Traductor',
+          route: '/menu-principal/traductor'
+        },
+        {
+          icon: 'school',
+          name: 'Google Académico',
+          route: '/menu-principal/google-academico'
+        },
+        {
+          icon: 'edit',
+          name: 'Modificar horario',
+          route: '/menu-principal/modificar-horario'
+        },
+      ];
+
       console.log("docente")
 
       this.gruposService.getGruposByDocente(this.userId!).pipe(

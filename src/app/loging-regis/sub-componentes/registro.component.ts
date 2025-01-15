@@ -7,7 +7,7 @@ import { RouterLink, Router } from '@angular/router';
 import { RegistroDataService } from '../../registro-data.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
-import { FormControl, Validators, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatDialog,
   MatDialogActions,
@@ -50,27 +50,73 @@ export class RegistroComponent {
   viernes: { [key: number]: string } = {};
 
   formReg = new FormGroup({
-    contr: new FormControl(''),
-    confcontr: new FormControl(''),
+    contr: new FormControl('',  [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#._\-~`!@#$%^&*()+=<>?,:;{}[\]|\\/])[A-Za-z\d@$!%*?&.#._\-~`!@#$%^&*()+=<>?,:;{}[\]|\\/]{8,}$/)
+    ]),
+    confcontr: new FormControl('',  [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#._\-~`!@#$%^&*()+=<>?,:;{}[\]|\\/])[A-Za-z\d@$!%*?&.#._\-~`!@#$%^&*()+=<>?,:;{}[\]|\\/]{8,}$/)
+    ]),
     recCorreo: new FormControl('', [Validators.required, Validators.email]),
   })
+
   errorMessage = '';
+  errorMessageCont = '';
+  errorMessageConfCont = '';
+
   constructor(private dataService: RegistroDataService, public dialog: MatDialog, 
       private router: Router,) {
     merge(this.formReg.controls.recCorreo.statusChanges, this.formReg.controls.recCorreo.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
+
+    merge(this.formReg.controls.contr.statusChanges, this.formReg.controls.contr.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessageCont());
+
+      merge(this.formReg.controls.confcontr.statusChanges, this.formReg.controls.confcontr.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessageConfCont());
   }
+  
 
   updateErrorMessage() {
     if (this.formReg.controls.recCorreo.hasError('required')) {
-      this.errorMessage = 'Ingrese un valor';
+      this.errorMessage = 'El correo es obligatorio.';
     } else if (this.formReg.controls.recCorreo.hasError('email')) {
       this.errorMessage = 'No es un email valido';
     } else {
       this.errorMessage = '';
     }
   }
+
+  updateErrorMessageCont() {
+    if (this.formReg.controls.contr.hasError('required')) {
+      this.errorMessageCont = 'La contraseña es obligatoria.';
+    } else if (this.formReg.controls.contr.hasError('minlength')) {
+      this.errorMessageCont = 'Mínimo 8 caracteres.';
+    } else if(this.formReg.controls.contr.hasError('pattern')){
+      this.errorMessageCont = 'Debe incluir una mayúscula, un número y un carácter especial.';
+    } else {
+      this.errorMessageCont = '';
+    }
+  }
+
+  updateErrorMessageConfCont() {
+    if (this.formReg.controls.confcontr.hasError('required')) {
+      this.errorMessageConfCont = 'La contraseña es obligatoria.';
+    } else if (this.formReg.controls.confcontr.hasError('minlength')) {
+      this.errorMessageConfCont = 'Mínimo 8 caracteres.';
+    } else if(this.formReg.controls.confcontr.hasError('pattern')){
+      this.errorMessageConfCont = 'Debe incluir una mayúscula, un número y un carácter especial.';
+    } else {
+      this.errorMessageConfCont = '';
+    }
+  }
+
 
   obtenerDataForm() {
     const inputNode: any = document.querySelector('#file');
@@ -104,7 +150,7 @@ export class RegistroComponent {
       if (inputNode?.files?.length > 0) {
         const file: File = inputNode.files[0];
         const fileExtension = file.name?.split('.').pop()?.toLowerCase();
-
+        alert('Se subio horario');
         if (fileExtension === 'pdf') {
           // Lógica para manejar PDF
           this.extraerPdf(file);

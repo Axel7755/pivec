@@ -71,7 +71,7 @@ export class VerificarDatosGralComponent implements OnInit {
     private grupoAlumnosService: GruposAlumnosService,
     private materiasService: MateriasService,
     private horariosService: HorariosService,
-    private AlumnoService: AlumnosService,
+    private alumnoService: AlumnosService,
     private docentesService: DocentesService,
   ) { }
 
@@ -95,7 +95,7 @@ export class VerificarDatosGralComponent implements OnInit {
         catchError(this.handleError)
       ).subscribe(docenteData => {
         if (docenteData) {
-          this.nombre = `${docenteData.apellidoP_Do} ${docenteData.nombres_Do} ${docenteData.apellidoM_Do}`;
+          this.nombre = `${docenteData.apellidoP_Do} ${docenteData.apellidoM_Do} ${docenteData.nombres_Do}`;
           //console.log('docente obtencion',this.nombre);
           this.boleta = docenteData.noTrabajador;
         }
@@ -188,6 +188,16 @@ export class VerificarDatosGralComponent implements OnInit {
           });
         });
     } else {
+
+      this.alumnoService.obtenerAlumno(this.userId!).pipe(
+        catchError(this.handleError)
+      ).subscribe(docenteData => {
+        if (docenteData) {
+          this.nombre = `${docenteData.apellidoP_Al} ${docenteData.apellidoM_Al} ${docenteData.nombres_Al}`;
+          //console.log('docente obtencion',this.nombre);
+          this.boleta = docenteData.noTrabajador;
+        }
+      });
       this.grupoAlumnosService.findGruposAlumno(this.userId!).pipe(
         catchError(error => {
           console.error('Error al recuperar grupos', error);
