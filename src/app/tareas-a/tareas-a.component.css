@@ -179,3 +179,40 @@ hr {
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
 }
+
+.contenedor-tarea {
+    position: relative; /* Necesario para el posicionamiento del pseudo-elemento */
+    overflow: hidden; /* Asegura que el pseudo-elemento no se desborde al animarse */
+    cursor: pointer;
+}
+
+.contenedor-tarea::before {
+    content: ''; /* Necesario para que el pseudo-elemento sea visible */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0; /* Inicia con altura 0 para que se vea el efecto deslizante */
+    background: #9c3465;
+    box-shadow: 0 4px 10px rgba(1, 1, 1, 0.5); /* Sombra visible */
+    transition: height 0.5s ease, background 0.3s ease, box-shadow 0.3s ease; /* Transición para la altura y otros efectos */
+}
+
+.contenedor-tarea:hover::before {
+    height: 100%; /* Al pasar el mouse, la altura se expande hasta cubrir el contenedor */
+    background: #9c3465; /* Cambia el color de fondo */
+}
+
+.informacion-materia, .img-materia {
+    position: relative; /* Asegura que el contenido esté por encima del pseudo-elemento */
+    z-index: 1;
+}
+
+.informacion-materia h1, .informacion-materia p {
+    transition: color 0.5s ease;
+}
+
+.contenedor-tarea:hover .informacion-materia h1,
+.contenedor-tarea:hover .informacion-materia p {
+    color: #fff; /* Cambia el color del texto al pasar el ratón */
+}
